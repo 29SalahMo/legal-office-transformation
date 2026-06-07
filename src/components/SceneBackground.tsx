@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, Component, type ReactNode } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useScrollScene } from "@/contexts/ScrollSceneContext";
 
@@ -11,11 +11,28 @@ interface SceneBackgroundProps {
   fixed?: boolean;
 }
 
+class SceneErrorBoundary extends Component<
+  { children: ReactNode; fallback: ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) return this.props.fallback;
+    return this.props.children;
+  }
+}
+
 const SceneBackground = ({ className = "", fixed = true }: SceneBackgroundProps) => {
   const isMobile = useIsMobile();
   const { reducedMotion } = useScrollScene();
 
   const showFallback = isMobile || reducedMotion;
+  const fallback = <div className="absolute inset-0 scene-fallback" />;
 
   return (
     <div
@@ -23,11 +40,13 @@ const SceneBackground = ({ className = "", fixed = true }: SceneBackgroundProps)
       aria-hidden="true"
     >
       {showFallback ? (
-        <div className="absolute inset-0 scene-fallback" />
+        fallback
       ) : (
-        <Suspense fallback={<div className="absolute inset-0 scene-fallback" />}>
-          <ObsidianMonolithScene />
-        </Suspense>
+        <SceneErrorBoundary fallback={fallback}>
+          <Suspense fallback={fallback}>
+            <ObsidianMonolithScene />
+          </Suspense>
+        </SceneErrorBoundary>
       )}
       <div className="absolute inset-0 bg-gradient-to-b from-[#050816]/40 via-transparent to-[#050816]/90" />
       <div
