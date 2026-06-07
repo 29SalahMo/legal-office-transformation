@@ -12,7 +12,7 @@ interface LuxuryPageShellProps {
 const LuxuryPageShell = ({ children, withScene = true, className = "" }: LuxuryPageShellProps) => {
   if (!withScene) {
     return (
-      <div className={cn("relative min-h-screen isolate", className)}>
+      <div className={cn("relative min-h-screen isolate overflow-x-hidden max-w-[100vw]", className)}>
         <div className="fixed inset-0 -z-10 scene-fallback pointer-events-none" aria-hidden="true" />
         <div className="relative z-10">{children}</div>
       </div>
@@ -21,7 +21,7 @@ const LuxuryPageShell = ({ children, withScene = true, className = "" }: LuxuryP
 
   return (
     <ScrollSceneProvider>
-      <div className={cn("relative min-h-screen isolate", className)}>
+      <div className={cn("relative min-h-screen isolate overflow-x-hidden max-w-[100vw]", className)}>
         <SceneBackground />
         <div className="relative z-10">{children}</div>
       </div>

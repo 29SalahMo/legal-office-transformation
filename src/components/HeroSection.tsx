@@ -15,12 +15,12 @@ const HeroSection = () => {
   const partnerFemale = getImageUrl("partner_female_image", partnerFemaleFallback);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-28 pb-20 lg:pt-32 lg:pb-28">
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 ambient-glow bg-burgundy/25 animate-pulse-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 ambient-glow bg-burgundy-light/15 animate-pulse-glow" />
+    <section className="relative min-h-[100dvh] flex items-center pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-28 overflow-hidden">
+      <div className="absolute top-1/4 left-1/4 w-64 sm:w-96 h-64 sm:h-96 ambient-glow bg-burgundy/25 animate-pulse-glow hidden sm:block" />
+      <div className="absolute bottom-1/4 right-1/4 w-48 sm:w-72 h-48 sm:h-72 ambient-glow bg-burgundy-light/15 animate-pulse-glow hidden sm:block" />
 
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full max-w-full">
+        <div className="max-w-5xl mx-auto text-center w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1 }}
-            className="font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white leading-[1.05] mb-8"
+            className="font-serif text-fluid-hero text-white leading-[1.05] mb-6 sm:mb-8 px-2"
             dangerouslySetInnerHTML={{ __html: heading.replace(/\n/g, "<br />") }}
           />
 
@@ -43,7 +43,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.25 }}
-            className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 sm:mb-12 leading-relaxed px-2"
           >
             {subtext}
           </motion.p>
@@ -52,11 +52,11 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.35 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-16 w-full max-w-md sm:max-w-none mx-auto px-2"
           >
             <Link
               to="/contact"
-              className="magnetic-btn inline-flex items-center justify-center gap-2 h-14 px-10 text-base rounded-full font-medium bg-gradient-to-r from-burgundy to-burgundy-light text-white shadow-[0_0_30px_rgba(82,11,16,0.35)] hover:shadow-[0_0_40px_rgba(82,11,16,0.5)] hover:scale-[1.02] transition-all duration-300"
+              className="magnetic-btn touch-target inline-flex items-center justify-center gap-2 h-14 px-8 sm:px-10 text-base rounded-full font-medium bg-gradient-to-r from-burgundy to-burgundy-light text-white shadow-[0_0_30px_rgba(82,11,16,0.35)] hover:shadow-[0_0_40px_rgba(82,11,16,0.5)] hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto"
             >
               Start your consultation
               <ArrowRight className="w-4 h-4" />
@@ -64,7 +64,7 @@ const HeroSection = () => {
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full px-8 py-6 border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30 backdrop-blur-sm"
+              className="rounded-full px-8 py-6 border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30 backdrop-blur-sm w-full sm:w-auto touch-target"
               asChild
             >
               <Link to="/services">Explore services</Link>
@@ -75,7 +75,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="glass-panel inline-flex flex-col sm:flex-row items-center gap-6 px-6 py-5 mx-auto"
+            className="glass-panel flex flex-col sm:inline-flex sm:flex-row items-center gap-4 sm:gap-6 px-4 sm:px-6 py-4 sm:py-5 mx-auto w-full max-w-xl sm:max-w-none"
           >
             <div className="flex items-center gap-3">
               <div className="flex -space-x-3 shrink-0">

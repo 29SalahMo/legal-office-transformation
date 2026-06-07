@@ -1,84 +1,21 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { useScrollScene, type ScenePhase } from "@/contexts/ScrollSceneContext";
+import { useScrollScene } from "@/contexts/ScrollSceneContext";
 import { BRAND } from "@/lib/brandColors";
+import { sampleScrollTimeline, springStep } from "@/lib/scrollTimeline";
 
-type PhaseMotion = {
-  tilt: number;
-  tiltOscillation: number;
-  stability: number;
-  floatAmp: number;
-  breathe: number;
-  lightBoost: number;
-  panReact: number;
-};
-
-const phaseMotion = (phase: ScenePhase, t: number): PhaseMotion => {
-  const configs: Record<ScenePhase, PhaseMotion> = {
-    hero: {
-      tilt: 0,
-      tiltOscillation: 0,
-      stability: 1,
-      floatAmp: 0.1,
-      breathe: 0.012,
-      lightBoost: 0.6,
-      panReact: 0.35,
-    },
-    about: {
-      tilt: 0.015,
-      tiltOscillation: 0.008,
-      stability: 0.95,
-      floatAmp: 0.08,
-      breathe: 0.008,
-      lightBoost: 0.75,
-      panReact: 0.3,
-    },
-    services: {
-      tilt: 0.06,
-      tiltOscillation: 0.045,
-      stability: 0.72,
-      floatAmp: 0.12,
-      breathe: 0.014,
-      lightBoost: 0.85,
-      panReact: 0.55,
-    },
-    team: {
-      tilt: 0.02,
-      tiltOscillation: 0.01,
-      stability: 0.92,
-      floatAmp: 0.06,
-      breathe: 0.006,
-      lightBoost: 1.25,
-      panReact: 0.38,
-    },
-    testimonials: {
-      tilt: 0.008,
-      tiltOscillation: 0.004,
-      stability: 0.98,
-      floatAmp: 0.05,
-      breathe: 0.004,
-      lightBoost: 0.9,
-      panReact: 0.22,
-    },
-    contact: {
-      tilt: 0,
-      tiltOscillation: 0,
-      stability: 1,
-      floatAmp: 0.07,
-      breathe: 0.005,
-      lightBoost: 1.1,
-      panReact: 0.3,
-    },
-  };
-
-  const c = configs[phase];
-  const osc =
-    c.tiltOscillation > 0
-      ? Math.sin(t * (phase === "testimonials" ? 0.35 : 0.55)) * c.tiltOscillation
-      : 0;
-
-  return { ...c, tilt: c.tilt + osc };
+type PlatePhysics = {
+  beamAngle: number;
+  beamVelocity: number;
+  leftPanOffset: number;
+  leftPanVelocity: number;
+  rightPanOffset: number;
+  rightPanVelocity: number;
+  leftSwing: number;
+  leftSwingVel: number;
+  rightSwing: number;
+  rightSwingVel: number;
 };
 
 const ScaleOfJustice = () => {
@@ -87,9 +24,28 @@ const ScaleOfJustice = () => {
   const leftPanRef = useRef<THREE.Group>(null);
   const rightPanRef = useRef<THREE.Group>(null);
   const glowRef = useRef<THREE.PointLight>(null);
-  const currentTilt = useRef(0);
 
-  const { scrollProgress, mouseX, mouseY, phase, reducedMotion } = useScrollScene();
+  const physics = useRef<PlatePhysics>({
+    beamAngle: 0,
+    beamVelocity: 0,
+    leftPanOffset: 0,
+    leftPanVelocity: 0,
+    rightPanOffset: 0,
+    rightPanVelocity: 0,
+    leftSwing: 0,
+    leftSwingVel: 0,
+    rightSwing: 0,
+    rightSwingVel: 0,
+  });
+
+  const {
+    smoothScrollProgress,
+    mouseX,
+    mouseY,
+    reducedMotion,
+    sceneQuality,
+    isTouchDevice,
+  } = useScrollScene();
 
   const metalMat = useMemo(
     () =>
@@ -150,41 +106,91 @@ const ScaleOfJustice = () => {
     if (!groupRef.current || !beamRef.current) return;
 
     const t = state.clock.elapsedTime;
-    const motion = phaseMotion(phase, t);
+    const timeline = sampleScrollTimeline(smoothScrollProgress);
+    const p = physics.current;
 
-    const targetTilt = reducedMotion ? 0 : motion.tilt;
-    currentTilt.current += (targetTilt - currentTilt.current) * delta * (2.5 * motion.stability);
-    const tilt = currentTilt.current;
+    const stiffness = 4.2 + timeline.stability * 2.2;
+    const microSway =
+      reducedMotion ? 0 : Math.sin(t * 0.55) * 0.004 * (1 - timeline.groundedness);
+    const targetTilt = timeline.beamTilt + microSway;
 
-    const parallaxX = reducedMotion ? 0 : mouseX * 0.35;
-    const parallaxY = reducedMotion ? 0 : mouseY * 0.2;
-    const scrollX = scrollProgress * 0.6 - 0.3;
+    [p.beamAngle, p.beamVelocity] = springStep(
+      p.beamAngle,
+      p.beamVelocity,
+      targetTilt,
+      delta,
+      stiffness,
+      0.8
+    );
 
-    const floatY =
-      Math.sin(t * 0.45) * motion.floatAmp +
-      Math.sin(t * 0.9) * motion.breathe;
+    const panInteract = isTouchDevice ? 0 : 1;
+    const parallaxX = reducedMotion ? 0 : mouseX * 0.22 * panInteract;
+    const parallaxY = reducedMotion ? 0 : mouseY * 0.12 * panInteract;
+
+    const offset = sceneQuality.positionOffset;
+    const scrollX = (smoothScrollProgress - 0.5) * 0.45;
+
+    const breathe =
+      Math.sin(t * 0.38) * timeline.floatAmplitude * 0.55 +
+      Math.sin(t * 0.72) * timeline.floatAmplitude * 0.25;
 
     groupRef.current.position.set(
-      scrollX + parallaxX,
-      floatY + parallaxY * 0.5,
-      -1.2 - scrollProgress * 0.4
+      scrollX + parallaxX + offset.x,
+      breathe + parallaxY * 0.4 + offset.y,
+      -1.2 - smoothScrollProgress * 0.35 + offset.z
     );
-    groupRef.current.rotation.y = Math.sin(t * 0.12) * 0.08 + mouseX * 0.04;
 
-    beamRef.current.rotation.z = tilt;
+    const rotTarget = timeline.groupRotationY + (reducedMotion ? 0 : mouseX * 0.03);
+    groupRef.current.rotation.y += (rotTarget - groupRef.current.rotation.y) * delta * 1.8;
+    groupRef.current.rotation.x = Math.sin(t * 0.2) * 0.025 * timeline.floatAmplitude;
 
-    const panDrop = tilt * motion.panReact * 1.2;
+    beamRef.current.rotation.z = p.beamAngle;
+
+    const panDrop = p.beamAngle * timeline.panReactivity * 1.15;
+    const leftBase = -1.35 - Math.max(0, panDrop);
+    const rightBase = -1.35 + Math.min(0, -panDrop);
+
+    const leftMicro = reducedMotion ? 0 : Math.sin(t * 1.15 + 0.4) * 0.012 * timeline.panReactivity;
+    const rightMicro = reducedMotion ? 0 : Math.sin(t * 1.15 + 2.1) * 0.012 * timeline.panReactivity;
+
+    const leftTarget = leftBase + leftMicro;
+    const rightTarget = rightBase + rightMicro;
+
+    [p.leftPanOffset, p.leftPanVelocity] = springStep(
+      p.leftPanOffset,
+      p.leftPanVelocity,
+      leftTarget,
+      delta,
+      9,
+      0.76
+    );
+    [p.rightPanOffset, p.rightPanVelocity] = springStep(
+      p.rightPanOffset,
+      p.rightPanVelocity,
+      rightTarget,
+      delta,
+      9,
+      0.76
+    );
+
+    const swingTargetL = -p.beamAngle * 0.28 + leftMicro * 0.5;
+    const swingTargetR = -p.beamAngle * 0.28 + rightMicro * 0.5;
+
+    [p.leftSwing, p.leftSwingVel] = springStep(p.leftSwing, p.leftSwingVel, swingTargetL, delta, 6, 0.74);
+    [p.rightSwing, p.rightSwingVel] = springStep(p.rightSwing, p.rightSwingVel, swingTargetR, delta, 6, 0.74);
+
     if (leftPanRef.current) {
-      leftPanRef.current.position.y = -1.35 - Math.max(0, panDrop);
-      leftPanRef.current.rotation.z = -tilt * 0.25;
+      leftPanRef.current.position.y = p.leftPanOffset;
+      leftPanRef.current.rotation.z = p.leftSwing;
     }
     if (rightPanRef.current) {
-      rightPanRef.current.position.y = -1.35 + Math.min(0, -panDrop);
-      rightPanRef.current.rotation.z = -tilt * 0.25;
+      rightPanRef.current.position.y = p.rightPanOffset;
+      rightPanRef.current.rotation.z = p.rightSwing;
     }
 
     if (glowRef.current) {
-      glowRef.current.intensity = 0.8 + motion.lightBoost * 0.5 + Math.sin(t * 0.8) * 0.1;
+      const pulse = Math.sin(t * 0.65) * 0.06 * timeline.ambientPulse;
+      glowRef.current.intensity = 0.65 + timeline.glowIntensity * 0.55 + pulse;
     }
   });
 
@@ -213,7 +219,7 @@ const ScaleOfJustice = () => {
   );
 
   return (
-    <group ref={groupRef} scale={1.15}>
+    <group ref={groupRef} scale={sceneQuality.scaleMultiplier}>
       <pointLight
         ref={glowRef}
         position={[0, 0.5, 1.5]}
@@ -224,7 +230,6 @@ const ScaleOfJustice = () => {
       <pointLight position={[-2, 2, 2]} color={BRAND.burgundySoft} intensity={0.4} />
       <pointLight position={[2, 1, 1]} color={BRAND.burgundyLight} intensity={0.3} />
 
-      {/* Pedestal */}
       <mesh position={[0, -2.1, 0]} material={glassMat}>
         <cylinderGeometry args={[1.1, 1.25, 0.35, 48]} />
       </mesh>
@@ -232,7 +237,6 @@ const ScaleOfJustice = () => {
         <cylinderGeometry args={[0.95, 1.05, 0.12, 48]} />
       </mesh>
 
-      {/* Column */}
       <mesh position={[0, -0.55, 0]} material={metalMat}>
         <cylinderGeometry args={[0.14, 0.2, 2.4, 16]} />
       </mesh>
@@ -240,12 +244,10 @@ const ScaleOfJustice = () => {
         <cylinderGeometry args={[0.22, 0.14, 0.2, 16]} />
       </mesh>
 
-      {/* Decorative capital */}
       <mesh position={[0, 0.72, 0]} material={glassMat}>
         <boxGeometry args={[0.5, 0.12, 0.28]} />
       </mesh>
 
-      {/* Balance beam assembly */}
       <group ref={beamRef} position={[0, 0.78, 0]}>
         <mesh material={metalMat}>
           <boxGeometry args={[3.2, 0.07, 0.12]} />
@@ -265,7 +267,6 @@ const ScaleOfJustice = () => {
         </group>
       </group>
 
-      {/* Base glow ring */}
       <mesh position={[0, -1.95, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[1.0, 1.35, 64]} />
         <meshBasicMaterial

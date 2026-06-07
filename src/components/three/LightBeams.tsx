@@ -3,35 +3,30 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useScrollScene } from "@/contexts/ScrollSceneContext";
 import { BRAND } from "@/lib/brandColors";
+import { sampleScrollTimeline } from "@/lib/scrollTimeline";
 
 const LightBeams = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const { phase, reducedMotion } = useScrollScene();
+  const { smoothScrollProgress, reducedMotion, sceneQuality } = useScrollScene();
 
   useFrame((state) => {
     if (!groupRef.current) return;
 
-    const isTeam = phase === "team";
-    const isContact = phase === "contact";
-    groupRef.current.visible = isTeam || isContact || phase === "testimonials";
-    groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.25) * 0.015;
+    const timeline = sampleScrollTimeline(smoothScrollProgress);
+    const grounded = timeline.groundedness;
+
+    groupRef.current.visible = grounded > 0.4;
+    groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.22) * 0.012;
 
     groupRef.current.children.forEach((child, i) => {
       const mesh = child as THREE.Mesh;
       const mat = mesh.material as THREE.MeshBasicMaterial;
-      if (isTeam) {
-        mat.opacity = 0.1 + Math.sin(state.clock.elapsedTime * 1.8 + i) * 0.04;
-      } else if (isContact) {
-        mat.opacity = 0.08;
-      } else if (phase === "testimonials") {
-        mat.opacity = 0.04 + Math.sin(state.clock.elapsedTime * 0.5) * 0.02;
-      } else {
-        mat.opacity = 0;
-      }
+      const base = grounded * 0.1;
+      mat.opacity = base + Math.sin(state.clock.elapsedTime * 1.6 + i) * 0.03;
     });
   });
 
-  if (reducedMotion) return null;
+  if (reducedMotion || sceneQuality.tier === "mobile") return null;
 
   return (
     <group ref={groupRef} position={[0, 0.5, -2.5]}>

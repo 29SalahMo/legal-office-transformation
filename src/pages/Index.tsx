@@ -14,7 +14,7 @@ const Index = () => {
     <LuxuryPageShell>
       <SEOHead title="Home" description="A&A Legal Advisors — a boutique law firm in Egypt offering first-class, creative, and business-aware legal solutions with over 25 years of experience." />
       <Header />
-      <main className="relative z-10">
+      <main className="relative z-10 overflow-x-hidden w-full max-w-[100vw]">
         <HeroSection />
         <AboutBentoSection />
         <ServicesSection />

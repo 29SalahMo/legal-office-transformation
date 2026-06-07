@@ -73,7 +73,7 @@ const Header = () => {
           </div>
 
           <button
-            className="lg:hidden p-2 rounded-xl border border-burgundy/20 bg-white/5"
+            className="lg:hidden p-2 rounded-xl border border-burgundy/20 bg-white/5 touch-target"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >

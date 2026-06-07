@@ -1,50 +1,46 @@
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useScrollScene } from "@/contexts/ScrollSceneContext";
 import { BRAND } from "@/lib/brandColors";
+import { sampleScrollTimeline } from "@/lib/scrollTimeline";
 
 const GoldenParticles = () => {
   const pointsRef = useRef<THREE.Points>(null);
-  const { scrollProgress, phase, reducedMotion } = useScrollScene();
+  const { smoothScrollProgress, reducedMotion, sceneQuality } = useScrollScene();
 
-  const count = reducedMotion ? 80 : 180;
-  const positions = new Float32Array(count * 3);
-  const speeds = new Float32Array(count);
-
-  for (let i = 0; i < count; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 8;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 6;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 4 - 1;
-    speeds[i] = 0.15 + Math.random() * 0.6;
-  }
+  const count = sceneQuality.particleCount;
+  const { positions, speeds } = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    const spd = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 8;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 6;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 4 - 1;
+      spd[i] = 0.12 + Math.random() * 0.5;
+    }
+    return { positions: pos, speeds: spd };
+  }, [count]);
 
   useFrame((state) => {
     if (!pointsRef.current) return;
 
-    const showParticles =
-      phase === "services" ||
-      phase === "about" ||
-      phase === "team" ||
-      phase === "contact" ||
-      scrollProgress > 0.25;
+    const timeline = sampleScrollTimeline(smoothScrollProgress);
+    const showParticles = smoothScrollProgress > 0.08 || timeline.particleDrift > 0.2;
 
     pointsRef.current.visible = showParticles;
     if (!showParticles) return;
 
-    const intensity =
-      phase === "services" ? 0.55 :
-      phase === "team" ? 0.75 :
-      phase === "testimonials" ? 0.35 :
-      phase === "contact" ? 0.65 : 0.4;
-
-    pointsRef.current.rotation.y = state.clock.elapsedTime * 0.015;
+    pointsRef.current.rotation.y = state.clock.elapsedTime * 0.012 * timeline.particleDrift;
     const mat = pointsRef.current.material as THREE.PointsMaterial;
-    mat.opacity = intensity * (0.3 + scrollProgress * 0.35);
+    mat.opacity = timeline.particleDrift * (0.28 + smoothScrollProgress * 0.32);
+
+    if (reducedMotion) return;
 
     const posAttr = pointsRef.current.geometry.attributes.position;
+    const speedMul = sceneQuality.tier === "mobile" ? 0.001 : 0.0015;
     for (let i = 0; i < count; i++) {
-      posAttr.array[i * 3 + 1] += speeds[i] * 0.0015;
+      posAttr.array[i * 3 + 1] += speeds[i] * speedMul * timeline.particleDrift;
       if (posAttr.array[i * 3 + 1] > 3) {
         posAttr.array[i * 3 + 1] = -3;
       }
@@ -63,10 +59,10 @@ const GoldenParticles = () => {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.022}
+        size={sceneQuality.tier === "mobile" ? 0.018 : 0.022}
         color={BRAND.burgundyGlow}
         transparent
-        opacity={0.45}
+        opacity={0.4}
         sizeAttenuation
         depthWrite={false}
         blending={THREE.AdditiveBlending}
