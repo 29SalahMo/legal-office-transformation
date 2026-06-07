@@ -9,16 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-obsidian hover:opacity-90 rounded-full shadow-[0_0_20px_rgba(212,175,55,0.15)]",
+        default: "bg-gradient-to-r from-burgundy to-burgundy-light text-white hover:opacity-90 rounded-full shadow-[0_0_20px_rgba(82,11,16,0.25)]",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-md",
-        outline: "border border-white/20 text-white bg-white/5 hover:bg-white/10 hover:border-luxury-gold/40 rounded-full backdrop-blur-sm",
+        outline: "border border-burgundy/30 text-white bg-white/5 hover:bg-burgundy/15 hover:border-burgundy/50 rounded-full backdrop-blur-sm",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full",
-        ghost: "hover:bg-white/10 hover:text-white rounded-md text-white/80",
-        link: "text-luxury-gold-light underline-offset-4 hover:underline",
-        heroPrimary: "bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-obsidian hover:opacity-90 rounded-full font-semibold tracking-wide shadow-[0_0_30px_rgba(212,175,55,0.25)]",
-        heroSecondary: "bg-transparent border border-white/20 text-white hover:bg-white/10 rounded-full font-semibold tracking-wide backdrop-blur-sm",
-        gold: "bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-obsidian hover:opacity-90 rounded-full font-semibold shadow-[0_0_24px_rgba(212,175,55,0.2)]",
-        elegant: "text-luxury-gold-light hover:text-white font-medium tracking-wide uppercase text-xs underline-offset-4 hover:underline",
+        ghost: "hover:bg-burgundy/15 hover:text-white rounded-md text-white/80",
+        link: "text-burgundy-light underline-offset-4 hover:underline",
+        heroPrimary: "bg-gradient-to-r from-burgundy to-burgundy-light text-white hover:opacity-90 rounded-full font-semibold tracking-wide shadow-[0_0_30px_rgba(82,11,16,0.3)]",
+        heroSecondary: "bg-transparent border border-burgundy/30 text-white hover:bg-burgundy/10 rounded-full font-semibold tracking-wide backdrop-blur-sm",
+        gold: "bg-gradient-to-r from-burgundy to-burgundy-light text-white hover:opacity-90 rounded-full font-semibold shadow-[0_0_24px_rgba(82,11,16,0.25)]",
+        elegant: "text-burgundy-light hover:text-white font-medium tracking-wide uppercase text-xs underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

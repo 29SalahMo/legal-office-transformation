@@ -7,24 +7,26 @@ import {
   DepthOfField,
 } from "@react-three/postprocessing";
 import * as THREE from "three";
-import ObsidianMonolith from "./ObsidianMonolith";
+import ScaleOfJustice from "./ScaleOfJustice";
 import GoldenParticles from "./GoldenParticles";
 import LightBeams from "./LightBeams";
 import { useScrollScene } from "@/contexts/ScrollSceneContext";
+import { BRAND } from "@/lib/brandColors";
 
 const CameraRig = () => {
   const { camera } = useThree();
-  const { scrollProgress, mouseX, mouseY, reducedMotion } = useScrollScene();
+  const { scrollProgress, mouseX, mouseY, reducedMotion, phase } = useScrollScene();
 
   useFrame(() => {
-    const targetX = reducedMotion ? 0 : mouseX * 0.4;
-    const targetY = reducedMotion ? 0 : mouseY * 0.25 + scrollProgress * 0.8;
-    const targetZ = 6 - scrollProgress * 1.2;
+    const teamBoost = phase === "team" ? 0.15 : 0;
+    const targetX = reducedMotion ? 0 : mouseX * 0.35;
+    const targetY = reducedMotion ? 0 : mouseY * 0.2 + scrollProgress * 0.5 + teamBoost;
+    const targetZ = 5.5 - scrollProgress * 0.8;
 
     camera.position.x += (targetX - camera.position.x) * 0.04;
     camera.position.y += (targetY - camera.position.y) * 0.04;
     camera.position.z += (targetZ - camera.position.z) * 0.04;
-    camera.lookAt(0, 0, -1);
+    camera.lookAt(0, 0, -0.5);
   });
 
   return null;
@@ -34,45 +36,57 @@ const SceneContent = () => {
   const { scrollProgress, phase, reducedMotion } = useScrollScene();
 
   const bloomIntensity = useMemo(() => {
-    const base = 0.6 + scrollProgress * 0.4;
-    if (phase === "team") return base + 0.3;
-    if (phase === "contact") return base + 0.5;
+    const base = 0.55 + scrollProgress * 0.35;
+    if (phase === "team") return base + 0.35;
+    if (phase === "contact") return base + 0.25;
+    if (phase === "testimonials") return base * 0.85;
     return base;
   }, [scrollProgress, phase]);
 
   return (
     <>
-      <color attach="background" args={["#050816"]} />
-      <fog attach="fog" args={["#0B1020", 6, 28]} />
+      <color attach="background" args={[BRAND.obsidian]} />
+      <fog attach="fog" args={[BRAND.obsidianLight, 5, 26]} />
 
-      <ambientLight intensity={0.15} />
-      <directionalLight position={[5, 8, 5]} intensity={0.4} color="#5B8CFF" />
-      <pointLight position={[-4, 2, 2]} intensity={0.6} color="#D4AF37" />
-      <pointLight position={[4, -1, -2]} intensity={0.35} color="#8B5CF6" />
+      <ambientLight intensity={0.12} color={BRAND.cream} />
+      <directionalLight
+        position={[4, 6, 4]}
+        intensity={phase === "team" ? 0.65 : 0.45}
+        color={BRAND.burgundyLight}
+      />
+      <directionalLight position={[-3, 2, 2]} intensity={0.25} color={BRAND.burgundyGlow} />
+      <spotLight
+        position={[0, 4, 3]}
+        angle={0.4}
+        penumbra={0.8}
+        intensity={phase === "team" ? 1.2 : 0.7}
+        color={BRAND.burgundySoft}
+        castShadow={false}
+      />
 
       <CameraRig />
-      <ObsidianMonolith />
+      <ScaleOfJustice />
       <GoldenParticles />
       <LightBeams />
 
       {!reducedMotion && (
         <>
           <Sparkles
-            count={60}
-            scale={[12, 8, 8]}
-            size={1.5}
-            speed={0.3}
-            color="#F7D774"
-            opacity={0.25}
+            count={50}
+            scale={[10, 7, 7]}
+            size={1.2}
+            speed={0.25}
+            color={BRAND.burgundyGlow}
+            opacity={0.2}
           />
           <Stars
             radius={50}
             depth={30}
-            count={800}
-            factor={2}
-            saturation={0}
+            count={600}
+            factor={1.8}
+            saturation={0.1}
             fade
-            speed={0.5}
+            speed={0.4}
           />
         </>
       )}
@@ -80,15 +94,15 @@ const SceneContent = () => {
       {!reducedMotion && (
         <EffectComposer multisampling={0}>
           <Bloom
-            luminanceThreshold={0.2}
+            luminanceThreshold={0.25}
             luminanceSmoothing={0.9}
             intensity={bloomIntensity}
             mipmapBlur
           />
           <DepthOfField
-            focusDistance={0.01}
+            focusDistance={0.015}
             focalLength={0.02}
-            bokehScale={phase === "hero" ? 2 : 3}
+            bokehScale={phase === "hero" ? 2 : 2.8}
           />
         </EffectComposer>
       )}
@@ -99,14 +113,14 @@ const SceneContent = () => {
 const ObsidianMonolithScene = () => {
   return (
     <Canvas
-      camera={{ position: [0, 0, 6], fov: 45 }}
+      camera={{ position: [0, 0.2, 5.5], fov: 42 }}
       dpr={[1, 1.5]}
       gl={{
         antialias: true,
         alpha: true,
         powerPreference: "high-performance",
         toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 1.1,
+        toneMappingExposure: 1.05,
       }}
       style={{ background: "transparent" }}
     >

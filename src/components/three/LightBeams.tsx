@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useScrollScene } from "@/contexts/ScrollSceneContext";
+import { BRAND } from "@/lib/brandColors";
 
 const LightBeams = () => {
   const groupRef = useRef<THREE.Group>(null);
@@ -11,29 +12,34 @@ const LightBeams = () => {
     if (!groupRef.current) return;
 
     const isTeam = phase === "team";
-    groupRef.current.visible = isTeam || phase === "contact";
-    groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.3) * 0.02;
+    const isContact = phase === "contact";
+    groupRef.current.visible = isTeam || isContact || phase === "testimonials";
+    groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.25) * 0.015;
 
     groupRef.current.children.forEach((child, i) => {
       const mesh = child as THREE.Mesh;
       const mat = mesh.material as THREE.MeshBasicMaterial;
-      mat.opacity = isTeam
-        ? 0.08 + Math.sin(state.clock.elapsedTime * 2 + i) * 0.04
-        : phase === "contact"
-          ? 0.12
-          : 0;
+      if (isTeam) {
+        mat.opacity = 0.1 + Math.sin(state.clock.elapsedTime * 1.8 + i) * 0.04;
+      } else if (isContact) {
+        mat.opacity = 0.08;
+      } else if (phase === "testimonials") {
+        mat.opacity = 0.04 + Math.sin(state.clock.elapsedTime * 0.5) * 0.02;
+      } else {
+        mat.opacity = 0;
+      }
     });
   });
 
   if (reducedMotion) return null;
 
   return (
-    <group ref={groupRef} position={[0, 1, -3]}>
+    <group ref={groupRef} position={[0, 0.5, -2.5]}>
       {[0, 1, 2].map((i) => (
-        <mesh key={i} rotation={[0, 0, (i - 1) * 0.15]} position={[i * 0.8 - 0.8, 0, 0]}>
-          <planeGeometry args={[0.08, 12, 1, 1]} />
+        <mesh key={i} rotation={[0, 0, (i - 1) * 0.12]} position={[i * 0.7 - 0.7, 0, 0]}>
+          <planeGeometry args={[0.06, 10, 1, 1]} />
           <meshBasicMaterial
-            color={i === 1 ? "#D4AF37" : "#5B8CFF"}
+            color={i === 1 ? BRAND.burgundyGlow : BRAND.burgundyLight}
             transparent
             opacity={0.06}
             side={THREE.DoubleSide}

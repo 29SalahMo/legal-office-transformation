@@ -19,11 +19,13 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12">
           <div className="lg:col-span-2">
             <div className="mb-6">
-              <img
-                src={logo}
-                alt="Abdallah Law Firm"
-                className="h-10 brightness-0 invert opacity-90"
-              />
+              <span className="inline-block rounded-xl bg-[#FAF7F5]/95 px-3 py-2 border border-burgundy/10">
+                <img
+                  src={logo}
+                  alt="Abdallah Law Firm"
+                  className="h-10"
+                />
+              </span>
             </div>
             <p className="text-white/60 leading-relaxed max-w-md mb-6">
               A boutique law firm offering first-class, creative, and business-aware legal
@@ -35,17 +37,17 @@ const Footer = () => {
                 href="https://www.linkedin.com/company/abdallahabuelnaga/posts/?feedView=all"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:border-luxury-gold/40 hover:bg-luxury-gold/10 transition-all duration-300 group"
+                className="w-11 h-11 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:border-burgundy/40 hover:bg-burgundy/15 transition-all duration-300 group"
               >
-                <Linkedin className="w-5 h-5 text-white/70 group-hover:text-luxury-gold-light" />
+                <Linkedin className="w-5 h-5 text-white/70 group-hover:text-burgundy-light" />
               </a>
               <a
                 href="https://www.facebook.com/profile.php?id=100082889946960"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:border-luxury-gold/40 hover:bg-luxury-gold/10 transition-all duration-300 group"
+                className="w-11 h-11 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:border-burgundy/40 hover:bg-burgundy/15 transition-all duration-300 group"
               >
-                <Facebook className="w-5 h-5 text-white/70 group-hover:text-luxury-gold-light" />
+                <Facebook className="w-5 h-5 text-white/70 group-hover:text-burgundy-light" />
               </a>
             </div>
           </div>
@@ -57,7 +59,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-white/60 hover:text-luxury-gold-light transition-colors duration-300 flex items-center gap-2 group"
+                    className="text-white/60 hover:text-burgundy-light transition-colors duration-300 flex items-center gap-2 group"
                   >
                     {link.label}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -73,12 +75,12 @@ const Footer = () => {
               <li>20, Kawthar St, Al Dokki, Giza</li>
               <li>5th Floor</li>
               <li className="pt-2">
-                <a href="tel:+20233456542" className="hover:text-luxury-gold-light transition-colors">
+                <a href="tel:+20233456542" className="hover:text-burgundy-light transition-colors">
                   02 334 565 42
                 </a>
               </li>
               <li>
-                <a href="mailto:info@asalegaladvisors.com" className="hover:text-luxury-gold-light transition-colors">
+                <a href="mailto:info@asalegaladvisors.com" className="hover:text-burgundy-light transition-colors">
                   info@asalegaladvisors.com
                 </a>
               </li>

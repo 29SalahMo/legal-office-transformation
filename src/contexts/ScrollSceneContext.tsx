@@ -31,12 +31,13 @@ const ScrollSceneContext = createContext<ScrollSceneContextValue>({
   reducedMotion: false,
 });
 
+/** Matches homepage section order: Hero → About → Services → Team → Testimonials → Contact */
 const phaseFromProgress = (progress: number): ScenePhase => {
-  if (progress < 0.15) return "hero";
-  if (progress < 0.32) return "about";
-  if (progress < 0.5) return "services";
-  if (progress < 0.68) return "team";
-  if (progress < 0.85) return "testimonials";
+  if (progress < 0.12) return "hero";
+  if (progress < 0.28) return "about";
+  if (progress < 0.45) return "services";
+  if (progress < 0.62) return "team";
+  if (progress < 0.82) return "testimonials";
   return "contact";
 };
 

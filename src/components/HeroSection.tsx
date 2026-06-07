@@ -16,8 +16,8 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center pt-28 pb-20 lg:pt-32 lg:pb-28">
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 ambient-glow bg-glow-blue/30 animate-pulse-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 ambient-glow bg-glow-purple/20 animate-pulse-glow" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 ambient-glow bg-burgundy/25 animate-pulse-glow" />
+      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 ambient-glow bg-burgundy-light/15 animate-pulse-glow" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
@@ -25,9 +25,9 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-burgundy/25 bg-burgundy/10 backdrop-blur-md mb-8"
           >
-            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-luxury-gold to-luxury-gold-light animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-burgundy to-burgundy-light animate-pulse" />
             <span className="text-sm text-white/70 tracking-wide uppercase">International Legal Advisory</span>
           </motion.div>
 
@@ -56,7 +56,7 @@ const HeroSection = () => {
           >
             <Link
               to="/contact"
-              className="magnetic-btn inline-flex items-center justify-center gap-2 h-14 px-10 text-base rounded-full font-medium bg-gradient-to-r from-[#D4AF37] to-[#F7D774] text-[#050816] shadow-[0_0_30px_rgba(212,175,55,0.25)] hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:scale-[1.02] transition-all duration-300"
+              className="magnetic-btn inline-flex items-center justify-center gap-2 h-14 px-10 text-base rounded-full font-medium bg-gradient-to-r from-burgundy to-burgundy-light text-white shadow-[0_0_30px_rgba(82,11,16,0.35)] hover:shadow-[0_0_40px_rgba(82,11,16,0.5)] hover:scale-[1.02] transition-all duration-300"
             >
               Start your consultation
               <ArrowRight className="w-4 h-4" />
@@ -79,9 +79,9 @@ const HeroSection = () => {
           >
             <div className="flex items-center gap-3">
               <div className="flex -space-x-3 shrink-0">
-                <img src={partnerMale} alt="Team member" className="w-10 h-10 rounded-full border-2 border-luxury-gold/50 object-cover" />
-                <img src={partnerFemale} alt="Team member" className="w-10 h-10 rounded-full border-2 border-luxury-gold/50 object-cover" />
-                <div className="w-10 h-10 rounded-full border-2 border-luxury-gold/50 bg-gradient-to-br from-luxury-gold to-luxury-gold-light flex items-center justify-center text-obsidian text-xs font-semibold">
+                <img src={partnerMale} alt="Team member" className="w-10 h-10 rounded-full border-2 border-burgundy/50 object-cover" />
+                <img src={partnerFemale} alt="Team member" className="w-10 h-10 rounded-full border-2 border-burgundy/50 object-cover" />
+                <div className="w-10 h-10 rounded-full border-2 border-burgundy/50 bg-gradient-to-br from-burgundy to-burgundy-light flex items-center justify-center text-white text-xs font-semibold">
                   50+
                 </div>
               </div>
@@ -98,10 +98,10 @@ const HeroSection = () => {
             <div className="hidden sm:block w-px h-8 bg-white/10" />
 
             <div className="flex items-center gap-5">
-              <a href="https://www.linkedin.com/company/abdallahabuelnaga/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-luxury-gold-light transition-colors flex items-center gap-1 text-sm group">
+              <a href="https://www.linkedin.com/company/abdallahabuelnaga/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-burgundy-light transition-colors flex items-center gap-1 text-sm group">
                 LinkedIn <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
               </a>
-              <a href="https://www.facebook.com/profile.php?id=100082889946960" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-luxury-gold-light transition-colors flex items-center gap-1 text-sm group">
+              <a href="https://www.facebook.com/profile.php?id=100082889946960" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-burgundy-light transition-colors flex items-center gap-1 text-sm group">
                 Facebook <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
               </a>
             </div>
@@ -116,7 +116,7 @@ const HeroSection = () => {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-luxury-gold/60 to-transparent animate-pulse" />
+        <div className="w-px h-12 bg-gradient-to-b from-burgundy/70 to-transparent animate-pulse" />
       </motion.div>
     </section>
   );

@@ -29,9 +29,7 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "py-3"
-          : "py-5"
+        isScrolled ? "py-3" : "py-5"
       }`}
     >
       <div
@@ -43,20 +41,22 @@ const Header = () => {
       >
         <nav className="flex items-center justify-between">
           <Link to="/" className="flex items-center group">
-            <img
-              src={logo}
-              alt="Abdallah Law Firm"
-              className="h-9 brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity"
-            />
+            <span className="rounded-xl bg-[#FAF7F5]/95 px-3 py-1.5 shadow-elegant border border-burgundy/10 group-hover:border-burgundy/25 transition-all duration-300">
+              <img
+                src={logo}
+                alt="Abdallah Law Firm"
+                className="h-9"
+              />
+            </span>
           </Link>
 
           <div className="hidden lg:flex items-center">
-            <div className="flex items-center gap-1 rounded-full px-2 py-1.5 border border-white/10 bg-white/5 backdrop-blur-xl">
+            <div className="flex items-center gap-1 rounded-full px-2 py-1.5 border border-burgundy/20 bg-white/5 backdrop-blur-xl">
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 px-5 py-2.5 rounded-full transition-all duration-300"
+                  className="text-sm font-medium text-white/70 hover:text-white hover:bg-burgundy/20 px-5 py-2.5 rounded-full transition-all duration-300"
                 >
                   {link.label}
                 </Link>
@@ -66,16 +66,14 @@ const Header = () => {
 
           <div className="hidden lg:block">
             <Link to="/contact">
-              <Button
-                className="rounded-full px-6 bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-obsidian hover:opacity-90 border-0 shadow-[0_0_24px_rgba(212,175,55,0.2)]"
-              >
+              <Button className="rounded-full px-6 border-0 shadow-[0_0_24px_rgba(82,11,16,0.3)]">
                 Contact Us
               </Button>
             </Link>
           </div>
 
           <button
-            className="lg:hidden p-2 rounded-xl border border-white/10 bg-white/5"
+            className="lg:hidden p-2 rounded-xl border border-burgundy/20 bg-white/5"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -101,14 +99,14 @@ const Header = () => {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="text-white/80 font-medium py-3 px-4 rounded-xl hover:bg-white/5 transition-colors"
+                  className="text-white/80 font-medium py-3 px-4 rounded-xl hover:bg-burgundy/15 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button className="mt-3 rounded-full bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-obsidian w-full border-0">
+                <Button className="mt-3 rounded-full w-full border-0">
                   Contact Us
                 </Button>
               </Link>
