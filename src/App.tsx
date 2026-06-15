@@ -8,6 +8,7 @@ import { GlobalMotionProvider } from "@/contexts/GlobalMotionContext";
 import PageTransition from "@/components/motion/PageTransition";
 import PremiumCursor from "@/components/motion/PremiumCursor";
 import ScrollToTop from "./components/ScrollToTop";
+import MonogramLoader from "@/components/ui/MonogramLoader";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -112,6 +113,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <GlobalMotionProvider>
+          <MonogramLoader />
           <PremiumCursor />
           <ScrollToTop />
           <AnimatedRoutes />

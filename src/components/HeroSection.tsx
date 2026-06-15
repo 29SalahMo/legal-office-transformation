@@ -7,12 +7,17 @@ import { usePageContent } from "@/hooks/usePageContent";
 import { PARTNER_PHOTO_URLS } from "@/lib/partnerPhotos";
 import { heroItem, heroStagger } from "@/lib/motionPresets";
 import TeamMemberPhoto from "@/components/TeamMemberPhoto";
+import { useMagnetic } from "@/hooks/useMagnetic";
 
 const HeroSection = () => {
   const { getValue } = usePageContent("home");
 
   const heading = getValue("hero_heading", "Legal Excellence, Tailored Solutions.");
   const subtext = getValue("hero_subtext", "Over 25 Years of Expertise in Litigation, Corporate Law, and Arbitration.");
+
+  // Magnetic CTA references
+  const { ref: primaryRef, x: primaryX, y: primaryY } = useMagnetic(0.25);
+  const { ref: secondaryRef, x: secondaryX, y: secondaryY } = useMagnetic(0.22);
 
   // Track mouse coordinates for immersive 3D parallax shifts (no React state re-renders)
   const mouseX = useMotionValue(0);
@@ -102,23 +107,36 @@ const HeroSection = () => {
           {/* Call to Actions */}
           <motion.div
             variants={heroItem}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-16 w-full max-w-md sm:max-w-none mx-auto px-2"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-16 w-full max-w-md sm:max-w-none mx-auto px-2"
           >
-            <Link
-              to="/contact"
-              className="magnetic-btn beam-button touch-target inline-flex items-center justify-center gap-2 h-14 px-8 sm:px-10 text-base rounded-full font-medium bg-gradient-to-r from-burgundy to-burgundy-light text-white shadow-[0_0_30px_rgba(82,11,16,0.35)] hover:shadow-[0_0_40px_rgba(170,124,17,0.4)] hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto gold-shimmer-sweep"
+            <motion.div
+              ref={primaryRef}
+              style={{ x: primaryX, y: primaryY }}
+              className="w-full sm:w-auto"
             >
-              Start your consultation
-              <ArrowRight className="w-4 h-4 text-white" />
-            </Link>
-            <Button
-              variant="outline"
-              size="lg"
-              className="rounded-full px-8 py-6 border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30 backdrop-blur-sm w-full sm:w-auto touch-target transition-all duration-300"
-              asChild
+              <Link
+                to="/contact"
+                className="magnetic-btn beam-button touch-target inline-flex items-center justify-center gap-2 h-14 px-8 sm:px-10 text-base rounded-full font-medium bg-gradient-to-r from-burgundy to-burgundy-light text-white shadow-[0_0_30px_rgba(82,11,16,0.35)] hover:shadow-[0_0_40px_rgba(170,124,17,0.4)] hover:scale-[1.02] transition-all duration-300 w-full gold-shimmer-sweep"
+              >
+                Start your consultation
+                <ArrowRight className="w-4 h-4 text-white" />
+              </Link>
+            </motion.div>
+            
+            <motion.div
+              ref={secondaryRef}
+              style={{ x: secondaryX, y: secondaryY }}
+              className="w-full sm:w-auto"
             >
-              <Link to="/services">Explore services</Link>
-            </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="rounded-full px-8 py-6 border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30 backdrop-blur-sm w-full touch-target transition-all duration-300"
+                asChild
+              >
+                <Link to="/services">Explore services</Link>
+              </Button>
+            </motion.div>
           </motion.div>
 
           {/* Trusted Badges */}
