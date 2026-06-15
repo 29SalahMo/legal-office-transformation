@@ -69,17 +69,17 @@ const TestimonialsSection = () => {
   });
 
   // Slide translation for horizontal movement
-  const x = useTransform(scrollYProgress, [0.1, 0.9], ["0%", "-52%"]);
+  const x = useTransform(scrollYProgress, [0.05, 0.9], ["0%", "-42%"]);
 
   return (
-    <div ref={containerRef} className="relative h-[250vh] bg-navy/5">
+    <div ref={containerRef} className="relative h-[160vh] bg-navy/5">
       {/* Sticky Frame */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden">
         <div className="architectural-grid opacity-15" />
         
         {/* Header content */}
-        <div className="container mx-auto px-6 lg:px-12 relative z-10 mb-12">
-          <div className="max-w-2xl">
+        <div className="container mx-auto px-6 lg:px-12 relative z-10 mb-12 text-center">
+          <div className="max-w-2xl mx-auto">
             <span className="inline-block px-4 py-2 rounded-full border border-burgundy/15 text-xs font-semibold uppercase tracking-wider text-burgundy-light mb-4">
               Client Testimonials
             </span>

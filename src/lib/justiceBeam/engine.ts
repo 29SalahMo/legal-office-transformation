@@ -32,10 +32,17 @@ function setSection(section: BeamSection) {
 
 function prepPath(el: SVGPathElement | null) {
   if (!el) return 0;
-  const len = el.getTotalLength();
-  el.style.strokeDasharray = `${len}`;
-  el.style.strokeDashoffset = `${len}`;
-  return len;
+  try {
+    const len = el.getTotalLength() || 0;
+    el.style.strokeDasharray = `${len}`;
+    el.style.strokeDashoffset = `${len}`;
+    return len;
+  } catch (err) {
+    console.warn("Failed to get SVG path length safely, falling back:", err);
+    el.style.strokeDasharray = "1000";
+    el.style.strokeDashoffset = "1000";
+    return 1000;
+  }
 }
 
 export function initJusticeBeam(
@@ -43,6 +50,9 @@ export function initJusticeBeam(
   options: { isHomepage: boolean; tier: BeamTier; reducedMotion: boolean }
 ): () => void {
   if (!svg || options.reducedMotion) return () => {};
+
+  let raf = 0;
+  let spineProgress = 0;
 
   const spine = svg.querySelector("#beam-spine") as SVGPathElement | null;
   const hero = svg.querySelector("#beam-hero") as SVGPathElement | null;
@@ -138,7 +148,12 @@ export function initJusticeBeam(
     }
 
     services.forEach((path, i) => {
-      const len = path.getTotalLength();
+      let len = 1000;
+      try {
+        len = path.getTotalLength() || 1000;
+      } catch (err) {
+        console.warn("Failed to get branch path length safely:", err);
+      }
       const card = document.querySelector(`[data-beam-card="${i}"]`);
       if (!card) return;
       triggers.push(
@@ -173,9 +188,6 @@ export function initJusticeBeam(
   } else if (spine && lengths.spine) {
     gsap.set(spine, { strokeDashoffset: 0, opacity: 0.25 });
   }
-
-  let raf = 0;
-  let spineProgress = 0;
 
   const tick = () => {
     if (glow && !isMobile) {
