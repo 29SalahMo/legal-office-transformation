@@ -6,7 +6,7 @@ import SectionBadge from "@/components/ui/SectionBadge";
 import { fetchHomepageLeaders, STATIC_TEAM_ROSTER } from "@/lib/teamData";
 import TeamMemberPhoto from "@/components/TeamMemberPhoto";
 import TiltCard from "@/components/motion/TiltCard";
-import { scaleIn, viewportReveal } from "@/lib/motionPresets";
+import { slideFromLeft, slideFromRight, viewportReveal } from "@/lib/motionPresets";
 
 const HOMEPAGE_LEADER_PLACEHOLDER = [
   ...STATIC_TEAM_ROSTER.filter((m) => m.role_category === "Partner"),
@@ -56,15 +56,21 @@ const LeadershipSection = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {leaders.map((leader, index) => (
-            <Link to={`/team/${leader.id}`} key={leader.id} className="block group">
-              <motion.div
-                variants={scaleIn}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportReveal}
-                transition={{ delay: 0.08 + index * 0.08 }}
-              >
+          {leaders.map((leader, index) => {
+            const isEven = index % 2 === 0;
+            return (
+              <Link to={`/team/${leader.id}`} key={leader.id} className="block group">
+                <motion.div
+                  variants={isEven ? slideFromLeft : slideFromRight}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewportReveal}
+                  transition={{ 
+                    delay: index * 0.08,
+                    duration: 0.8,
+                    ease: [0.22, 1, 0.36, 1]
+                  }}
+                >
                 <TiltCard>
                   <div className="relative rounded-3xl overflow-hidden h-[420px] cursor-pointer border border-border group-hover:border-luxury-gold/50 transition-all duration-500 shadow-card gold-border-trace">
                     
@@ -105,9 +111,10 @@ const LeadershipSection = () => {
                     </div>
                   </div>
                 </TiltCard>
-              </motion.div>
-            </Link>
-          ))}
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
 
         <motion.div
