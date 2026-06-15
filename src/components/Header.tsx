@@ -35,7 +35,7 @@ const Header = () => {
       <div
         className={`mx-4 lg:mx-8 transition-all duration-500 rounded-2xl ${
           isScrolled
-            ? "glass-panel shadow-elegant py-3 px-4 lg:px-8"
+            ? "bg-background/95 shadow-elegant border border-burgundy/10 py-3 px-4 lg:px-8"
             : "bg-transparent py-0 px-2 lg:px-4"
         }`}
       >
@@ -51,7 +51,7 @@ const Header = () => {
           </Link>
 
           <div className="hidden lg:flex items-center">
-            <div className="flex items-center gap-1 rounded-full px-2 py-1.5 border border-burgundy/15 bg-background/70 backdrop-blur-xl">
+            <div className="flex items-center gap-1 rounded-full px-2 py-1.5 border border-burgundy/15 bg-background/95">
               {navLinks.map((link) => (
                 <Link
                   key={link.label}

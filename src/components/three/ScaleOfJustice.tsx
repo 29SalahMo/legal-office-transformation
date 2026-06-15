@@ -2,6 +2,7 @@ import { useRef, useMemo, type RefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useScrollScene } from "@/contexts/ScrollSceneContext";
+import { scrollEngine } from "@/lib/scrollEngine";
 import { BRAND } from "@/lib/brandColors";
 import { sampleScrollTimeline, springStep } from "@/lib/scrollTimeline";
 
@@ -50,69 +51,76 @@ const ScaleOfJustice = () => {
   });
 
   const {
-    smoothScrollProgress,
-    mouseX,
-    mouseY,
     reducedMotion,
     sceneQuality,
     isTouchDevice,
-    isHoveringScale,
   } = useScrollScene();
+
+  const isMobile = sceneQuality.tier === "mobile";
 
   const metalMat = useMemo(
     () =>
-      new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color(BRAND.burgundy),
-        metalness: 0.94,
-        roughness: 0.14,
-        clearcoat: 1,
-        clearcoatRoughness: 0.06,
-        reflectivity: 1,
-        envMapIntensity: 1.8,
-      }),
-    []
+      isMobile
+        ? new THREE.MeshStandardMaterial({
+            color: new THREE.Color(BRAND.burgundy),
+            metalness: 0.85,
+            roughness: 0.22,
+          })
+        : new THREE.MeshPhysicalMaterial({
+            color: new THREE.Color(BRAND.burgundy),
+            metalness: 0.94,
+            roughness: 0.14,
+            clearcoat: 1,
+            clearcoatRoughness: 0.06,
+            envMapIntensity: 1.4,
+          }),
+    [isMobile]
   );
 
   const glassMat = useMemo(
     () =>
-      new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color(BRAND.burgundyMid),
-        metalness: 0.4,
-        roughness: 0.03,
-        transmission: 0.5,
-        thickness: 0.9,
-        transparent: true,
-        opacity: 0.9,
-        clearcoat: 1,
-        clearcoatRoughness: 0.04,
-        envMapIntensity: 1.2,
-      }),
-    []
+      isMobile
+        ? new THREE.MeshStandardMaterial({
+            color: new THREE.Color(BRAND.burgundyMid),
+            metalness: 0.35,
+            roughness: 0.15,
+            transparent: true,
+            opacity: 0.92,
+          })
+        : new THREE.MeshPhysicalMaterial({
+            color: new THREE.Color(BRAND.burgundyMid),
+            metalness: 0.4,
+            roughness: 0.03,
+            transmission: 0.35,
+            thickness: 0.7,
+            transparent: true,
+            opacity: 0.9,
+            clearcoat: 1,
+            clearcoatRoughness: 0.04,
+            envMapIntensity: 1,
+          }),
+    [isMobile]
   );
 
   const accentMat = useMemo(
     () =>
-      new THREE.MeshPhysicalMaterial({
+      new THREE.MeshStandardMaterial({
         color: new THREE.Color(BRAND.burgundyGlow),
-        metalness: 0.88,
-        roughness: 0.1,
+        metalness: 0.82,
+        roughness: 0.12,
         emissive: new THREE.Color(BRAND.burgundy),
-        emissiveIntensity: 0.18,
-        envMapIntensity: 1.5,
+        emissiveIntensity: 0.15,
       }),
     []
   );
 
   const panMat = useMemo(
     () =>
-      new THREE.MeshPhysicalMaterial({
+      new THREE.MeshStandardMaterial({
         color: new THREE.Color(BRAND.burgundyDark),
-        metalness: 0.78,
-        roughness: 0.18,
-        clearcoat: 0.85,
-        clearcoatRoughness: 0.12,
+        metalness: 0.75,
+        roughness: 0.2,
         side: THREE.DoubleSide,
-        envMapIntensity: 1.3,
       }),
     []
   );
@@ -120,8 +128,9 @@ const ScaleOfJustice = () => {
   useFrame((state, delta) => {
     if (!groupRef.current || !beamRef.current) return;
 
+    const { smoothProgress, mouseX, mouseY, isHoveringScale } = scrollEngine;
     const t = state.clock.elapsedTime;
-    const timeline = sampleScrollTimeline(smoothScrollProgress);
+    const timeline = sampleScrollTimeline(smoothProgress);
     const p = physics.current;
 
     const stiffness = 3.8 + timeline.stability * 2.8;
@@ -158,17 +167,21 @@ const ScaleOfJustice = () => {
     const offset = sceneQuality.positionOffset;
     const scrollX =
       sceneQuality.tier === "mobile"
-        ? (smoothScrollProgress - 0.5) * 0.12
-        : (smoothScrollProgress - 0.5) * 0.38;
+        ? (smoothProgress - 0.5) * 0.12
+        : (smoothProgress - 0.5) * 0.38;
 
+    const presence = timeline.narrativePresence;
     const breathe =
       Math.sin(t * 0.32) * timeline.floatAmplitude * 0.6 +
       Math.sin(t * 0.68) * timeline.floatAmplitude * 0.22;
 
+    const scaleMul = sceneQuality.scaleMultiplier * (0.88 + presence * 0.12);
+    groupRef.current.scale.setScalar(scaleMul);
+
     groupRef.current.position.set(
       scrollX + parallaxX + offset.x,
       breathe + parallaxY * 0.35 + offset.y,
-      -1.2 - smoothScrollProgress * 0.3 + offset.z
+      -1.2 - smoothProgress * 0.3 + offset.z
     );
 
     const rotTarget = timeline.groupRotationY + (reducedMotion ? 0 : mouseX * 0.025);
@@ -220,11 +233,13 @@ const ScaleOfJustice = () => {
     [p.chainSway, p.chainSwayVel] = springStep(p.chainSway, p.chainSwayVel, chainTarget, delta, 7, 0.72);
 
     if (leftPanRef.current) {
-      leftPanRef.current.position.y = p.leftPanOffset;
+      const spread = timeline.scaleDeconstruct * 0.35;
+      leftPanRef.current.position.set(-1.35 - spread, p.leftPanOffset, spread * 0.2);
       leftPanRef.current.rotation.z = p.leftSwing;
     }
     if (rightPanRef.current) {
-      rightPanRef.current.position.y = p.rightPanOffset;
+      const spread = timeline.scaleDeconstruct * 0.35;
+      rightPanRef.current.position.set(1.35 + spread, p.rightPanOffset, spread * 0.2);
       rightPanRef.current.rotation.z = p.rightSwing;
     }
     if (leftChainRef.current) {
@@ -237,11 +252,15 @@ const ScaleOfJustice = () => {
     if (glowRef.current) {
       const pulse = Math.sin(t * 0.55) * 0.05 * timeline.ambientPulse;
       const hoverPulse = p.hoverGlow * Math.sin(t * 2.2) * 0.12;
-      glowRef.current.intensity = 0.55 + timeline.glowIntensity * 0.5 + pulse + hoverPulse;
+      glowRef.current.intensity =
+        0.45 + timeline.glowIntensity * 0.45 + pulse + hoverPulse + timeline.justiceBalance * 0.25;
     }
     if (rimRef.current) {
-      rimRef.current.intensity = timeline.rimGlow * 0.45 + p.hoverGlow * 0.35;
+      rimRef.current.intensity = timeline.rimGlow * 0.45 + p.hoverGlow * 0.35 + timeline.justiceBalance * 0.2;
     }
+
+    const emissiveBoost = timeline.justiceBalance * 0.12 + (1 - timeline.narrativePresence) * 0.06;
+    accentMat.emissiveIntensity = 0.15 + emissiveBoost;
   });
 
   const ChainLinks = ({ side, chainRef }: { side: -1 | 1; chainRef: RefObject<THREE.Group> }) => (
@@ -269,7 +288,7 @@ const ScaleOfJustice = () => {
   );
 
   return (
-    <group ref={groupRef} scale={sceneQuality.scaleMultiplier}>
+    <group ref={groupRef}>
       <pointLight
         ref={glowRef}
         position={[0, 0.5, 1.5]}

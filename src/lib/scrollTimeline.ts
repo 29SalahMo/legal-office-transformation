@@ -17,6 +17,12 @@ export type ScrollTimelineState = {
   ambientPulse: number;
   rimGlow: number;
   fogDensity: number;
+  /** 1 = full scale hero, lower = ethereal / outline feel in about */
+  narrativePresence: number;
+  /** 0 = unified, 1 = pans separated (services section) */
+  scaleDeconstruct: number;
+  /** Final balance glow at footer */
+  justiceBalance: number;
 };
 
 const smoothstep = (t: number) => t * t * (3 - 2 * t);
@@ -166,6 +172,37 @@ export const sampleScrollTimeline = (progress: number): ScrollTimelineState => (
     [0.65, 0.45],
     [0.82, 0.3],
     [1, 0.25],
+  ]),
+  narrativePresence: sampleKeyframes(progress, [
+    [0, 1],
+    [0.12, 1],
+    [0.22, 0.72],
+    [0.28, 0.65],
+    [0.38, 0.88],
+    [0.45, 0.82],
+    [0.55, 0.75],
+    [0.62, 0.85],
+    [0.72, 0.92],
+    [0.82, 0.98],
+    [1, 1],
+  ]),
+  scaleDeconstruct: sampleKeyframes(progress, [
+    [0, 0],
+    [0.28, 0],
+    [0.38, 0.15],
+    [0.45, 0.55],
+    [0.55, 0.35],
+    [0.62, 0.1],
+    [0.72, 0],
+    [1, 0],
+  ]),
+  justiceBalance: sampleKeyframes(progress, [
+    [0, 0.3],
+    [0.28, 0.4],
+    [0.45, 0.55],
+    [0.72, 0.85],
+    [0.9, 0.98],
+    [1, 1],
   ]),
 });
 

@@ -1,13 +1,14 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { scrollEngine } from "@/lib/scrollEngine";
 import { useScrollScene } from "@/contexts/ScrollSceneContext";
 import { BRAND } from "@/lib/brandColors";
 import { sampleScrollTimeline } from "@/lib/scrollTimeline";
 
 const GoldenParticles = () => {
   const pointsRef = useRef<THREE.Points>(null);
-  const { smoothScrollProgress, reducedMotion, sceneQuality } = useScrollScene();
+  const { reducedMotion, sceneQuality } = useScrollScene();
 
   const count = sceneQuality.particleCount;
   const { positions, speeds } = useMemo(() => {
@@ -25,15 +26,16 @@ const GoldenParticles = () => {
   useFrame((state) => {
     if (!pointsRef.current) return;
 
-    const timeline = sampleScrollTimeline(smoothScrollProgress);
-    const showParticles = smoothScrollProgress > 0.08 || timeline.particleDrift > 0.2;
+    const smoothProgress = scrollEngine.smoothProgress;
+    const timeline = sampleScrollTimeline(smoothProgress);
+    const showParticles = smoothProgress > 0.08 || timeline.particleDrift > 0.2;
 
     pointsRef.current.visible = showParticles;
     if (!showParticles) return;
 
     pointsRef.current.rotation.y = state.clock.elapsedTime * 0.012 * timeline.particleDrift;
     const mat = pointsRef.current.material as THREE.PointsMaterial;
-    mat.opacity = timeline.particleDrift * (0.28 + smoothScrollProgress * 0.32);
+    mat.opacity = timeline.particleDrift * (0.28 + smoothProgress * 0.32);
 
     if (reducedMotion) return;
 

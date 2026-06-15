@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { GlobalMotionProvider } from "@/contexts/GlobalMotionContext";
 import PageTransition from "@/components/motion/PageTransition";
+import PremiumCursor from "@/components/motion/PremiumCursor";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import About from "./pages/About";
@@ -86,6 +87,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <GlobalMotionProvider>
+          <PremiumCursor />
           <ScrollToTop />
           <AnimatedRoutes />
         </GlobalMotionProvider>

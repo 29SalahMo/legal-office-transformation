@@ -1,18 +1,19 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { scrollEngine } from "@/lib/scrollEngine";
 import { useScrollScene } from "@/contexts/ScrollSceneContext";
 import { BRAND } from "@/lib/brandColors";
 import { sampleScrollTimeline } from "@/lib/scrollTimeline";
 
 const LightBeams = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const { smoothScrollProgress, reducedMotion, sceneQuality } = useScrollScene();
+  const { reducedMotion, sceneQuality } = useScrollScene();
 
   useFrame((state) => {
     if (!groupRef.current) return;
 
-    const timeline = sampleScrollTimeline(smoothScrollProgress);
+    const timeline = sampleScrollTimeline(scrollEngine.smoothProgress);
     const grounded = timeline.groundedness;
 
     groupRef.current.visible = grounded > 0.4;
