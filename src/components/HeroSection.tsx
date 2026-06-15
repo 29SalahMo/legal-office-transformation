@@ -15,7 +15,7 @@ const HeroSection = () => {
   const partnerFemale = getImageUrl("partner_female_image", partnerFemaleFallback);
 
   return (
-    <section className="relative min-h-[100dvh] flex items-center pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-28 overflow-hidden">
+    <section data-justice-journey="intro" className="relative min-h-[100dvh] flex items-center pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-28 overflow-hidden">
       <div className="absolute top-1/4 left-1/4 w-64 sm:w-96 h-64 sm:h-96 ambient-glow bg-burgundy/25 animate-pulse-glow hidden sm:block" />
       <div className="absolute bottom-1/4 right-1/4 w-48 sm:w-72 h-48 sm:h-72 ambient-glow bg-burgundy-light/15 animate-pulse-glow hidden sm:block" />
 
@@ -28,14 +28,14 @@ const HeroSection = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-burgundy/25 bg-burgundy/10 backdrop-blur-md mb-8"
           >
             <span className="w-2 h-2 rounded-full bg-gradient-to-r from-burgundy to-burgundy-light animate-pulse" />
-            <span className="text-sm text-white/70 tracking-wide uppercase">International Legal Advisory</span>
+            <span className="text-sm text-muted-foreground tracking-wide uppercase">International Legal Advisory</span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1 }}
-            className="font-serif text-fluid-hero text-white leading-[1.05] mb-6 sm:mb-8 px-2"
+            className="font-serif text-fluid-hero text-foreground leading-[1.05] mb-6 sm:mb-8 px-2"
             dangerouslySetInnerHTML={{ __html: heading.replace(/\n/g, "<br />") }}
           />
 
@@ -43,7 +43,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.25 }}
-            className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 sm:mb-12 leading-relaxed px-2"
+            className="text-muted-foreground text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 sm:mb-12 leading-relaxed px-2"
           >
             {subtext}
           </motion.p>
@@ -64,7 +64,7 @@ const HeroSection = () => {
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full px-8 py-6 border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30 backdrop-blur-sm w-full sm:w-auto touch-target"
+              className="rounded-full px-8 py-6 border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30 backdrop-blur-sm w-full sm:w-auto touch-target"
               asChild
             >
               <Link to="/services">Explore services</Link>
@@ -87,7 +87,7 @@ const HeroSection = () => {
               </div>
               <a
                 href="#testimonials"
-                className="text-white/70 text-sm hover:text-white transition-colors cursor-pointer text-left leading-snug"
+                className="text-muted-foreground text-sm hover:text-foreground transition-colors cursor-pointer text-left leading-snug"
               >
                 Trusted by industry leaders.
                 <br />
@@ -95,13 +95,13 @@ const HeroSection = () => {
               </a>
             </div>
 
-            <div className="hidden sm:block w-px h-8 bg-white/10" />
+            <div className="hidden sm:block w-px h-8 bg-border" />
 
             <div className="flex items-center gap-5">
-              <a href="https://www.linkedin.com/company/abdallahabuelnaga/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-burgundy-light transition-colors flex items-center gap-1 text-sm group">
+              <a href="https://www.linkedin.com/company/abdallahabuelnaga/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-burgundy transition-colors flex items-center gap-1 text-sm group">
                 LinkedIn <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
               </a>
-              <a href="https://www.facebook.com/profile.php?id=100082889946960" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-burgundy-light transition-colors flex items-center gap-1 text-sm group">
+              <a href="https://www.facebook.com/profile.php?id=100082889946960" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-burgundy transition-colors flex items-center gap-1 text-sm group">
                 Facebook <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
               </a>
             </div>
@@ -115,7 +115,7 @@ const HeroSection = () => {
         transition={{ delay: 1.2, duration: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
+        <span className="text-muted-foreground/70 text-xs tracking-widest uppercase">Scroll</span>
         <div className="w-px h-12 bg-gradient-to-b from-burgundy/70 to-transparent animate-pulse" />
       </motion.div>
     </section>

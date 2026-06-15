@@ -51,12 +51,12 @@ const Header = () => {
           </Link>
 
           <div className="hidden lg:flex items-center">
-            <div className="flex items-center gap-1 rounded-full px-2 py-1.5 border border-burgundy/20 bg-white/5 backdrop-blur-xl">
+            <div className="flex items-center gap-1 rounded-full px-2 py-1.5 border border-burgundy/15 bg-background/70 backdrop-blur-xl">
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="text-sm font-medium text-white/70 hover:text-white hover:bg-burgundy/20 px-5 py-2.5 rounded-full transition-all duration-300"
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-burgundy/10 px-5 py-2.5 rounded-full transition-all duration-300"
                 >
                   {link.label}
                 </Link>
@@ -73,14 +73,14 @@ const Header = () => {
           </div>
 
           <button
-            className="lg:hidden p-2 rounded-xl border border-burgundy/20 bg-white/5 touch-target"
+            className="lg:hidden p-2 rounded-xl border border-burgundy/15 bg-background/70 touch-target"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? (
-              <X className="w-5 h-5 text-white" />
+              <X className="w-5 h-5 text-foreground" />
             ) : (
-              <Menu className="w-5 h-5 text-white" />
+              <Menu className="w-5 h-5 text-foreground" />
             )}
           </button>
         </nav>
@@ -99,7 +99,7 @@ const Header = () => {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="text-white/80 font-medium py-3 px-4 rounded-xl hover:bg-burgundy/15 transition-colors"
+                  className="text-foreground/80 font-medium py-3 px-4 rounded-xl hover:bg-burgundy/10 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}

@@ -26,8 +26,8 @@ const TestimonialsSection = () => {
       ];
 
   return (
-    <section id="testimonials" className="relative py-24 lg:py-32">
-      <div className="absolute inset-0 bg-[#0B1020]/50 pointer-events-none" />
+    <section id="testimonials" data-justice-journey="justice" className="relative py-24 lg:py-32">
+      <div className="absolute inset-0 bg-background/25 pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -36,7 +36,7 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mb-4">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-4">
             What Our
             <br />
             <span className="text-gradient-gold">Satisfied Clients Say</span>
@@ -63,12 +63,12 @@ const TestimonialsSection = () => {
                   <div className="absolute -inset-1 rounded-full bg-luxury-gold/20 blur-md -z-10" />
                 </div>
                 <div>
-                  <h4 className="font-medium text-white">{testimonial.name}</h4>
-                  <p className="text-sm text-white/50">{testimonial.title}</p>
+                  <h4 className="font-medium text-foreground">{testimonial.name}</h4>
+                  <p className="text-sm text-muted-foreground">{testimonial.title}</p>
                 </div>
               </div>
 
-              <p className="text-white/65 leading-relaxed mb-6">
+              <p className="text-muted-foreground leading-relaxed mb-6">
                 "{testimonial.quote}"
               </p>
 

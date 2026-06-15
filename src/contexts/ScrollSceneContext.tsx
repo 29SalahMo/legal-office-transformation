@@ -8,6 +8,10 @@ import {
   type ReactNode,
 } from "react";
 import { useDeviceTier, type SceneQuality } from "@/hooks/useDeviceTier";
+import {
+  initJusticeScroll,
+  type JourneyAct,
+} from "@/lib/justiceScrollEngine";
 
 export type ScenePhase =
   | "hero"
@@ -23,9 +27,11 @@ interface ScrollSceneContextValue {
   mouseX: number;
   mouseY: number;
   phase: ScenePhase;
+  journeyAct: JourneyAct;
   reducedMotion: boolean;
   sceneQuality: SceneQuality;
   isTouchDevice: boolean;
+  isHoveringScale: boolean;
 }
 
 const ScrollSceneContext = createContext<ScrollSceneContextValue>({
@@ -34,6 +40,7 @@ const ScrollSceneContext = createContext<ScrollSceneContextValue>({
   mouseX: 0,
   mouseY: 0,
   phase: "hero",
+  journeyAct: "intro",
   reducedMotion: false,
   sceneQuality: {
     tier: "desktop",
@@ -48,9 +55,9 @@ const ScrollSceneContext = createContext<ScrollSceneContextValue>({
     positionOffset: { x: 0, y: 0, z: 0 },
   },
   isTouchDevice: false,
+  isHoveringScale: false,
 });
 
-/** Matches homepage section order: Hero → About → Services → Team → Testimonials → Contact */
 const phaseFromProgress = (progress: number): ScenePhase => {
   if (progress < 0.12) return "hero";
   if (progress < 0.28) return "about";
@@ -67,6 +74,8 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
   const [mouseY, setMouseY] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [journeyAct, setJourneyAct] = useState<JourneyAct>("intro");
+  const [isHoveringScale, setIsHoveringScale] = useState(false);
 
   const targetProgressRef = useRef(0);
   const smoothRef = useRef(0);
@@ -74,21 +83,17 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
 
   const { quality: sceneQuality } = useDeviceTier();
 
-  const handleScroll = useCallback(() => {
-    const doc = document.documentElement;
-    const maxScroll = doc.scrollHeight - window.innerHeight;
-    const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-    const clamped = Math.min(1, Math.max(0, progress));
-    targetProgressRef.current = clamped;
-    setScrollProgress(clamped);
-  }, []);
-
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const x = (e.clientX / window.innerWidth) * 2 - 1;
     const y = -(e.clientY / window.innerHeight) * 2 + 1;
     setMouseX(x);
     setMouseY(y);
-  }, []);
+
+    const scaleZoneX = sceneQuality.tier === "mobile" ? 0.15 : 0.35;
+    const inScaleZone =
+      x > scaleZoneX - 0.5 && x < scaleZoneX + 0.65 && y > -0.55 && y < 0.65;
+    setIsHoveringScale(inScaleZone);
+  }, [sceneQuality.tier]);
 
   useEffect(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -98,8 +103,6 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
     const onMotionChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     motionQuery.addEventListener("change", onMotionChange);
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     let rafId = 0;
@@ -112,11 +115,10 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
       const target = targetProgressRef.current;
       const diff = target - smoothRef.current;
 
-      // Spring-damper: smooth bidirectional interpolation, no snapping
-      velocityRef.current = velocityRef.current * 0.82 + diff * 5.2 * delta;
+      velocityRef.current = velocityRef.current * 0.78 + diff * 4.8 * delta;
       smoothRef.current += velocityRef.current;
 
-      if (Math.abs(diff) < 0.0001 && Math.abs(velocityRef.current) < 0.0001) {
+      if (Math.abs(diff) < 0.00008 && Math.abs(velocityRef.current) < 0.00008) {
         smoothRef.current = target;
         velocityRef.current = 0;
       }
@@ -127,13 +129,29 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
 
     rafId = requestAnimationFrame(tick);
 
+    const destroyScroll = initJusticeScroll(
+      {
+        onProgress: (progress) => {
+          targetProgressRef.current = progress;
+          setScrollProgress(progress);
+        },
+        onActChange: setJourneyAct,
+      },
+      motionQuery.matches
+    );
+
+    const refreshTimer = window.setTimeout(() => {
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => ScrollTrigger.refresh());
+    }, 800);
+
     return () => {
       motionQuery.removeEventListener("change", onMotionChange);
-      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(rafId);
+      destroyScroll();
+      window.clearTimeout(refreshTimer);
     };
-  }, [handleScroll, handleMouseMove]);
+  }, [handleMouseMove]);
 
   const phase = phaseFromProgress(smoothScrollProgress);
 
@@ -145,9 +163,11 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
         mouseX,
         mouseY,
         phase,
+        journeyAct,
         reducedMotion,
         sceneQuality,
         isTouchDevice,
+        isHoveringScale,
       }}
     >
       {children}

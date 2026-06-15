@@ -47,20 +47,19 @@ const SceneBackground = ({ className = "", fixed = true }: SceneBackgroundProps)
         fallback
       )}
 
-      {/* Readability overlays — keep text/buttons unobstructed */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#050816]/40 via-transparent to-[#050816]/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F5]/30 via-transparent to-[#FAF7F5]/85" />
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-40"
         style={{
           background:
-            "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(82, 11, 16, 0.1), transparent)",
+            "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(82, 11, 16, 0.05), transparent)",
         }}
       />
       {sceneQuality.tier === "mobile" && (
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050816]/88 via-[#050816]/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F5]/92 via-[#FAF7F5]/55 to-transparent" />
       )}
       {sceneQuality.tier === "tablet" && (
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050816]/70 via-[#050816]/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F5]/78 via-[#FAF7F5]/30 to-transparent" />
       )}
     </div>
   );

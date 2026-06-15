@@ -1,4 +1,4 @@
-/** Continuous scroll timeline — values interpolate smoothly in both scroll directions */
+/** Cinematic justice journey timeline — 4 acts driven by scroll progress */
 
 export type TimelineKeyframe = [progress: number, value: number];
 
@@ -11,9 +11,12 @@ export type ScrollTimelineState = {
   panReactivity: number;
   cameraLift: number;
   cameraPull: number;
+  cameraRotationY: number;
   groundedness: number;
   particleDrift: number;
   ambientPulse: number;
+  rimGlow: number;
+  fogDensity: number;
 };
 
 const smoothstep = (t: number) => t * t * (3 - 2 * t);
@@ -35,92 +38,134 @@ export const sampleKeyframes = (progress: number, keyframes: TimelineKeyframe[])
 };
 
 /**
- * Hero → About → Services → Team → Testimonials → Contact
- * Motion is symbolic: balance, analysis, trust, confidence, resolution
+ * Four-act legal journey:
+ * Intro (hero) → Conflict (tilt) → Process (rebalancing) → Justice (stable)
  */
 export const sampleScrollTimeline = (progress: number): ScrollTimelineState => ({
   beamTilt: sampleKeyframes(progress, [
     [0, 0],
-    [0.12, 0],
-    [0.28, 0.012],
-    [0.45, 0.058],
-    [0.62, 0.018],
-    [0.82, 0.005],
+    [0.08, 0],
+    [0.15, 0.002],
+    [0.28, 0.085],
+    [0.38, 0.072],
+    [0.52, 0.038],
+    [0.65, 0.014],
+    [0.78, 0.004],
+    [0.9, 0],
     [1, 0],
   ]),
   groupRotationY: sampleKeyframes(progress, [
     [0, 0],
-    [0.2, 0.12],
-    [0.45, 0.38],
-    [0.62, 0.52],
-    [0.82, 0.58],
-    [1, 0.42],
+    [0.15, 0.06],
+    [0.28, 0.22],
+    [0.45, 0.34],
+    [0.65, 0.18],
+    [0.82, 0.08],
+    [1, 0.04],
   ]),
   floatAmplitude: sampleKeyframes(progress, [
-    [0, 0.1],
-    [0.28, 0.07],
-    [0.45, 0.09],
-    [0.62, 0.05],
-    [0.82, 0.04],
-    [1, 0.06],
+    [0, 0.12],
+    [0.15, 0.1],
+    [0.28, 0.06],
+    [0.45, 0.08],
+    [0.65, 0.05],
+    [0.82, 0.03],
+    [1, 0.02],
   ]),
   glowIntensity: sampleKeyframes(progress, [
-    [0, 0.55],
-    [0.28, 0.72],
-    [0.45, 0.82],
-    [0.62, 1.15],
-    [0.82, 0.88],
-    [1, 1.05],
+    [0, 0.45],
+    [0.15, 0.55],
+    [0.28, 0.78],
+    [0.45, 0.88],
+    [0.65, 0.95],
+    [0.82, 0.72],
+    [1, 0.85],
   ]),
   stability: sampleKeyframes(progress, [
     [0, 1],
-    [0.28, 0.94],
-    [0.45, 0.7],
-    [0.62, 0.9],
-    [0.82, 0.97],
+    [0.15, 0.96],
+    [0.28, 0.42],
+    [0.38, 0.38],
+    [0.52, 0.62],
+    [0.65, 0.82],
+    [0.78, 0.94],
+    [0.9, 0.99],
     [1, 1],
   ]),
   panReactivity: sampleKeyframes(progress, [
-    [0, 0.28],
+    [0, 0.22],
+    [0.28, 0.72],
     [0.45, 0.58],
-    [0.62, 0.36],
-    [0.82, 0.18],
-    [1, 0.26],
+    [0.65, 0.32],
+    [0.82, 0.16],
+    [1, 0.12],
   ]),
   cameraLift: sampleKeyframes(progress, [
     [0, 0],
-    [0.45, 0.35],
-    [0.62, 0.55],
-    [0.82, 0.25],
-    [1, 0.1],
+    [0.15, 0.08],
+    [0.28, 0.28],
+    [0.45, 0.42],
+    [0.65, 0.22],
+    [0.82, 0.06],
+    [1, 0],
   ]),
   cameraPull: sampleKeyframes(progress, [
     [0, 0],
-    [0.45, 0.45],
-    [0.62, 0.65],
-    [1, 0.35],
+    [0.15, 0.12],
+    [0.28, 0.55],
+    [0.45, 0.72],
+    [0.65, 0.48],
+    [0.82, 0.22],
+    [1, 0.08],
+  ]),
+  cameraRotationY: sampleKeyframes(progress, [
+    [0, 0],
+    [0.28, 0.14],
+    [0.45, 0.22],
+    [0.65, 0.1],
+    [0.82, 0.04],
+    [1, 0],
   ]),
   groundedness: sampleKeyframes(progress, [
-    [0, 0.2],
-    [0.28, 0.45],
-    [0.45, 0.35],
-    [0.62, 0.85],
-    [0.82, 0.75],
-    [1, 0.95],
+    [0, 0.15],
+    [0.15, 0.2],
+    [0.28, 0.25],
+    [0.45, 0.55],
+    [0.65, 0.78],
+    [0.82, 0.92],
+    [1, 1],
   ]),
   particleDrift: sampleKeyframes(progress, [
-    [0, 0.15],
-    [0.45, 0.65],
-    [0.62, 0.55],
-    [0.82, 0.3],
-    [1, 0.45],
+    [0, 0.1],
+    [0.28, 0.55],
+    [0.45, 0.7],
+    [0.65, 0.45],
+    [0.82, 0.25],
+    [1, 0.18],
   ]),
   ambientPulse: sampleKeyframes(progress, [
+    [0, 0.35],
+    [0.28, 0.65],
+    [0.45, 0.8],
+    [0.65, 0.55],
+    [0.82, 0.4],
+    [1, 0.45],
+  ]),
+  rimGlow: sampleKeyframes(progress, [
     [0, 0.4],
-    [0.45, 0.7],
-    [0.62, 0.9],
-    [0.82, 0.5],
-    [1, 0.6],
+    [0.28, 0.85],
+    [0.45, 0.95],
+    [0.65, 0.75],
+    [0.82, 0.55],
+    [1, 0.65],
+  ]),
+  fogDensity: sampleKeyframes(progress, [
+    [0, 0.35],
+    [0.28, 0.55],
+    [0.45, 0.65],
+    [0.65, 0.45],
+    [0.82, 0.3],
+    [1, 0.25],
   ]),
 });
 

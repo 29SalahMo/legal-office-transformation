@@ -15,7 +15,7 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section className="relative py-24 lg:py-32">
+    <section data-justice-journey="justice" className="relative py-24 lg:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-luxury-gold/5 to-glow-blue/5 pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <GlassCard
@@ -27,14 +27,14 @@ const NewsletterSection = () => {
           glow
           className="max-w-4xl mx-auto p-10 lg:p-16 text-center"
         >
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mb-6">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-6">
             Stay ahead with{" "}
             <span className="text-gradient-gold">legal insights</span>
             <br />
             delivered to your inbox.
           </h2>
 
-          <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-lg mb-10 max-w-2xl mx-auto">
             Subscribe to receive our latest updates, industry news, and expert analysis.
           </p>
 
@@ -44,19 +44,19 @@ const NewsletterSection = () => {
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 h-14 rounded-full bg-white/5 border-white/15 text-white placeholder:text-white/40 focus:border-luxury-gold/50 px-6 backdrop-blur-sm"
+              className="flex-1 h-14 rounded-full bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-burgundy/50 px-6 backdrop-blur-sm"
               required
             />
             <Button
               type="submit"
-              className="h-14 rounded-full px-8 bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-obsidian hover:opacity-90 border-0 shadow-[0_0_24px_rgba(212,175,55,0.2)]"
+              className="h-14 rounded-full px-8 bg-gradient-to-r from-burgundy to-burgundy-light text-white hover:opacity-90 border-0 shadow-[0_0_24px_rgba(82,11,16,0.2)]"
             >
               Subscribe
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </form>
 
-          <p className="text-white/40 text-sm mt-6">
+          <p className="text-muted-foreground/70 text-sm mt-6">
             We respect your privacy. Unsubscribe at any time.
           </p>
         </GlassCard>

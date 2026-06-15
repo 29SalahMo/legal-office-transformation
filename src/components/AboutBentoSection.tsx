@@ -20,8 +20,8 @@ const AboutBentoSection = () => {
   const aboutImage = getImageUrl("about_image", heroImageFallback);
 
   return (
-    <section className="relative py-24 lg:py-32">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0B1020]/60 to-transparent pointer-events-none" />
+    <section data-justice-journey="conflict" className="relative py-24 lg:py-32">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-transparent pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -39,7 +39,7 @@ const AboutBentoSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-serif text-3xl md:text-4xl lg:text-5xl text-white leading-tight"
+            className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight"
           >
             {aboutHeading}
           </motion.h2>
@@ -48,7 +48,7 @@ const AboutBentoSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-white/60 text-lg leading-relaxed self-end"
+            className="text-foreground/60 text-lg leading-relaxed self-end"
           >
             {aboutDescription}
           </motion.p>
@@ -62,11 +62,11 @@ const AboutBentoSection = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="p-8 h-[320px] flex flex-col group"
           >
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br from-luxury-gold/20 to-glow-blue/10 border border-white/10 group-hover:border-luxury-gold/30 transition-colors">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br from-luxury-gold/20 to-glow-blue/10 border border-border group-hover:border-luxury-gold/30 transition-colors">
               <Sparkles className="w-7 h-7 text-luxury-gold-light" />
             </div>
-            <h3 className="font-serif text-xl text-white mb-3">Expert Litigation</h3>
-            <p className="text-white/55 leading-relaxed">
+            <h3 className="font-serif text-xl text-foreground mb-3">Expert Litigation</h3>
+            <p className="text-foreground/55 leading-relaxed">
               Strategic advocacy in complex commercial disputes with tournament-grade preparation — win in any jurisdiction.
             </p>
           </GlassCard>
@@ -76,7 +76,7 @@ const AboutBentoSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative rounded-3xl overflow-hidden h-[320px] group border border-white/10"
+            className="relative rounded-3xl overflow-hidden h-[320px] group border border-border"
           >
             <img
               src={aboutImage}
@@ -85,7 +85,7 @@ const AboutBentoSection = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050816]/95 via-[#050816]/30 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
-              <span className="inline-block px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-white text-sm mb-3 border border-white/10">
+              <span className="inline-block px-4 py-2 rounded-full bg-black/30 backdrop-blur-md text-white text-sm mb-3 border border-white/20">
                 Corporate Advisory
               </span>
               <h3 className="font-serif text-xl text-white">
@@ -104,10 +104,10 @@ const AboutBentoSection = () => {
           >
             <div className="flex items-center justify-between mb-6">
               <span className="font-serif text-6xl text-gradient-gold">100+</span>
-              <Users className="w-8 h-8 text-white/40" />
+              <Users className="w-8 h-8 text-foreground/40" />
             </div>
-            <h3 className="text-lg font-medium text-white mb-2">Pro Attorneys</h3>
-            <p className="text-white/55 text-sm mb-6">
+            <h3 className="text-lg font-medium text-foreground mb-2">Pro Attorneys</h3>
+            <p className="text-foreground/55 text-sm mb-6">
               Certified professionals ready to handle your case from first consultation to final resolution.
             </p>
             <div className="space-y-3 mt-auto">
@@ -117,13 +117,13 @@ const AboutBentoSection = () => {
                 { label: "Advisory", count: 25, filled: 5 },
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between text-sm">
-                  <span className="text-white/50">{item.label}</span>
+                  <span className="text-foreground/50">{item.label}</span>
                   <div className="flex gap-1">
                     {[...Array(10)].map((_, i) => (
-                      <div key={i} className={`w-2 h-2 rounded-full ${i < item.filled ? 'bg-luxury-gold' : 'bg-white/10'}`} />
+                      <div key={i} className={`w-2 h-2 rounded-full ${i < item.filled ? 'bg-luxury-gold' : 'bg-background/50'}`} />
                     ))}
                   </div>
-                  <span className="text-white font-medium">{item.count}</span>
+                  <span className="text-foreground font-medium">{item.count}</span>
                 </div>
               ))}
             </div>
@@ -138,7 +138,7 @@ const AboutBentoSection = () => {
           className="mt-16"
         >
           <div className="luxury-divider mb-12" />
-          <p className="text-center text-white/50 mb-10">A few more facts about us in numbers</p>
+          <p className="text-center text-foreground/50 mb-10">A few more facts about us in numbers</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <motion.div
@@ -150,7 +150,7 @@ const AboutBentoSection = () => {
                 className="text-center glass-panel py-8 px-4"
               >
                 <p className="font-serif text-4xl md:text-5xl text-gradient-gold mb-2">{stat.value}</p>
-                <p className="text-white/50 text-sm">{stat.label}</p>
+                <p className="text-foreground/50 text-sm">{stat.label}</p>
               </motion.div>
             ))}
           </div>

@@ -35,7 +35,7 @@ const LeadershipSection = () => {
       ];
 
   return (
-    <section className="relative py-24 lg:py-32">
+    <section data-justice-journey="process" className="relative py-24 lg:py-32">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] ambient-glow bg-luxury-gold/10 pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
@@ -47,11 +47,11 @@ const LeadershipSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-serif text-3xl md:text-4xl lg:text-5xl text-white leading-tight"
+              className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight"
             >
               Explore our comprehensive
               <br />
-              <span className="text-white/50">leadership team.</span>
+              <span className="text-muted-foreground">leadership team.</span>
             </motion.h2>
           </div>
         </div>
@@ -113,7 +113,7 @@ const LeadershipSection = () => {
           className="text-center mt-12"
         >
           <Link to="/team">
-            <Button variant="outline" size="lg" className="rounded-full px-8 border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-luxury-gold/40">
+            <Button variant="outline" size="lg" className="rounded-full px-8 border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30">
               View All Team Members
             </Button>
           </Link>
