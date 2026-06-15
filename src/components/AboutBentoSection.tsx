@@ -4,6 +4,7 @@ import { usePageContent } from "@/hooks/usePageContent";
 import SectionBadge from "@/components/ui/SectionBadge";
 import GlassCard from "@/components/ui/GlassCard";
 import heroImageFallback from "@/assets/hero-lawyer-meeting.jpg";
+import { fadeUp, scaleIn, staggerContainer, viewportReveal } from "@/lib/motionPresets";
 
 const stats = [
   { value: "25+", label: "Years of Excellence" },
@@ -24,10 +25,10 @@ const AboutBentoSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-transparent pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportReveal}
           className="mb-8"
         >
           <SectionBadge>About Us</SectionBadge>
@@ -35,10 +36,10 @@ const AboutBentoSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportReveal}
             className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight"
           >
             {aboutHeading}

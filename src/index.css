@@ -300,6 +300,21 @@
     font-size: clamp(1.75rem, 3vw + 0.75rem, 3.25rem);
   }
 
+  .animate-reveal-mask {
+    animation: revealMask 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes revealMask {
+    from {
+      clip-path: inset(0 0 100% 0);
+      opacity: 0;
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+      opacity: 1;
+    }
+  }
+
   .safe-px {
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));

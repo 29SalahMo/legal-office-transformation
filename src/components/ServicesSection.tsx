@@ -6,6 +6,7 @@ import SectionBadge from "@/components/ui/SectionBadge";
 import GlassCard from "@/components/ui/GlassCard";
 import article1 from "@/assets/article-1.jpg";
 import article2 from "@/assets/article-2.jpg";
+import { slideFromLeft, scaleIn, viewportReveal } from "@/lib/motionPresets";
 
 const services = [
   {
@@ -29,10 +30,10 @@ const ServicesSection = () => {
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={slideFromLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportReveal}
           >
             <SectionBadge className="mb-6">Practice Areas</SectionBadge>
 
@@ -59,12 +60,16 @@ const ServicesSection = () => {
 
           <div className="space-y-6">
             {services.map((service, index) => (
-              <GlassCard
+              <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
+                variants={scaleIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportReveal}
+                transition={{ delay: index * 0.15 }}
+              >
+              <GlassCard
+                hover
                 className="overflow-hidden group"
               >
                 <div className="flex flex-col sm:flex-row">
@@ -92,6 +97,7 @@ const ServicesSection = () => {
                   </div>
                 </div>
               </GlassCard>
+              </motion.div>
             ))}
           </div>
         </div>

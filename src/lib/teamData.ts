@@ -1,14 +1,10 @@
-import partnerMale from "@/assets/partner-male.jpg";
-import partnerFemale from "@/assets/partner-female.jpg";
 import { supabase, isSupabaseConfigured } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { PARTNER_PHOTOS_BY_NAME, PARTNER_PHOTO_URLS } from "@/lib/partnerPhotos";
 
 export type TeamMember = Database["public"]["Tables"]["team_members"]["Row"];
 
-const PARTNER_PHOTOS: Record<string, string> = {
-  "Dr. Ahmed Abdallah": partnerMale,
-  "Mr. Mohamed Abu El Naga": partnerFemale,
-};
+export { PARTNER_PHOTO_URLS, PARTNER_PHOTOS_BY_NAME };
 
 const INVALID_PHOTO_PATTERNS = [
   /lovable\.app/i,
@@ -31,11 +27,10 @@ export const isValidTeamPhotoUrl = (url: string | null | undefined): url is stri
 export const resolveTeamPhoto = (
   name: string,
   photoUrl: string | null | undefined,
-  roleCategory?: string
+  _roleCategory?: string
 ): string | null => {
   if (isValidTeamPhotoUrl(photoUrl)) return photoUrl;
-  if (PARTNER_PHOTOS[name]) return PARTNER_PHOTOS[name];
-  if (roleCategory === "Partner") return partnerMale;
+  if (PARTNER_PHOTOS_BY_NAME[name]) return PARTNER_PHOTOS_BY_NAME[name];
   return null;
 };
 
@@ -55,7 +50,7 @@ export const STATIC_TEAM_ROSTER: TeamMember[] = [
     title: "Managing Partner – Head of Dispute Resolution",
     role_category: "Partner",
     focus: "Dispute Resolution & Arbitration",
-    photo_url: partnerMale,
+    photo_url: PARTNER_PHOTO_URLS.ahmedAbdallah,
     linkedin_url: null,
     email: "info@asalegaladvisors.com",
     experience: "28+ Years",
@@ -74,7 +69,7 @@ export const STATIC_TEAM_ROSTER: TeamMember[] = [
     title: "Partner & Head of Corporate, M&A and Capital Markets",
     role_category: "Partner",
     focus: "Corporate, M&A & Capital Markets",
-    photo_url: partnerFemale,
+    photo_url: PARTNER_PHOTO_URLS.mohamedAbuElNaga,
     linkedin_url: null,
     email: "info@asalegaladvisors.com",
     experience: "12+ Years",
@@ -374,6 +369,10 @@ const mergeWithRemote = (remote: TeamMember[]): TeamMember[] => {
       title: live.title || staticMember.title,
       role_category: live.role_category || staticMember.role_category,
       display_order: live.display_order ?? staticMember.display_order,
+      photo_url:
+        isValidTeamPhotoUrl(live.photo_url)
+          ? live.photo_url
+          : staticMember.photo_url ?? PARTNER_PHOTOS_BY_NAME[live.name] ?? null,
     });
   });
 

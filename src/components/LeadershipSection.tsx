@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import SectionBadge from "@/components/ui/SectionBadge";
 import { fetchHomepageLeaders, STATIC_TEAM_ROSTER } from "@/lib/teamData";
 import TeamMemberPhoto from "@/components/TeamMemberPhoto";
+import { scaleIn, viewportReveal } from "@/lib/motionPresets";
 
 const HOMEPAGE_LEADER_PLACEHOLDER = [
   ...STATIC_TEAM_ROSTER.filter((m) => m.role_category === "Partner"),
@@ -56,10 +57,10 @@ const LeadershipSection = () => {
           {leaders.length > 0 && (
             <Link to={`/team/${leaders[0].id}`}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                variants={scaleIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportReveal}
                 className="group relative rounded-3xl overflow-hidden h-[400px] cursor-pointer border border-border hover:border-burgundy/30 transition-all duration-500 hover:shadow-hover"
               >
                 <TeamMemberPhoto
@@ -81,10 +82,11 @@ const LeadershipSection = () => {
           {leaders.slice(1).map((leader, index) => (
             <Link to={`/team/${leader.id}`} key={leader.id}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
+                variants={scaleIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportReveal}
+                transition={{ delay: 0.1 + index * 0.1 }}
                 className="group relative rounded-3xl overflow-hidden h-[400px] cursor-pointer border border-border hover:border-burgundy/30 transition-all duration-500"
               >
                 <TeamMemberPhoto

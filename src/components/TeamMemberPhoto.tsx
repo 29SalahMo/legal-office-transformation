@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { resolveTeamPhoto, getMemberInitials } from "@/lib/teamData";
+import partnerMale from "@/assets/partner-male.jpg";
+import partnerFemale from "@/assets/partner-female.jpg";
+import { PARTNER_PHOTOS_BY_NAME } from "@/lib/partnerPhotos";
 
 interface TeamMemberPhotoProps {
   name: string;
@@ -10,6 +13,11 @@ interface TeamMemberPhotoProps {
   className?: string;
   fallbackClassName?: string;
 }
+
+const LAST_RESORT_PARTNER_FALLBACK: Record<string, string> = {
+  "Dr. Ahmed Abdallah": partnerMale,
+  "Mr. Mohamed Abu El Naga": partnerFemale,
+};
 
 const TeamMemberPhoto = ({
   name,
@@ -22,6 +30,11 @@ const TeamMemberPhoto = ({
   const resolved = resolveTeamPhoto(name, photoUrl, roleCategory);
   const [src, setSrc] = useState(resolved);
   const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setSrc(resolveTeamPhoto(name, photoUrl, roleCategory));
+    setFailed(false);
+  }, [name, photoUrl, roleCategory]);
 
   if (!src || failed) {
     return (
@@ -44,9 +57,14 @@ const TeamMemberPhoto = ({
       className={className}
       loading="lazy"
       onError={() => {
-        const partnerFallback = resolveTeamPhoto(name, null, roleCategory);
-        if (partnerFallback && src !== partnerFallback) {
-          setSrc(partnerFallback);
+        const canonical = PARTNER_PHOTOS_BY_NAME[name];
+        if (canonical && src !== canonical) {
+          setSrc(canonical);
+          return;
+        }
+        const lastResort = LAST_RESORT_PARTNER_FALLBACK[name];
+        if (lastResort && src !== lastResort) {
+          setSrc(lastResort);
           return;
         }
         setFailed(true);
