@@ -6,6 +6,7 @@ import { usePageContent } from "@/hooks/usePageContent";
 import { PARTNER_PHOTO_URLS } from "@/lib/partnerPhotos";
 import { heroItem, heroStagger } from "@/lib/motionPresets";
 import TeamMemberPhoto from "@/components/TeamMemberPhoto";
+import HeroJusticeCanvas from "@/components/HeroJusticeCanvas";
 
 const HeroSection = () => {
   const { getValue } = usePageContent("home");
@@ -15,6 +16,8 @@ const HeroSection = () => {
 
   return (
     <section data-justice-journey="intro" className="relative min-h-[100dvh] flex items-center pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-28 overflow-hidden">
+      <HeroJusticeCanvas />
+
       <motion.div
         className="absolute inset-0 pointer-events-none"
         initial={{ opacity: 0 }}
@@ -28,14 +31,14 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full max-w-full">
         <motion.div
-          className="max-w-5xl mx-auto text-center w-full"
+          className="max-w-5xl mx-auto lg:mx-0 lg:max-w-2xl text-center lg:text-left w-full"
           variants={heroStagger}
           initial="hidden"
           animate="visible"
         >
           <motion.div
             variants={heroItem}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-burgundy/25 bg-burgundy/10 backdrop-blur-md mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-burgundy/25 bg-background/90 mb-8"
           >
             <span className="w-2 h-2 rounded-full bg-gradient-to-r from-burgundy to-burgundy-light animate-pulse" />
             <span className="text-sm text-muted-foreground tracking-wide uppercase">

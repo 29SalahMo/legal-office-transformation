@@ -3,15 +3,9 @@ import { Sparkles, Users } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 import SectionBadge from "@/components/ui/SectionBadge";
 import GlassCard from "@/components/ui/GlassCard";
+import PremiumStats from "@/components/PremiumStats";
 import heroImageFallback from "@/assets/hero-lawyer-meeting.jpg";
-import { fadeUp, scaleIn, staggerContainer, viewportReveal } from "@/lib/motionPresets";
-
-const stats = [
-  { value: "25+", label: "Years of Excellence" },
-  { value: "98%", label: "Client Retention" },
-  { value: "500+", label: "Cases Won" },
-  { value: "50+", label: "Expert Attorneys" },
-];
+import { fadeUp, viewportReveal } from "@/lib/motionPresets";
 
 const AboutBentoSection = () => {
   const { getValue, getImageUrl } = usePageContent("home");
@@ -21,7 +15,7 @@ const AboutBentoSection = () => {
   const aboutImage = getImageUrl("about_image", heroImageFallback);
 
   return (
-    <section data-justice-journey="conflict" className="relative py-24 lg:py-32">
+    <section data-justice-journey="conflict" className="relative py-24 lg:py-32 premium-section-navy">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-transparent pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <motion.div
@@ -131,31 +125,7 @@ const AboutBentoSection = () => {
           </GlassCard>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16"
-        >
-          <div className="luxury-divider mb-12" />
-          <p className="text-center text-foreground/50 mb-10">A few more facts about us in numbers</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                className="text-center glass-panel py-8 px-4"
-              >
-                <p className="font-serif text-4xl md:text-5xl text-gradient-gold mb-2">{stat.value}</p>
-                <p className="text-foreground/50 text-sm">{stat.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <PremiumStats />
       </div>
     </section>
   );

@@ -14,11 +14,11 @@ import { scrollEngine } from "@/lib/scrollEngine";
 import { BRAND } from "@/lib/brandColors";
 import { sampleScrollTimeline } from "@/lib/scrollTimeline";
 
-const CameraRig = () => {
+const CameraRig = ({ compact = false }: { compact?: boolean }) => {
   const { camera } = useThree();
   const { reducedMotion, sceneQuality, isTouchDevice } = useScrollScene();
 
-  const camPos = useRef({ x: 0, y: 0.15, z: 5.8 });
+  const camPos = useRef({ x: 0, y: 0.15, z: compact ? 7.2 : 5.8 });
   const camRot = useRef(0);
   const lookAt = useRef(new THREE.Vector3(0, 0, -0.5));
 
@@ -31,7 +31,7 @@ const CameraRig = () => {
 
     const targetX = isMobile ? 0 : mouseX * 0.18 * interact;
     const targetY = 0.15 + timeline.cameraLift * 0.5 + (isMobile ? 0 : mouseY * 0.08 * interact);
-    const targetZ = (isMobile ? 6.2 : 5.8) - timeline.cameraPull * (isMobile ? 0.75 : 1.05);
+    const targetZ = (isMobile ? 6.2 : compact ? 7.2 : 5.8) - timeline.cameraPull * (isMobile ? 0.5 : compact ? 0.6 : 1.05);
     const targetRot = isMobile ? 0 : timeline.cameraRotationY + mouseX * 0.03 * interact;
 
     const lerp = 1 - Math.pow(0.0008, delta);
@@ -111,7 +111,7 @@ const VolumetricGlow = () => (
   </mesh>
 );
 
-const SceneContent = () => {
+const SceneContent = ({ compact = false }: { compact?: boolean }) => {
   const { reducedMotion, sceneQuality } = useScrollScene();
 
   return (
@@ -119,18 +119,20 @@ const SceneContent = () => {
       <color attach="background" args={[BRAND.cream]} />
       <fog attach="fog" args={[BRAND.parchment, 5, 20]} />
 
-      {sceneQuality.tier === "desktop" || sceneQuality.tier === "ultra" ? (
+      {!compact && (sceneQuality.tier === "desktop" || sceneQuality.tier === "ultra") ? (
         <Environment preset="apartment" background={false} environmentIntensity={0.28} />
       ) : null}
 
       <DynamicLighting />
-      <VolumetricGlow />
-      <CameraRig />
-      <ScaleOfJustice />
-      {sceneQuality.particleCount > 0 && <GoldenParticles />}
-      {sceneQuality.tier !== "mobile" && <LightBeams />}
+      {!compact && <VolumetricGlow />}
+      <CameraRig compact={compact} />
+      <group scale={compact ? 0.62 : 1} position={compact ? [0.8, -0.2, 0] : [0, 0, 0]}>
+        <ScaleOfJustice />
+      </group>
+      {!compact && sceneQuality.particleCount > 0 && <GoldenParticles />}
+      {!compact && sceneQuality.tier !== "mobile" && <LightBeams />}
 
-      {!reducedMotion && sceneQuality.sparkleCount > 0 && (
+      {!reducedMotion && !compact && sceneQuality.sparkleCount > 0 && (
         <Sparkles
           count={sceneQuality.sparkleCount}
           scale={[10, 7, 7]}
@@ -141,7 +143,7 @@ const SceneContent = () => {
         />
       )}
 
-      {!reducedMotion && sceneQuality.enableBloom && (
+      {!reducedMotion && !compact && sceneQuality.enableBloom && (
         <EffectComposer multisampling={0}>
           <Bloom
             luminanceThreshold={0.45}
@@ -155,15 +157,20 @@ const SceneContent = () => {
   );
 };
 
-const ObsidianMonolithScene = () => {
+const ObsidianMonolithScene = ({ compact = false }: { compact?: boolean }) => {
   const { sceneQuality, reducedMotion } = useScrollScene();
 
   if (reducedMotion) return null;
 
+  const dpr = compact
+    ? ([1, 1.25] as [number, number])
+    : sceneQuality.dpr;
+  const fov = compact ? 48 : sceneQuality.fov;
+
   return (
     <Canvas
-      camera={{ position: [0, 0.15, 5.8], fov: sceneQuality.fov }}
-      dpr={sceneQuality.dpr}
+      camera={{ position: [0, 0.15, compact ? 7.2 : 5.8], fov }}
+      dpr={dpr}
       gl={{
         antialias: sceneQuality.tier !== "mobile",
         alpha: true,
@@ -175,7 +182,7 @@ const ObsidianMonolithScene = () => {
       frameloop="always"
     >
       <Suspense fallback={null}>
-        <SceneContent />
+        <SceneContent compact={compact} />
       </Suspense>
     </Canvas>
   );

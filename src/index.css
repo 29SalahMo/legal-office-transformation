@@ -243,6 +243,16 @@
     min-width: 44px;
   }
 
+  .premium-stat-card {
+    @apply rounded-2xl border border-navy/10 bg-background/80;
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .premium-section-navy {
+    @apply border-y border-navy/10;
+    background: linear-gradient(180deg, hsl(220 45% 12% / 0.03) 0%, transparent 50%, hsl(220 45% 12% / 0.02) 100%);
+  }
+
   .scene-fallback {
     background:
       radial-gradient(ellipse 80% 50% at 50% 40%, rgba(82, 11, 16, 0.06), transparent),

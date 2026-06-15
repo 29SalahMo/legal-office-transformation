@@ -1,74 +1,27 @@
-import { lazy, Suspense, Component, type ReactNode } from "react";
-import { useScrollScene } from "@/contexts/ScrollSceneContext";
+import { Component, type ReactNode } from "react";
 
-const ObsidianMonolithScene = lazy(
-  () => import("@/components/three/ObsidianMonolithScene")
-);
-
-interface SceneBackgroundProps {
-  className?: string;
-  fixed?: boolean;
-}
-
-class SceneErrorBoundary extends Component<
-  { children: ReactNode; fallback: ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) return this.props.fallback;
-    return this.props.children;
-  }
-}
-
-const SceneBackground = ({ className = "", fixed = true }: SceneBackgroundProps) => {
-  const { reducedMotion, sceneQuality } = useScrollScene();
-
-  const fallback = <div className="absolute inset-0 scene-fallback" />;
-  const show3D = !reducedMotion;
-
-  return (
+/** CSS-only background — no WebGL. 3D lives in HeroJusticeCanvas only. */
+const SceneBackground = ({ className = "" }: { className?: string; fixed?: boolean }) => (
+  <div
+    className={`fixed inset-0 -z-10 pointer-events-none overflow-hidden ${className}`}
+    aria-hidden="true"
+  >
+    <div className="absolute inset-0 scene-fallback" />
+    <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F5]/40 via-transparent to-[#FAF7F5]/90" />
     <div
-      className={`${fixed ? "fixed inset-0" : "absolute inset-0"} -z-10 pointer-events-none overflow-hidden ${className}`}
-      aria-hidden="true"
-    >
-      {show3D ? (
-        <SceneErrorBoundary fallback={fallback}>
-          <Suspense fallback={fallback}>
-            <ObsidianMonolithScene />
-          </Suspense>
-        </SceneErrorBoundary>
-      ) : (
-        fallback
-      )}
-
-      <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F5]/30 via-transparent to-[#FAF7F5]/85" />
-      <div
-        className="absolute inset-0 opacity-40"
-        style={{
-          background:
-            "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(82, 11, 16, 0.05), transparent)",
-        }}
-      />
-      {sceneQuality.tier === "mobile" && (
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 70% 55% at 50% 35%, transparent 0%, rgba(250, 247, 245, 0.55) 70%, rgba(250, 247, 245, 0.88) 100%)",
-          }}
-        />
-      )}
-      {sceneQuality.tier === "tablet" && (
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F5]/78 via-[#FAF7F5]/30 to-transparent" />
-      )}
-    </div>
-  );
-};
+      className="absolute inset-0 opacity-50"
+      style={{
+        background:
+          "radial-gradient(ellipse 55% 45% at 70% 15%, rgba(82, 11, 16, 0.04), transparent 60%)",
+      }}
+    />
+    <div
+      className="absolute bottom-0 left-0 right-0 h-1/3 opacity-30"
+      style={{
+        background: "linear-gradient(to top, hsl(220 45% 12% / 0.03), transparent)",
+      }}
+    />
+  </div>
+);
 
 export default SceneBackground;

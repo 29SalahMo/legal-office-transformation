@@ -3,6 +3,7 @@ import SEOHead from "@/components/SEOHead";
 import HeroSection from "@/components/HeroSection";
 import AboutBentoSection from "@/components/AboutBentoSection";
 import ServicesSection from "@/components/ServicesSection";
+import CaseProcessTimeline from "@/components/CaseProcessTimeline";
 import LeadershipSection from "@/components/LeadershipSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import NewsletterSection from "@/components/NewsletterSection";
@@ -20,6 +21,7 @@ const Index = () => {
         <HeroSection />
         <AboutBentoSection />
         <ServicesSection />
+        <CaseProcessTimeline />
         <LeadershipSection />
         <TestimonialsSection />
         <NewsletterSection />

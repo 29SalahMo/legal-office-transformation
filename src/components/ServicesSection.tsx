@@ -6,6 +6,7 @@ import SectionBadge from "@/components/ui/SectionBadge";
 import GlassCard from "@/components/ui/GlassCard";
 import article1 from "@/assets/article-1.jpg";
 import article2 from "@/assets/article-2.jpg";
+import TiltCard from "@/components/motion/TiltCard";
 import { slideFromLeft, scaleIn, viewportReveal } from "@/lib/motionPresets";
 
 const services = [
@@ -25,7 +26,7 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section data-justice-journey="process" className="relative py-24 lg:py-32">
+    <section data-justice-journey="services" className="relative py-24 lg:py-32 premium-section-navy">
       <div className="absolute inset-0 bg-background/20 pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
@@ -68,6 +69,7 @@ const ServicesSection = () => {
                 viewport={viewportReveal}
                 transition={{ delay: index * 0.15 }}
               >
+              <TiltCard>
               <GlassCard
                 hover
                 className="overflow-hidden group"
@@ -97,6 +99,7 @@ const ServicesSection = () => {
                   </div>
                 </div>
               </GlassCard>
+              </TiltCard>
               </motion.div>
             ))}
           </div>
