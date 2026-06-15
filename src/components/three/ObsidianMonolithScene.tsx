@@ -21,6 +21,7 @@ const CameraRig = () => {
     mouseX,
     mouseY,
     reducedMotion,
+    sceneQuality,
     isTouchDevice,
   } = useScrollScene();
 
@@ -30,12 +31,13 @@ const CameraRig = () => {
 
   useFrame((_, delta) => {
     const timeline = sampleScrollTimeline(smoothScrollProgress);
+    const isMobile = sceneQuality.tier === "mobile";
     const interact = isTouchDevice || reducedMotion ? 0 : 1;
 
-    const targetX = mouseX * 0.22 * interact;
-    const targetY = 0.15 + timeline.cameraLift * 0.5 + mouseY * 0.1 * interact;
-    const targetZ = 5.8 - timeline.cameraPull * 1.05;
-    const targetRot = timeline.cameraRotationY + mouseX * 0.04 * interact;
+    const targetX = isMobile ? 0 : mouseX * 0.22 * interact;
+    const targetY = 0.15 + timeline.cameraLift * 0.5 + (isMobile ? 0 : mouseY * 0.1 * interact);
+    const targetZ = (isMobile ? 6.2 : 5.8) - timeline.cameraPull * (isMobile ? 0.75 : 1.05);
+    const targetRot = isMobile ? 0 : timeline.cameraRotationY + mouseX * 0.04 * interact;
 
     const lerp = 1 - Math.pow(0.0008, delta);
     camPos.current.x += (targetX - camPos.current.x) * lerp;
@@ -46,8 +48,8 @@ const CameraRig = () => {
     camera.position.set(camPos.current.x, camPos.current.y, camPos.current.z);
 
     lookAt.current.set(
-      mouseX * 0.06 * interact + Math.sin(camRot.current) * 0.15,
-      timeline.groundedness * 0.1,
+      isMobile ? 0 : mouseX * 0.06 * interact + Math.sin(camRot.current) * 0.15,
+      timeline.groundedness * 0.08,
       -0.5 - smoothScrollProgress * 0.12
     );
     camera.lookAt(lookAt.current);

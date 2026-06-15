@@ -80,6 +80,11 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const inputClass =
+    "h-12 rounded-xl bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-burgundy/50";
+  const textareaClass =
+    "min-h-[150px] rounded-xl resize-none bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-burgundy/50";
+
   return (
     <LuxuryPageShell>
       <SEOHead title="Contact Us" description="Get in touch with A&A Legal Advisors. Visit us at 20 Kawthar St, Al Dokki, Giza or call 02 334 565 42." />
@@ -94,12 +99,12 @@ const Contact = () => {
             className="max-w-3xl"
           >
             <SectionBadge className="mb-6">Get in Touch</SectionBadge>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-tight">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-tight">
               Let's Discuss Your
               <br />
               <span className="text-gradient-gold">Legal Needs</span>
             </h1>
-            <p className="text-white/60 text-lg md:text-xl leading-relaxed">
+            <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
               Our team is ready to provide the counsel and representation you need.
               Reach out to schedule a consultation.
             </p>
@@ -112,23 +117,23 @@ const Contact = () => {
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="lg:col-span-3"
             >
               <GlassCard hover={false} className="p-8 lg:p-12">
-                <h2 className="font-serif text-2xl md:text-3xl text-white mb-2">
+                <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-2">
                   Send Us a Message
                 </h2>
-                <p className="text-white/55 mb-8">
+                <p className="text-muted-foreground mb-8">
                   Fill out the form below and we'll get back to you promptly.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-white/70">Full Name *</Label>
+                      <Label htmlFor="name" className="text-foreground">Full Name *</Label>
                       <Input
                         id="name"
                         name="name"
@@ -136,11 +141,11 @@ const Contact = () => {
                         onChange={handleChange}
                         placeholder="Your full name"
                         required
-                        className="h-12 rounded-xl bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-luxury-gold/50"
+                        className={inputClass}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-white/70">Email Address *</Label>
+                      <Label htmlFor="email" className="text-foreground">Email Address *</Label>
                       <Input
                         id="email"
                         name="email"
@@ -149,14 +154,14 @@ const Contact = () => {
                         onChange={handleChange}
                         placeholder="your@email.com"
                         required
-                        className="h-12 rounded-xl bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-luxury-gold/50"
+                        className={inputClass}
                       />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-white/70">Phone Number</Label>
+                      <Label htmlFor="phone" className="text-foreground">Phone Number</Label>
                       <Input
                         id="phone"
                         name="phone"
@@ -164,11 +169,11 @@ const Contact = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+20 xxx xxx xxxx"
-                        className="h-12 rounded-xl bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-luxury-gold/50"
+                        className={inputClass}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="subject" className="text-white/70">Subject *</Label>
+                      <Label htmlFor="subject" className="text-foreground">Subject *</Label>
                       <Input
                         id="subject"
                         name="subject"
@@ -176,13 +181,13 @@ const Contact = () => {
                         onChange={handleChange}
                         placeholder="How can we help?"
                         required
-                        className="h-12 rounded-xl bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-luxury-gold/50"
+                        className={inputClass}
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message" className="text-white/70">Message *</Label>
+                    <Label htmlFor="message" className="text-foreground">Message *</Label>
                     <Textarea
                       id="message"
                       name="message"
@@ -190,7 +195,7 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Tell us about your legal matter..."
                       required
-                      className="min-h-[150px] rounded-xl resize-none bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-luxury-gold/50"
+                      className={textareaClass}
                     />
                   </div>
 
@@ -204,7 +209,7 @@ const Contact = () => {
 
             <motion.div
               initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:col-span-2 space-y-6"
@@ -212,13 +217,13 @@ const Contact = () => {
               {contactInfo.map((item, index) => (
                 <GlassCard key={index} hover className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-luxury-gold/20 to-glow-blue/10 border border-white/10">
-                      <item.icon className="w-5 h-5 text-luxury-gold-light" />
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-burgundy/10 border border-burgundy/15">
+                      <item.icon className="w-5 h-5 text-burgundy" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-white mb-2">{item.title}</h3>
+                      <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
                       {item.details.map((detail, i) => (
-                        <p key={i} className="text-white/55 text-sm">
+                        <p key={i} className="text-muted-foreground text-sm">
                           {detail}
                         </p>
                       ))}

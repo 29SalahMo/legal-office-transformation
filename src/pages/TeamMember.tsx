@@ -1,29 +1,21 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { Linkedin, Mail, ArrowLeft, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import partnerMale from "@/assets/partner-male.jpg";
+import { fetchTeamMemberById } from "@/lib/teamData";
 
 const TeamMember = () => {
   const { id } = useParams<{ id: string }>();
 
   const { data: member, isLoading } = useQuery({
     queryKey: ["team-member", id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("team_members")
-        .select("*")
-        .eq("id", id!)
-        .single();
-      if (error) throw error;
-      return data;
-    },
+    queryFn: () => fetchTeamMemberById(id!),
     enabled: !!id,
+    staleTime: 1000 * 60 * 5,
   });
 
   if (isLoading) {
@@ -90,9 +82,9 @@ const TeamMember = () => {
               transition={{ duration: 0.6 }}
             >
               <div className="relative">
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-white/10">
+                <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card">
                   <img
-                    src={member.photo_url || partnerMale}
+                    src={member.photo_url!}
                     alt={member.name}
                     className="w-full h-full object-cover"
                   />
@@ -100,7 +92,7 @@ const TeamMember = () => {
                 {member.experience && (
                   <div className="absolute -bottom-6 -right-6 glass-panel rounded-2xl p-6">
                     <p className="text-3xl font-bold text-gradient-gold">{member.experience}</p>
-                    <p className="text-sm text-white/60">Experience</p>
+                    <p className="text-sm text-muted-foreground">Experience</p>
                   </div>
                 )}
               </div>
@@ -114,12 +106,12 @@ const TeamMember = () => {
               <span className="section-badge mb-4">
                 {member.role_category}
               </span>
-              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mb-2">
+              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-2">
                 {member.name}
               </h1>
-              <p className="text-luxury-gold-light font-medium text-lg mb-2">{member.title}</p>
+              <p className="text-burgundy font-medium text-lg mb-2">{member.title}</p>
               {member.focus && (
-                <p className="text-white/55 flex items-center gap-2 mb-8">
+                <p className="text-muted-foreground flex items-center gap-2 mb-8">
                   <Briefcase className="w-4 h-4" />
                   {member.focus}
                 </p>
@@ -128,7 +120,7 @@ const TeamMember = () => {
               {member.bio && member.bio.length > 0 && (
                 <div className="space-y-4 mb-8">
                   {member.bio.map((paragraph: string, i: number) => (
-                    <p key={i} className="text-white/60 leading-relaxed">
+                    <p key={i} className="text-muted-foreground leading-relaxed">
                       {paragraph}
                     </p>
                   ))}
@@ -141,7 +133,7 @@ const TeamMember = () => {
                     href={member.linkedin_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-luxury-gold-light hover:border-luxury-gold/40 transition-colors"
+                    className="w-12 h-12 rounded-full border border-border bg-background flex items-center justify-center text-burgundy hover:border-burgundy/40 transition-colors"
                   >
                     <Linkedin className="w-5 h-5" />
                   </a>
@@ -149,7 +141,7 @@ const TeamMember = () => {
                 {member.email && (
                   <a
                     href={`mailto:${member.email}`}
-                    className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-luxury-gold-light hover:border-luxury-gold/40 transition-colors"
+                    className="w-12 h-12 rounded-full border border-border bg-background flex items-center justify-center text-burgundy hover:border-burgundy/40 transition-colors"
                   >
                     <Mail className="w-5 h-5" />
                   </a>
@@ -161,7 +153,7 @@ const TeamMember = () => {
       </section>
 
       <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/10 via-glow-blue/5 to-glow-purple/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-burgundy/5 via-transparent to-burgundy/5 pointer-events-none" />
         <div className="container mx-auto px-6 lg:px-12 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -170,16 +162,16 @@ const TeamMember = () => {
             transition={{ duration: 0.6 }}
             className="max-w-2xl mx-auto glass-panel p-10"
           >
-            <h2 className="font-serif text-3xl md:text-4xl text-white mb-6">
+            <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-6">
               Get in Touch
             </h2>
-            <p className="text-white/60 text-lg mb-8">
+            <p className="text-muted-foreground text-lg mb-8">
               Reach out to discuss how we can assist you with your legal needs.
             </p>
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full px-8"
+              className="rounded-full px-8 border-border text-foreground hover:border-burgundy/30"
               asChild
             >
               <Link to="/contact">Contact Us</Link>

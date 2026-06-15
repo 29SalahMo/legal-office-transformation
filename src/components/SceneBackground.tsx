@@ -56,7 +56,13 @@ const SceneBackground = ({ className = "", fixed = true }: SceneBackgroundProps)
         }}
       />
       {sceneQuality.tier === "mobile" && (
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F5]/92 via-[#FAF7F5]/55 to-transparent" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 55% at 50% 35%, transparent 0%, rgba(250, 247, 245, 0.55) 70%, rgba(250, 247, 245, 0.88) 100%)",
+          }}
+        />
       )}
       {sceneQuality.tier === "tablet" && (
         <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F5]/78 via-[#FAF7F5]/30 to-transparent" />

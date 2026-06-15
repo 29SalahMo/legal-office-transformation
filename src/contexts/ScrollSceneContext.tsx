@@ -89,7 +89,7 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
     setMouseX(x);
     setMouseY(y);
 
-    const scaleZoneX = sceneQuality.tier === "mobile" ? 0.15 : 0.35;
+    const scaleZoneX = sceneQuality.tier === "mobile" ? 0 : 0.35;
     const inScaleZone =
       x > scaleZoneX - 0.5 && x < scaleZoneX + 0.65 && y > -0.55 && y < 0.65;
     setIsHoveringScale(inScaleZone);

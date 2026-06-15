@@ -26,15 +26,15 @@ export const getSceneQuality = (tier: DeviceTier): SceneQuality => {
   const configs: Record<DeviceTier, SceneQuality> = {
     mobile: {
       tier: "mobile",
-      scaleMultiplier: 0.62,
+      scaleMultiplier: 0.58,
       particleCount: 40,
       sparkleCount: 18,
       starCount: 200,
       enableBloom: true,
       enableDof: false,
       dpr: [1, 1.25],
-      fov: 48,
-      positionOffset: { x: 1.1, y: -0.55, z: -0.6 },
+      fov: 46,
+      positionOffset: { x: 0, y: -0.15, z: -0.4 },
     },
     tablet: {
       tier: "tablet",

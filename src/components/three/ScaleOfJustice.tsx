@@ -156,7 +156,10 @@ const ScaleOfJustice = () => {
     const parallaxY = reducedMotion ? 0 : mouseY * 0.1 * panInteract;
 
     const offset = sceneQuality.positionOffset;
-    const scrollX = (smoothScrollProgress - 0.5) * 0.38;
+    const scrollX =
+      sceneQuality.tier === "mobile"
+        ? (smoothScrollProgress - 0.5) * 0.12
+        : (smoothScrollProgress - 0.5) * 0.38;
 
     const breathe =
       Math.sin(t * 0.32) * timeline.floatAmplitude * 0.6 +

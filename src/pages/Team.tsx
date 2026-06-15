@@ -3,33 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Linkedin, Mail, Award, Briefcase, Scale, Building2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import partnerMale from "@/assets/partner-male.jpg";
-import partnerFemale from "@/assets/partner-female.jpg";
-
-type TeamMember = {
-  id: string;
-  name: string;
-  title: string;
-  role_category: string;
-  focus: string | null;
-  bio: string[];
-  photo_url: string | null;
-  linkedin_url: string | null;
-  email: string | null;
-  experience: string | null;
-  display_order: number;
-};
-
-// Fallback images for partners
-const partnerImages: Record<string, string> = {
-  "Dr. Ahmed Abdallah": partnerMale,
-  "Mr. Mohamed Abu El Naga": partnerFemale,
-};
+import { fetchTeamMembers, type TeamMember } from "@/lib/teamData";
 
 const CATEGORY_ICONS: Record<string, typeof Scale> = {
   "Senior Associate": Scale,
@@ -42,14 +20,8 @@ const CATEGORY_ICONS: Record<string, typeof Scale> = {
 const Team = () => {
   const { data: members = [] } = useQuery({
     queryKey: ["team-members"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("team_members")
-        .select("*")
-        .order("display_order", { ascending: true });
-      if (error) throw error;
-      return data as TeamMember[];
-    },
+    queryFn: fetchTeamMembers,
+    staleTime: 1000 * 60 * 5,
   });
 
   const partners = members.filter((m) => m.role_category === "Partner");
@@ -106,7 +78,7 @@ const Team = () => {
                 <div className="relative">
                   <div className="aspect-[4/5] rounded-3xl overflow-hidden">
                     <img
-                      src={partner.photo_url || partnerImages[partner.name] || partnerMale}
+                      src={partner.photo_url!}
                       alt={partner.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
