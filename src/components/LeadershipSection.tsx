@@ -3,20 +3,28 @@ import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import SectionBadge from "@/components/ui/SectionBadge";
-import { fetchHomepageLeaders } from "@/lib/teamData";
+import { fetchHomepageLeaders, STATIC_TEAM_ROSTER } from "@/lib/teamData";
+import TeamMemberPhoto from "@/components/TeamMemberPhoto";
+
+const HOMEPAGE_LEADER_PLACEHOLDER = [
+  ...STATIC_TEAM_ROSTER.filter((m) => m.role_category === "Partner"),
+  ...STATIC_TEAM_ROSTER.filter((m) => m.role_category !== "Partner"),
+].slice(0, 4);
 
 const LeadershipSection = () => {
-  const { data: teamMembers = [] } = useQuery({
+  const { data: teamMembers = STATIC_TEAM_ROSTER } = useQuery({
     queryKey: ["team-members-home"],
     queryFn: () => fetchHomepageLeaders(4),
+    placeholderData: HOMEPAGE_LEADER_PLACEHOLDER,
     staleTime: 1000 * 60 * 5,
   });
 
   const leaders = teamMembers.map((m, i) => ({
     id: m.id,
-    image: m.photo_url!,
     name: m.name,
     title: m.title,
+    roleCategory: m.role_category,
+    photoUrl: m.photo_url,
     bio: m.bio?.join(" ") || "",
     linkedin: m.linkedin_url || "",
     featured: i === 0,
@@ -54,9 +62,10 @@ const LeadershipSection = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="group relative rounded-3xl overflow-hidden h-[400px] cursor-pointer border border-border hover:border-burgundy/30 transition-all duration-500 hover:shadow-hover"
               >
-                <img
-                  src={leaders[0].image}
-                  alt={leaders[0].name}
+                <TeamMemberPhoto
+                  name={leaders[0].name}
+                  photoUrl={leaders[0].photoUrl}
+                  roleCategory={leaders[0].roleCategory}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/20 to-transparent" />
@@ -78,9 +87,10 @@ const LeadershipSection = () => {
                 transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
                 className="group relative rounded-3xl overflow-hidden h-[400px] cursor-pointer border border-border hover:border-burgundy/30 transition-all duration-500"
               >
-                <img
-                  src={leader.image}
-                  alt={leader.name}
+                <TeamMemberPhoto
+                  name={leader.name}
+                  photoUrl={leader.photoUrl}
+                  roleCategory={leader.roleCategory}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/20 to-transparent" />

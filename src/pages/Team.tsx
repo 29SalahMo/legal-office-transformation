@@ -7,7 +7,8 @@ import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import { fetchTeamMembers, type TeamMember } from "@/lib/teamData";
+import { fetchTeamMembers, STATIC_TEAM_ROSTER, type TeamMember } from "@/lib/teamData";
+import TeamMemberPhoto from "@/components/TeamMemberPhoto";
 
 const CATEGORY_ICONS: Record<string, typeof Scale> = {
   "Senior Associate": Scale,
@@ -18,9 +19,10 @@ const CATEGORY_ICONS: Record<string, typeof Scale> = {
 };
 
 const Team = () => {
-  const { data: members = [] } = useQuery({
+  const { data: members = STATIC_TEAM_ROSTER } = useQuery({
     queryKey: ["team-members"],
     queryFn: fetchTeamMembers,
+    placeholderData: STATIC_TEAM_ROSTER,
     staleTime: 1000 * 60 * 5,
   });
 
@@ -77,9 +79,10 @@ const Team = () => {
               <Link to={`/team/${partner.id}`} className={`${index % 2 === 1 ? "lg:order-2" : ""}`}>
                 <div className="relative">
                   <div className="aspect-[4/5] rounded-3xl overflow-hidden">
-                    <img
-                      src={partner.photo_url!}
-                      alt={partner.name}
+                    <TeamMemberPhoto
+                      name={partner.name}
+                      photoUrl={partner.photo_url}
+                      roleCategory={partner.role_category}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   </div>
@@ -174,14 +177,14 @@ const Team = () => {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       className="bg-background rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                     >
-                      <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4 overflow-hidden">
-                        {member.photo_url ? (
-                          <img src={member.photo_url} alt={member.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-primary font-serif text-lg font-bold">
-                            {member.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
-                          </span>
-                        )}
+                      <div className="w-14 h-14 rounded-full mb-4 overflow-hidden shrink-0">
+                        <TeamMemberPhoto
+                          name={member.name}
+                          photoUrl={member.photo_url}
+                          roleCategory={member.role_category}
+                          className="w-full h-full object-cover"
+                          fallbackClassName="w-full h-full text-lg"
+                        />
                       </div>
                       <h4 className="font-serif text-lg text-foreground mb-1">{member.name}</h4>
                       <p className="text-primary text-sm font-medium mb-1">{member.title}</p>

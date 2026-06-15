@@ -6,15 +6,19 @@ import { Button } from "@/components/ui/button";
 import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { fetchTeamMemberById } from "@/lib/teamData";
+import { fetchTeamMemberById, STATIC_TEAM_ROSTER } from "@/lib/teamData";
+import TeamMemberPhoto from "@/components/TeamMemberPhoto";
 
 const TeamMember = () => {
   const { id } = useParams<{ id: string }>();
+
+  const staticFallback = STATIC_TEAM_ROSTER.find((m) => m.id === id);
 
   const { data: member, isLoading } = useQuery({
     queryKey: ["team-member", id],
     queryFn: () => fetchTeamMemberById(id!),
     enabled: !!id,
+    placeholderData: staticFallback,
     staleTime: 1000 * 60 * 5,
   });
 
@@ -83,10 +87,12 @@ const TeamMember = () => {
             >
               <div className="relative">
                 <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card">
-                  <img
-                    src={member.photo_url!}
-                    alt={member.name}
+                  <TeamMemberPhoto
+                    name={member.name}
+                    photoUrl={member.photo_url}
+                    roleCategory={member.role_category}
                     className="w-full h-full object-cover"
+                    fallbackClassName="w-full h-full text-5xl"
                   />
                 </div>
                 {member.experience && (
