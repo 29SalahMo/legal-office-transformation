@@ -25,7 +25,7 @@ const AllArticles = () => {
   });
 
   return (
-    <LuxuryPageShell withScene={false}>
+    <LuxuryPageShell>
       <Header />
       <main>
         <PageHero

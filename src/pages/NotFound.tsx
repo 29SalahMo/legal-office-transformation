@@ -16,7 +16,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <LuxuryPageShell withScene={false} className="flex flex-col">
+    <LuxuryPageShell className="flex flex-col">
       <SEOHead title="Page Not Found" description="The page you are looking for does not exist." />
       <Header />
       

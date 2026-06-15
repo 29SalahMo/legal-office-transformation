@@ -13,7 +13,7 @@ const footerLinks = [
 
 const Footer = () => {
   return (
-    <footer className="relative border-t border-white/10 bg-[#050816]/80 backdrop-blur-xl py-16 lg:py-20">
+    <footer data-beam-section="contact" className="relative border-t border-navy/15 bg-navy text-cream py-16 lg:py-20">
       <div className="absolute top-0 left-0 right-0 luxury-divider" />
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12">
@@ -59,7 +59,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-white/60 hover:text-burgundy-light transition-colors duration-300 flex items-center gap-2 group"
+                    className="beam-link text-white/60 hover:text-burgundy-light transition-colors duration-300 flex items-center gap-2 group"
                   >
                     {link.label}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />

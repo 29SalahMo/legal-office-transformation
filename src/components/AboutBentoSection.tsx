@@ -15,7 +15,7 @@ const AboutBentoSection = () => {
   const aboutImage = getImageUrl("about_image", heroImageFallback);
 
   return (
-    <section data-justice-journey="conflict" className="relative py-24 lg:py-32 premium-section-navy">
+    <section data-beam-section="about" className="relative py-24 lg:py-32 premium-section-navy">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-transparent pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <motion.div

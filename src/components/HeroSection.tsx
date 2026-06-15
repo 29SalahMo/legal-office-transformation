@@ -6,7 +6,6 @@ import { usePageContent } from "@/hooks/usePageContent";
 import { PARTNER_PHOTO_URLS } from "@/lib/partnerPhotos";
 import { heroItem, heroStagger } from "@/lib/motionPresets";
 import TeamMemberPhoto from "@/components/TeamMemberPhoto";
-import HeroJusticeCanvas from "@/components/HeroJusticeCanvas";
 
 const HeroSection = () => {
   const { getValue } = usePageContent("home");
@@ -15,8 +14,7 @@ const HeroSection = () => {
   const subtext = getValue("hero_subtext", "Over 25 Years of Expertise in Litigation, Corporate Law, and Arbitration.");
 
   return (
-    <section data-justice-journey="intro" className="relative min-h-[100dvh] flex items-center pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-28 overflow-hidden">
-      <HeroJusticeCanvas />
+    <section data-beam-section="hero" className="relative min-h-[100dvh] flex items-center pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-28 overflow-hidden">
 
       <motion.div
         className="absolute inset-0 pointer-events-none"
@@ -65,7 +63,7 @@ const HeroSection = () => {
           >
             <Link
               to="/contact"
-              className="magnetic-btn touch-target inline-flex items-center justify-center gap-2 h-14 px-8 sm:px-10 text-base rounded-full font-medium bg-gradient-to-r from-burgundy to-burgundy-light text-white shadow-[0_0_30px_rgba(82,11,16,0.35)] hover:shadow-[0_0_40px_rgba(82,11,16,0.5)] hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto"
+              className="magnetic-btn beam-button touch-target inline-flex items-center justify-center gap-2 h-14 px-8 sm:px-10 text-base rounded-full font-medium bg-gradient-to-r from-burgundy to-burgundy-light text-white shadow-[0_0_30px_rgba(82,11,16,0.35)] hover:shadow-[0_0_40px_rgba(82,11,16,0.5)] hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto"
             >
               Start your consultation
               <ArrowRight className="w-4 h-4" />
@@ -106,7 +104,7 @@ const HeroSection = () => {
               </div>
               <a
                 href="#testimonials"
-                className="text-muted-foreground text-sm hover:text-foreground transition-colors cursor-pointer text-left leading-snug"
+                className="text-muted-foreground text-sm hover:text-foreground transition-colors cursor-pointer text-left leading-snug beam-link"
               >
                 Trusted by industry leaders.
                 <br />

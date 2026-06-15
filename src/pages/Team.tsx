@@ -38,7 +38,7 @@ const Team = () => {
   }, {} as Record<string, TeamMember[]>);
 
   return (
-    <LuxuryPageShell withScene={false}>
+    <LuxuryPageShell>
       <SEOHead title="Our Team" description="Meet the founding partners and legal professionals at A&A Legal Advisors — experienced attorneys dedicated to exceptional client service." />
       <Header />
 

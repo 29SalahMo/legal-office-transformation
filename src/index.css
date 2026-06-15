@@ -253,6 +253,71 @@
     background: linear-gradient(180deg, hsl(220 45% 12% / 0.03) 0%, transparent 50%, hsl(220 45% 12% / 0.02) 100%);
   }
 
+  .beam-path {
+    vector-effect: non-scaling-stroke;
+    will-change: stroke-dashoffset, opacity;
+  }
+
+  .beam-path-glow {
+    opacity: 0.35;
+  }
+
+  .beam-overlay {
+    contain: strict;
+  }
+
+  .beam-button {
+    @apply relative overflow-hidden;
+  }
+
+  .beam-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.22) 50%,
+      transparent 60%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .beam-button:hover::before {
+    transform: translateX(120%);
+  }
+
+  .beam-link {
+    @apply relative;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-size: 0 1px;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .beam-link:hover {
+    background-size: 100% 1px;
+  }
+
+  .beam-card {
+    @apply relative;
+  }
+
+  .beam-card-trace {
+    @apply absolute inset-0 rounded-[inherit] pointer-events-none opacity-0 transition-opacity duration-500;
+    border: 1px solid transparent;
+    background: linear-gradient(#faf7f5, #faf7f5) padding-box,
+      linear-gradient(135deg, rgba(122, 21, 32, 0.5), rgba(82, 11, 16, 0.15)) border-box;
+  }
+
+  .beam-card:hover .beam-card-trace,
+  .beam-card:focus-within .beam-card-trace {
+    opacity: 1;
+  }
+
   .scene-fallback {
     background:
       radial-gradient(ellipse 80% 50% at 50% 40%, rgba(82, 11, 16, 0.06), transparent),

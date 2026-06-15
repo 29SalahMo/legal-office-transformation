@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import SectionBadge from "@/components/ui/SectionBadge";
 import GlassCard from "@/components/ui/GlassCard";
+import BeamCard from "@/components/justice-beam/BeamCard";
+import { useJusticeBeam } from "@/contexts/JusticeBeamContext";
 import article1 from "@/assets/article-1.jpg";
 import article2 from "@/assets/article-2.jpg";
-import TiltCard from "@/components/motion/TiltCard";
 import { slideFromLeft, scaleIn, viewportReveal } from "@/lib/motionPresets";
 
 const services = [
@@ -25,8 +26,10 @@ const services = [
 ];
 
 const ServicesSection = () => {
+  const { setHoveredBranch } = useJusticeBeam();
+
   return (
-    <section data-justice-journey="services" className="relative py-24 lg:py-32 premium-section-navy">
+    <section data-beam-section="services" className="relative py-24 lg:py-32 premium-section-navy">
       <div className="absolute inset-0 bg-background/20 pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
@@ -49,10 +52,10 @@ const ServicesSection = () => {
 
             <Button
               variant="outline"
-              className="rounded-full px-6 py-6 group border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30"
+              className="beam-button rounded-full px-6 py-6 group border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30"
               asChild
             >
-              <Link to="/services">
+              <Link to="/services" className="beam-link">
                 Explore More
                 <ArrowUpRight className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </Link>
@@ -69,37 +72,35 @@ const ServicesSection = () => {
                 viewport={viewportReveal}
                 transition={{ delay: index * 0.15 }}
               >
-              <TiltCard>
-              <GlassCard
-                hover
-                className="overflow-hidden group"
-              >
-                <div className="flex flex-col sm:flex-row">
-                  <div className="relative w-full sm:w-48 h-48 sm:h-auto overflow-hidden">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0B1020]/80 sm:bg-gradient-to-t sm:from-transparent sm:to-[#0B1020]/60" />
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-block px-3 py-1 rounded-full bg-black/40 backdrop-blur-md text-xs font-medium text-luxury-gold-light border border-luxury-gold/20">
-                        {service.tag}
-                      </span>
-                    </div>
-                  </div>
+                <BeamCard
+                  branchIndex={index}
+                  onBranchEnter={() => setHoveredBranch(index)}
+                  onBranchLeave={() => setHoveredBranch(null)}
+                >
+                  <GlassCard hover className="overflow-hidden group">
+                    <div className="flex flex-col sm:flex-row">
+                      <div className="relative w-full sm:w-48 h-48 sm:h-auto overflow-hidden">
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-navy/80 sm:bg-gradient-to-t sm:from-transparent sm:to-navy/60" />
+                        <div className="absolute top-4 left-4">
+                          <span className="inline-block px-3 py-1 rounded-full bg-navy/50 text-xs font-medium text-burgundy-light border border-burgundy/25">
+                            {service.tag}
+                          </span>
+                        </div>
+                      </div>
 
-                  <div className="flex-1 p-6 flex flex-col justify-center">
-                    <h3 className="font-serif text-xl text-foreground mb-2">
-                      {service.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm">
-                      {service.description}
-                    </p>
-                  </div>
-                </div>
-              </GlassCard>
-              </TiltCard>
+                      <div className="flex-1 p-6 flex flex-col justify-center">
+                        <h3 className="font-serif text-xl text-foreground mb-2">{service.title}</h3>
+                        <p className="text-muted-foreground text-sm">{service.description}</p>
+                      </div>
+                    </div>
+                  </GlassCard>
+                </BeamCard>
               </motion.div>
             ))}
           </div>

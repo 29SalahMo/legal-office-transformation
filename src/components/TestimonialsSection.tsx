@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import GlassCard from "@/components/ui/GlassCard";
+import BeamCard from "@/components/justice-beam/BeamCard";
 import partnerMale from "@/assets/partner-male.jpg";
 
 type TestimonialItem = {
@@ -31,6 +32,7 @@ const ParallaxTestimonialCard = ({
 
   return (
     <motion.div ref={ref} style={{ y }} className="will-change-transform">
+      <BeamCard>
       <GlassCard className="p-8 h-full border-navy/10 bg-background/90">
         <div className="flex items-center gap-4 mb-6">
           <img
@@ -55,6 +57,7 @@ const ParallaxTestimonialCard = ({
           ))}
         </div>
       </GlassCard>
+      </BeamCard>
     </motion.div>
   );
 };
@@ -106,7 +109,7 @@ const TestimonialsSection = () => {
         ];
 
   return (
-    <section id="testimonials" data-justice-journey="justice" className="relative py-24 lg:py-32 premium-section-navy">
+    <section id="testimonials" data-beam-section="testimonials" className="relative py-24 lg:py-32 premium-section-navy">
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

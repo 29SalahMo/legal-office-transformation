@@ -50,7 +50,7 @@ const Careers = () => {
   });
 
   return (
-     <LuxuryPageShell withScene={false}>
+     <LuxuryPageShell>
        <SEOHead title="Careers" description="Join A&A Legal Advisors — explore career opportunities at one of Egypt's most respected boutique law firms." />
        <Header />
  

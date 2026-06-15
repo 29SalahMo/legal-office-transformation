@@ -15,7 +15,7 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section data-justice-journey="justice" className="relative py-24 lg:py-32">
+    <section data-beam-section="contact" className="relative py-24 lg:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-luxury-gold/5 to-glow-blue/5 pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <GlassCard
@@ -49,7 +49,7 @@ const NewsletterSection = () => {
             />
             <Button
               type="submit"
-              className="h-14 rounded-full px-8 bg-gradient-to-r from-burgundy to-burgundy-light text-white hover:opacity-90 border-0 shadow-[0_0_24px_rgba(82,11,16,0.2)]"
+              className="beam-button h-14 rounded-full px-8 bg-gradient-to-r from-burgundy to-burgundy-light text-white hover:opacity-90 border-0 shadow-[0_0_24px_rgba(82,11,16,0.2)]"
             >
               Subscribe
               <ArrowRight className="w-4 h-4 ml-2" />

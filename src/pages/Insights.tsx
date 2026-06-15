@@ -58,7 +58,7 @@ const Insights = () => {
   });
 
   return (
-    <LuxuryPageShell withScene={false}>
+    <LuxuryPageShell>
       <SEOHead title="Insights & Publications" description="Stay informed with the latest legal developments, thought leadership, and expert analysis from A&A Legal Advisors." />
       <Header />
       <main>

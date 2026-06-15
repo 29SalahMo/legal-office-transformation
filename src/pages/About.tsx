@@ -17,7 +17,7 @@ const stats = [
 
 const About = () => {
   return (
-    <LuxuryPageShell withScene={false}>
+    <LuxuryPageShell>
       <SEOHead title="About Us" description="Learn about A&A Legal Advisors, a boutique law firm in Egypt founded by Dr. Ahmed Abdallah and Mr. Mohamed Abu El Naga with over 25 years of experience." />
       <Header />
       <main>

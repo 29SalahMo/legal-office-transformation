@@ -84,7 +84,7 @@ const services = [
 
 const Services = () => {
   return (
-    <LuxuryPageShell withScene={false}>
+    <LuxuryPageShell>
       <SEOHead title="Services" description="Explore our legal services including dispute resolution, arbitration, corporate law, employment law, and competition law at A&A Legal Advisors." />
       <Header />
       <main>

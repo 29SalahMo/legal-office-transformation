@@ -32,7 +32,7 @@ const LeadershipSection = () => {
   }));
 
   return (
-    <section data-justice-journey="process" className="relative py-24 lg:py-32">
+    <section data-beam-section="expertise" className="relative py-24 lg:py-32">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] ambient-glow bg-burgundy/8 pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">

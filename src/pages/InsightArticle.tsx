@@ -27,7 +27,7 @@ const InsightArticle = () => {
 
   if (isLoading) {
     return (
-      <LuxuryPageShell withScene={false}>
+      <LuxuryPageShell>
         <Header />
         <main className="pt-32 pb-20 flex justify-center">
           <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
@@ -39,7 +39,7 @@ const InsightArticle = () => {
 
   if (!article) {
     return (
-      <LuxuryPageShell withScene={false}>
+      <LuxuryPageShell>
         <Header />
         <main className="pt-32 pb-20 container mx-auto px-6 lg:px-12 text-center">
           <h1 className="font-serif text-3xl text-foreground mb-4">Article Not Found</h1>
@@ -52,7 +52,7 @@ const InsightArticle = () => {
   }
 
   return (
-    <LuxuryPageShell withScene={false}>
+    <LuxuryPageShell>
       <Header />
       <main>
         <section className="relative h-[50vh] min-h-[400px]">

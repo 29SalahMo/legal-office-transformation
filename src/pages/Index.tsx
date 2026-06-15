@@ -9,13 +9,13 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import Footer from "@/components/Footer";
 import LuxuryPageShell from "@/components/LuxuryPageShell";
-import JusticeJourneyNav from "@/components/JusticeJourneyNav";
+import JusticeBeamNav from "@/components/justice-beam/JusticeBeamNav";
 
 const Index = () => {
   return (
     <LuxuryPageShell>
       <SEOHead title="Home" description="A&A Legal Advisors — a boutique law firm in Egypt offering first-class, creative, and business-aware legal solutions with over 25 years of experience." />
-      <JusticeJourneyNav />
+      <JusticeBeamNav />
       <Header />
       <main className="relative z-10 overflow-x-hidden w-full max-w-[100vw]">
         <HeroSection />

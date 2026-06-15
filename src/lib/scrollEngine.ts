@@ -1,53 +1,19 @@
 import Lenis from "lenis";
-import type { JourneyAct } from "@/lib/justiceScrollEngine";
 
-export type ScenePhase =
-  | "hero"
-  | "about"
-  | "services"
-  | "team"
-  | "testimonials"
-  | "contact";
-
-/** Mutable scroll state — read in useFrame, never via React state */
+/** Mutable scroll state — read in animations, never via per-frame React state */
 export const scrollEngine = {
   progress: 0,
   smoothProgress: 0,
   mouseX: 0,
   mouseY: 0,
-  isHoveringScale: false,
 };
-
-type ActListener = (act: JourneyAct) => void;
-type PhaseListener = (phase: ScenePhase) => void;
-
-const actListeners = new Set<ActListener>();
-const phaseListeners = new Set<PhaseListener>();
 
 let lenis: Lenis | null = null;
 let rafId = 0;
 let progressBarEl: HTMLDivElement | null = null;
 let smoothVelocity = 0;
 let lastTime = 0;
-let lastAct: JourneyAct = "intro";
-let lastPhase: ScenePhase = "hero";
 let reducedMotion = false;
-
-const actFromProgress = (progress: number): JourneyAct => {
-  if (progress < 0.15) return "intro";
-  if (progress < 0.38) return "conflict";
-  if (progress < 0.72) return "process";
-  return "justice";
-};
-
-const phaseFromProgress = (progress: number): ScenePhase => {
-  if (progress < 0.12) return "hero";
-  if (progress < 0.28) return "about";
-  if (progress < 0.45) return "services";
-  if (progress < 0.62) return "team";
-  if (progress < 0.82) return "testimonials";
-  return "contact";
-};
 
 const readProgress = (): number => {
   if (lenis) {
@@ -69,20 +35,6 @@ const springSmooth = (target: number, delta: number) => {
   }
 };
 
-const notifyDiscrete = () => {
-  const act = actFromProgress(scrollEngine.progress);
-  if (act !== lastAct) {
-    lastAct = act;
-    actListeners.forEach((fn) => fn(act));
-  }
-
-  const phase = phaseFromProgress(scrollEngine.smoothProgress);
-  if (phase !== lastPhase) {
-    lastPhase = phase;
-    phaseListeners.forEach((fn) => fn(phase));
-  }
-};
-
 const tick = (time: number) => {
   const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 1 / 60;
   lastTime = time;
@@ -98,32 +50,11 @@ const tick = (time: number) => {
   }
   document.documentElement.style.setProperty("--scroll-progress", String(clamped));
 
-  notifyDiscrete();
   rafId = requestAnimationFrame(tick);
 };
 
 export function registerProgressBar(el: HTMLDivElement | null) {
   progressBarEl = el;
-}
-
-export function subscribeJourneyAct(listener: ActListener) {
-  actListeners.add(listener);
-  listener(lastAct);
-  return () => actListeners.delete(listener);
-}
-
-export function subscribePhase(listener: PhaseListener) {
-  phaseListeners.add(listener);
-  listener(lastPhase);
-  return () => phaseListeners.delete(listener);
-}
-
-export function getJourneyAct() {
-  return lastAct;
-}
-
-export function getPhase() {
-  return lastPhase;
 }
 
 export function initScrollEngine(prefersReducedMotion: boolean) {
@@ -185,14 +116,7 @@ export function isReducedMotion() {
   return reducedMotion;
 }
 
-export function updateMousePosition(e: MouseEvent, mobileTier: boolean) {
-  scrollEngine.mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-  scrollEngine.mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-
-  const scaleZoneX = mobileTier ? 0 : 0.35;
-  scrollEngine.isHoveringScale =
-    scrollEngine.mouseX > scaleZoneX - 0.5 &&
-    scrollEngine.mouseX < scaleZoneX + 0.65 &&
-    scrollEngine.mouseY > -0.55 &&
-    scrollEngine.mouseY < 0.65;
+export function updateMousePosition(x: number, y: number) {
+  scrollEngine.mouseX = (x / window.innerWidth) * 2 - 1;
+  scrollEngine.mouseY = -(y / window.innerHeight) * 2 + 1;
 }

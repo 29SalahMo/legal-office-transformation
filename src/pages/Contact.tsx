@@ -88,7 +88,7 @@ const Contact = () => {
     "min-h-[150px] rounded-xl resize-none bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-burgundy/50";
 
   return (
-    <LuxuryPageShell withScene={false}>
+    <LuxuryPageShell>
       <SEOHead title="Contact Us" description="Get in touch with A&A Legal Advisors. Visit us at 20 Kawthar St, Al Dokki, Giza or call 02 334 565 42." />
       <Header />
 

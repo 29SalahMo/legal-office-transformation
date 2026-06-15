@@ -26,7 +26,7 @@ const TeamMember = () => {
 
   if (isLoading) {
     return (
-      <LuxuryPageShell withScene={false}>
+      <LuxuryPageShell>
         <Header />
         <div className="pt-32 pb-20 container mx-auto px-6 lg:px-12">
           <div className="animate-pulse space-y-8">
@@ -48,7 +48,7 @@ const TeamMember = () => {
 
   if (!member) {
     return (
-      <LuxuryPageShell withScene={false}>
+      <LuxuryPageShell>
         <Header />
         <div className="pt-32 pb-20 container mx-auto px-6 lg:px-12 text-center">
           <h1 className="font-serif text-3xl text-foreground mb-4">Member Not Found</h1>
@@ -64,7 +64,7 @@ const TeamMember = () => {
   }
 
   return (
-    <LuxuryPageShell withScene={false}>
+    <LuxuryPageShell>
       <Header />
 
       <section className="pt-32 pb-20">

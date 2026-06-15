@@ -21,11 +21,7 @@ const CaseProcessTimeline = () => {
   const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section
-      ref={ref}
-      data-justice-journey="process"
-      className="relative py-24 lg:py-32 bg-navy/5 border-y border-navy/10"
-    >
+    <section ref={ref} data-beam-section="process" className="relative py-24 lg:py-32 bg-navy/5 border-y border-navy/10">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="text-center mb-16">
           <SectionBadge className="mb-6">Our Process</SectionBadge>
