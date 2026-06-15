@@ -5,6 +5,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import StyledAmpersand from "@/components/StyledAmpersand";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+import { cardHover, staggerItem } from "@/lib/motionPresets";
 import heroImage from "@/assets/hero-lawyer-meeting.jpg";
 const stats = [
   { value: "25+", label: "Years Combined Experience" },
@@ -20,14 +22,10 @@ const About = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-20 lg:pb-28 bg-background">
+        <section className="pt-32 pb-20 lg:pb-28 bg-background overflow-hidden">
           <div className="container mx-auto px-6 lg:px-12">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-              >
+              <ScrollReveal variant="slideLeft">
                 <span className="inline-block px-4 py-2 rounded-full border border-border text-sm font-medium text-muted-foreground mb-6">
                   About Us
                 </span>
@@ -40,14 +38,9 @@ const About = () => {
                 <p className="text-muted-foreground text-lg leading-relaxed">
                   Our purpose is to deliver first-class legal services to our valued clients through an expert team with diverse experience across multiple legal disciplines.
                 </p>
-              </motion.div>
+              </ScrollReveal>
 
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative"
-              >
+              <ScrollReveal variant="slideRight" delay={0.1} className="relative">
                 <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
                   <img
                     src={heroImage}
@@ -61,6 +54,7 @@ const About = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
+                  whileHover={cardHover}
                   className="absolute -bottom-6 -left-6 bg-card rounded-2xl p-6 shadow-card max-w-xs"
                 >
                   <p className="text-sm text-muted-foreground mb-2">Our Commitment</p>
@@ -68,7 +62,7 @@ const About = () => {
                     Providing ingenious legal solutions that protect our clients' businesses.
                   </p>
                 </motion.div>
-              </motion.div>
+              </ScrollReveal>
             </div>
           </div>
         </section>
@@ -76,16 +70,15 @@ const About = () => {
         {/* Stats Section */}
         <section className="py-16 bg-secondary">
           <div className="container mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center"
-                >
+            <motion.div
+              className="grid grid-cols-2 md:grid-cols-4 gap-8"
+              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              {stats.map((stat) => (
+                <motion.div key={stat.label} variants={staggerItem} className="text-center">
                   <p className="font-serif text-4xl md:text-5xl text-primary mb-2">
                     {stat.value}
                   </p>
@@ -94,7 +87,7 @@ const About = () => {
                   </p>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 

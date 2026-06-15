@@ -6,6 +6,9 @@ import { ArrowRight, Calendar, User, Loader2 } from "lucide-react";
 import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/motion/PageHero";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+import { cardHover, staggerItem } from "@/lib/motionPresets";
 
 const AllArticles = () => {
   const { data: articles = [], isLoading } = useQuery({
@@ -25,30 +28,30 @@ const AllArticles = () => {
     <LuxuryPageShell withScene={false}>
       <Header />
       <main>
-        <section className="pt-32 pb-16 lg:pt-40 lg:pb-20 bg-gradient-to-b from-secondary to-background">
-          <div className="container mx-auto px-6 lg:px-12">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <p className="text-primary uppercase tracking-widest text-sm font-medium mb-4">Thought Leadership</p>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-6">All Articles</h1>
-              <p className="text-muted-foreground text-lg max-w-2xl">Browse our complete collection of legal insights, analysis, and expert commentary.</p>
-            </motion.div>
-          </div>
-        </section>
+        <PageHero
+          badge="Thought Leadership"
+          title="All Articles"
+          subtitle="Browse our complete collection of legal insights, analysis, and expert commentary."
+        />
 
         <section className="py-16 lg:py-24">
           <div className="container mx-auto px-6 lg:px-12">
             {isLoading ? (
               <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {articles.map((article: any, index: number) => (
+              <motion.div
+                className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {articles.map((article: any) => (
                   <Link to={`/insights/${article.slug}`} key={article.id}>
                     <motion.article
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      className="group bg-card rounded-lg overflow-hidden shadow-elegant hover:shadow-hover transition-all duration-500 hover:-translate-y-2 h-full"
+                      variants={staggerItem}
+                      whileHover={cardHover}
+                      className="group bg-card rounded-lg overflow-hidden shadow-elegant hover:shadow-hover transition-all duration-500 h-full"
                     >
                       <div className="relative h-52 overflow-hidden">
                         {article.image_url ? (
@@ -77,7 +80,7 @@ const AllArticles = () => {
                     </motion.article>
                   </Link>
                 ))}
-              </div>
+              </motion.div>
             )}
           </div>
         </section>

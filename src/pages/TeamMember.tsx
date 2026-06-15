@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+import { cardHover } from "@/lib/motionPresets";
 import { fetchTeamMemberById, STATIC_TEAM_ROSTER } from "@/lib/teamData";
 import TeamMemberPhoto from "@/components/TeamMemberPhoto";
 
@@ -67,48 +69,37 @@ const TeamMember = () => {
 
       <section className="pt-32 pb-20">
         <div className="container mx-auto px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
-            className="mb-10"
-          >
+          <ScrollReveal variant="fadeUp" className="mb-10">
             <Link to="/team" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
               <ArrowLeft className="w-4 h-4" />
               <span className="text-sm font-medium">Back to Team</span>
             </Link>
-          </motion.div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="relative">
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card">
-                  <TeamMemberPhoto
-                    name={member.name}
-                    photoUrl={member.photo_url}
-                    roleCategory={member.role_category}
-                    className="w-full h-full object-cover"
-                    fallbackClassName="w-full h-full text-5xl"
-                  />
-                </div>
-                {member.experience && (
-                  <div className="absolute -bottom-6 -right-6 glass-panel rounded-2xl p-6">
-                    <p className="text-3xl font-bold text-gradient-gold">{member.experience}</p>
-                    <p className="text-sm text-muted-foreground">Experience</p>
+            <ScrollReveal variant="slideLeft">
+              <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.5 }}>
+                <div className="relative">
+                  <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card">
+                    <TeamMemberPhoto
+                      name={member.name}
+                      photoUrl={member.photo_url}
+                      roleCategory={member.role_category}
+                      className="w-full h-full object-cover"
+                      fallbackClassName="w-full h-full text-5xl"
+                    />
                   </div>
-                )}
-              </div>
-            </motion.div>
+                  {member.experience && (
+                    <div className="absolute -bottom-6 -right-6 glass-panel rounded-2xl p-6">
+                      <p className="text-3xl font-bold text-gradient-gold">{member.experience}</p>
+                      <p className="text-sm text-muted-foreground">Experience</p>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </ScrollReveal>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-            >
+            <ScrollReveal variant="slideRight" delay={0.1}>
               <span className="section-badge mb-4">
                 {member.role_category}
               </span>
@@ -153,7 +144,7 @@ const TeamMember = () => {
                   </a>
                 )}
               </div>
-            </motion.div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -161,13 +152,7 @@ const TeamMember = () => {
       <section className="py-20 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-burgundy/5 via-transparent to-burgundy/5 pointer-events-none" />
         <div className="container mx-auto px-6 lg:px-12 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-2xl mx-auto glass-panel p-10"
-          >
+          <ScrollReveal variant="scaleIn" className="max-w-2xl mx-auto glass-panel p-10">
             <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-6">
               Get in Touch
             </h2>
@@ -182,7 +167,7 @@ const TeamMember = () => {
             >
               <Link to="/contact">Contact Us</Link>
             </Button>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </section>
 

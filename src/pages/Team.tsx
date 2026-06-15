@@ -7,8 +7,11 @@ import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import PageHero from "@/components/motion/PageHero";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 import { fetchTeamMembers, STATIC_TEAM_ROSTER, type TeamMember } from "@/lib/teamData";
 import TeamMemberPhoto from "@/components/TeamMemberPhoto";
+import { cardHover, staggerItem } from "@/lib/motionPresets";
 
 const CATEGORY_ICONS: Record<string, typeof Scale> = {
   "Senior Associate": Scale,
@@ -38,46 +41,36 @@ const Team = () => {
     <LuxuryPageShell withScene={false}>
       <SEOHead title="Our Team" description="Meet the founding partners and legal professionals at A&A Legal Advisors — experienced attorneys dedicated to exceptional client service." />
       <Header />
-      
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-b from-primary/5 to-background">
-        <div className="container mx-auto px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl"
-          >
-            <span className="inline-block px-4 py-2 rounded-full border border-border text-sm font-medium text-muted-foreground mb-6">
-              Leadership
-            </span>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight mb-6">
-              Meet Our
-              <span className="text-primary block">Founding Partners</span>
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl">
-              Our leadership team brings together decades of experience from Egypt's most prestigious law firms and international practice.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+
+      <PageHero
+        badge="Leadership"
+        title={
+          <>
+            Meet Our
+            <span className="text-primary block">Founding Partners</span>
+          </>
+        }
+        subtitle="Our leadership team brings together decades of experience from Egypt's most prestigious law firms and international practice."
+      />
 
       {/* Partners Section */}
       <section className="py-20 lg:py-28">
         <div className="container mx-auto px-6 lg:px-12">
           {partners.map((partner, index) => (
-            <motion.div
+            <ScrollReveal
               key={partner.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              variant={index % 2 === 0 ? "slideLeft" : "slideRight"}
+              delay={index * 0.1}
               className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start ${
                 index !== partners.length - 1 ? "mb-24 pb-24 border-b border-border" : ""
               }`}
             >
               <Link to={`/team/${partner.id}`} className={`${index % 2 === 1 ? "lg:order-2" : ""}`}>
-                <div className="relative">
+                <motion.div
+                  className="relative"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
                   <div className="aspect-[4/5] rounded-3xl overflow-hidden">
                     <TeamMemberPhoto
                       name={partner.name}
@@ -92,7 +85,7 @@ const Team = () => {
                       <p className="text-sm text-primary-foreground/80">Experience</p>
                     </div>
                   )}
-                </div>
+                </motion.div>
               </Link>
 
               <div className={`${index % 2 === 1 ? "lg:order-1" : ""}`}>
@@ -132,7 +125,7 @@ const Team = () => {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -140,13 +133,7 @@ const Team = () => {
       {/* Team Members Section */}
       <section className="py-20 lg:py-28 bg-muted/30">
         <div className="container mx-auto px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-16"
-          >
+          <ScrollReveal variant="fadeUp" className="mb-16">
             <span className="inline-block px-4 py-2 rounded-full border border-border text-sm font-medium text-muted-foreground mb-6">
               Our Team
             </span>
@@ -157,26 +144,30 @@ const Team = () => {
             <p className="text-muted-foreground text-lg leading-relaxed max-w-3xl">
               At A&A Legal Advisors, our success is driven by a team of highly skilled and dedicated professionals committed to delivering exceptional legal representation.
             </p>
-          </motion.div>
+          </ScrollReveal>
 
           {Object.entries(grouped).map(([category, items]) => {
             const Icon = CATEGORY_ICONS[category] || Briefcase;
             return (
-              <div key={category} className="mb-16 last:mb-0">
+              <ScrollReveal key={category} variant="fadeUp" className="mb-16 last:mb-0">
                 <h3 className="font-serif text-2xl text-foreground mb-8 flex items-center gap-3">
                   <Icon className="w-5 h-5 text-primary" />
                   {category === "Corporate" ? "Counsel & Corporate" : `${category}s`}
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {items.map((member, index) => (
+                <motion.div
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                  variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-8% 0px" }}
+                >
+                  {items.map((member) => (
                     <Link to={`/team/${member.id}`} key={member.id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="bg-background rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                    >
+                      <motion.div
+                        variants={staggerItem}
+                        whileHover={cardHover}
+                        className="bg-background rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow cursor-pointer border border-transparent hover:border-burgundy/10"
+                      >
                       <div className="w-14 h-14 rounded-full mb-4 overflow-hidden shrink-0">
                         <TeamMemberPhoto
                           name={member.name}
@@ -189,11 +180,11 @@ const Team = () => {
                       <h4 className="font-serif text-lg text-foreground mb-1">{member.name}</h4>
                       <p className="text-primary text-sm font-medium mb-1">{member.title}</p>
                       {member.focus && <p className="text-muted-foreground text-sm">{member.focus}</p>}
-                    </motion.div>
+                      </motion.div>
                     </Link>
                   ))}
-                </div>
-              </div>
+                </motion.div>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -202,13 +193,7 @@ const Team = () => {
       {/* Work With Us CTA */}
       <section className="py-20 lg:py-28 bg-primary">
         <div className="container mx-auto px-6 lg:px-12 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto"
-          >
+          <ScrollReveal variant="scaleIn" className="max-w-3xl mx-auto">
             <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-primary-foreground mb-6">
               Work With Us
             </h2>
@@ -223,7 +208,7 @@ const Team = () => {
             >
               <Link to="/careers">View Career Opportunities</Link>
             </Button>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </section>
 

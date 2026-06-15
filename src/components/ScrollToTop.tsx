@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { scrollToTop } from "@/lib/globalSmoothScroll";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    scrollToTop(true);
   }, [pathname]);
 
   return null;

@@ -8,10 +8,15 @@ import {
   type ReactNode,
 } from "react";
 import { useDeviceTier, type SceneQuality } from "@/hooks/useDeviceTier";
-import {
-  initJusticeScroll,
-  type JourneyAct,
-} from "@/lib/justiceScrollEngine";
+import { useGlobalMotion } from "@/contexts/GlobalMotionContext";
+import type { JourneyAct } from "@/lib/justiceScrollEngine";
+
+const actFromProgress = (progress: number): JourneyAct => {
+  if (progress < 0.15) return "intro";
+  if (progress < 0.38) return "conflict";
+  if (progress < 0.72) return "process";
+  return "justice";
+};
 
 export type ScenePhase =
   | "hero"
@@ -82,6 +87,13 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
   const velocityRef = useRef(0);
 
   const { quality: sceneQuality } = useDeviceTier();
+  const { scrollProgress: globalProgress, reducedMotion: globalReduced } = useGlobalMotion();
+
+  useEffect(() => {
+    targetProgressRef.current = globalProgress;
+    setScrollProgress(globalProgress);
+    setJourneyAct(actFromProgress(globalProgress));
+  }, [globalProgress]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -96,12 +108,8 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
   }, [sceneQuality.tier]);
 
   useEffect(() => {
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(motionQuery.matches);
+    setReducedMotion(globalReduced);
     setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
-
-    const onMotionChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    motionQuery.addEventListener("change", onMotionChange);
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
@@ -129,29 +137,11 @@ export const ScrollSceneProvider = ({ children }: { children: ReactNode }) => {
 
     rafId = requestAnimationFrame(tick);
 
-    const destroyScroll = initJusticeScroll(
-      {
-        onProgress: (progress) => {
-          targetProgressRef.current = progress;
-          setScrollProgress(progress);
-        },
-        onActChange: setJourneyAct,
-      },
-      motionQuery.matches
-    );
-
-    const refreshTimer = window.setTimeout(() => {
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => ScrollTrigger.refresh());
-    }, 800);
-
     return () => {
-      motionQuery.removeEventListener("change", onMotionChange);
       window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(rafId);
-      destroyScroll();
-      window.clearTimeout(refreshTimer);
     };
-  }, [handleMouseMove]);
+  }, [handleMouseMove, globalReduced]);
 
   const phase = phaseFromProgress(smoothScrollProgress);
 

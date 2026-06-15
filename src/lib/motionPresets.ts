@@ -81,3 +81,19 @@ export const heroItem: Variants = {
     transition: { duration: 1.1, ease: cinematicEase },
   },
 };
+
+export const staggerItem: Variants = {
+  hidden: { opacity: 0, y: 32, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.75, ease: cinematicEase },
+  },
+};
+
+export const cardHover = {
+  y: -6,
+  scale: 1.02,
+  transition: { duration: 0.35, ease: cinematicEase },
+};

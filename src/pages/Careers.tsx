@@ -2,6 +2,9 @@ import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import PageHero from "@/components/motion/PageHero";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+import { cardHover, staggerItem } from "@/lib/motionPresets";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -51,36 +54,17 @@ const Careers = () => {
        <SEOHead title="Careers" description="Join A&A Legal Advisors — explore career opportunities at one of Egypt's most respected boutique law firms." />
        <Header />
  
-       {/* Hero Section */}
-       <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 bg-gradient-to-br from-primary via-primary to-burgundy-dark overflow-hidden">
-         <div className="absolute inset-0 opacity-10">
-           <div className="absolute top-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
-           <div className="absolute bottom-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
-         </div>
-         <div className="container mx-auto px-6 lg:px-12 relative z-10">
-           <motion.div
-             initial={{ opacity: 0, y: 30 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.8 }}
-             className="max-w-3xl"
-           >
-             <Badge className="bg-white/20 text-white border-white/30 mb-6">
-               Join Our Team
-             </Badge>
-             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-tight">
-               Build Your Legal Career with Excellence
-             </h1>
-             <p className="text-white/80 text-lg md:text-xl leading-relaxed max-w-2xl">
-               Join one of Egypt's most respected law firms and work on matters that make a difference. We're looking for talented individuals who share our commitment to excellence.
-             </p>
-           </motion.div>
-         </div>
-       </section>
- 
+       <PageHero
+         variant="burgundy"
+         badge="Join Our Team"
+         title="Build Your Legal Career with Excellence"
+         subtitle="Join one of Egypt's most respected law firms and work on matters that make a difference. We're looking for talented individuals who share our commitment to excellence."
+       />
+
        {/* Why Join Us */}
        <section className="py-20 lg:py-28">
          <div className="container mx-auto px-6 lg:px-12">
-           <div className="text-center mb-16">
+           <ScrollReveal variant="fadeUp" className="text-center mb-16">
              <Badge variant="outline" className="mb-4">Why A&A Legal</Badge>
              <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-4">
                Why Build Your Career Here
@@ -88,17 +72,17 @@ const Careers = () => {
              <p className="text-muted-foreground max-w-2xl mx-auto">
                We invest in our people because we know that our success is built on the talent and dedication of our team.
              </p>
-           </div>
- 
-           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-             {benefits.map((benefit, index) => (
-               <motion.div
-                 key={benefit.title}
-                 initial={{ opacity: 0, y: 20 }}
-                 whileInView={{ opacity: 1, y: 0 }}
-                 viewport={{ once: true }}
-                 transition={{ duration: 0.5, delay: index * 0.1 }}
-               >
+           </ScrollReveal>
+
+           <motion.div
+             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+             variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+             initial="hidden"
+             whileInView="visible"
+             viewport={{ once: true }}
+           >
+             {benefits.map((benefit) => (
+               <motion.div key={benefit.title} variants={staggerItem} whileHover={cardHover}>
                  <Card className="h-full border-0 shadow-card hover:shadow-hover transition-all duration-300 bg-card">
                    <CardContent className="p-6">
                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
@@ -112,7 +96,7 @@ const Careers = () => {
                  </Card>
                </motion.div>
              ))}
-           </div>
+           </motion.div>
          </div>
        </section>
  

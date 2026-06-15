@@ -5,7 +5,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import LuxuryPageShell from "@/components/LuxuryPageShell";
-import SectionBadge from "@/components/ui/SectionBadge";
+import PageHero from "@/components/motion/PageHero";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+import { cardHover } from "@/lib/motionPresets";
 import GlassCard from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -90,38 +92,21 @@ const Contact = () => {
       <SEOHead title="Contact Us" description="Get in touch with A&A Legal Advisors. Visit us at 20 Kawthar St, Al Dokki, Giza or call 02 334 565 42." />
       <Header />
 
-      <section className="relative pt-32 pb-20 min-h-[50vh] flex items-end">
-        <div className="container mx-auto px-6 lg:px-12 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
-          >
-            <SectionBadge className="mb-6">Get in Touch</SectionBadge>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-tight">
-              Let's Discuss Your
-              <br />
-              <span className="text-gradient-gold">Legal Needs</span>
-            </h1>
-            <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
-              Our team is ready to provide the counsel and representation you need.
-              Reach out to schedule a consultation.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        badge="Get in Touch"
+        title={
+          <>
+            Let's Discuss Your
+            <span className="text-primary block">Legal Needs</span>
+          </>
+        }
+        subtitle="Our team is ready to provide the counsel and representation you need. Reach out to schedule a consultation."
+      />
 
       <section className="py-20 lg:py-28 relative z-10">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="lg:col-span-3"
-            >
+            <ScrollReveal variant="slideLeft" className="lg:col-span-3">
               <GlassCard hover={false} className="p-8 lg:p-12">
                 <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-2">
                   Send Us a Message
@@ -205,17 +190,12 @@ const Contact = () => {
                   </Button>
                 </form>
               </GlassCard>
-            </motion.div>
+            </ScrollReveal>
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:col-span-2 space-y-6"
-            >
+            <ScrollReveal variant="slideRight" delay={0.15} className="lg:col-span-2 space-y-6">
               {contactInfo.map((item, index) => (
-                <GlassCard key={index} hover className="p-6">
+                <motion.div key={index} whileHover={cardHover}>
+                  <GlassCard hover className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-burgundy/10 border border-burgundy/15">
                       <item.icon className="w-5 h-5 text-burgundy" />
@@ -229,9 +209,10 @@ const Contact = () => {
                       ))}
                     </div>
                   </div>
-                </GlassCard>
+                  </GlassCard>
+                </motion.div>
               ))}
-            </motion.div>
+            </ScrollReveal>
           </div>
         </div>
       </section>

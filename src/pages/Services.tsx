@@ -4,6 +4,8 @@ import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import PageHero from "@/components/motion/PageHero";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 import { Scale, Users, Building2, Briefcase, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -86,41 +88,26 @@ const Services = () => {
       <SEOHead title="Services" description="Explore our legal services including dispute resolution, arbitration, corporate law, employment law, and competition law at A&A Legal Advisors." />
       <Header />
       <main>
-        {/* Hero Section */}
-        <section className="pt-32 pb-20 lg:pt-40 lg:pb-28 bg-gradient-to-b from-secondary to-background">
-          <div className="container mx-auto px-6 lg:px-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl"
-            >
-              <p className="text-primary uppercase tracking-widest text-sm font-medium mb-4">
-                Our Services
-              </p>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-tight">
-                Comprehensive Legal<br />
-                <span className="text-primary">Solutions</span>
-              </h1>
-              <p className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-2xl">
-                We provide expert legal services across multiple disciplines, delivering innovative 
-                and pragmatic solutions to even the most complex legal challenges.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        <PageHero
+          badge="Our Services"
+          title={
+            <>
+              Comprehensive Legal
+              <span className="text-primary block">Solutions</span>
+            </>
+          }
+          subtitle="We provide expert legal services across multiple disciplines, delivering innovative and pragmatic solutions to even the most complex legal challenges."
+        />
 
         {/* Services Grid */}
         <section className="py-20 lg:py-28">
           <div className="container mx-auto px-6 lg:px-12">
             <div className="space-y-16 lg:space-y-24">
               {services.map((service, index) => (
-                <motion.div
+                <ScrollReveal
                   key={service.title}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
+                  variant={index % 2 === 0 ? "slideLeft" : "slideRight"}
+                  delay={0.05}
                   className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-start ${
                     index % 2 === 1 ? "lg:grid-flow-dense" : ""
                   }`}
@@ -154,7 +141,11 @@ const Services = () => {
 
                   {/* Details Card */}
                   <div className={`${index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}`}>
-                    <div className="bg-card rounded-3xl p-8 lg:p-10 shadow-card h-full">
+                    <motion.div
+                      whileHover={{ y: -4 }}
+                      transition={{ duration: 0.35 }}
+                      className="bg-card rounded-3xl p-8 lg:p-10 shadow-card h-full"
+                    >
                       <h3 className="font-serif text-xl text-foreground mb-6">
                         Key Practice Areas
                       </h3>
@@ -171,9 +162,9 @@ const Services = () => {
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
-                </motion.div>
+                </ScrollReveal>
               ))}
             </div>
           </div>
@@ -182,13 +173,7 @@ const Services = () => {
         {/* CTA Section */}
         <section className="py-20 lg:py-28 bg-primary">
           <div className="container mx-auto px-6 lg:px-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto"
-            >
+            <ScrollReveal variant="scaleIn" className="text-center max-w-3xl mx-auto">
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-primary-foreground mb-6">
                 Ready to Discuss Your Legal Needs?
               </h2>
@@ -206,7 +191,7 @@ const Services = () => {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
-            </motion.div>
+            </ScrollReveal>
           </div>
         </section>
       </main>

@@ -7,6 +7,9 @@ import LuxuryPageShell from "@/components/LuxuryPageShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import PageHero from "@/components/motion/PageHero";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+import { cardHover, staggerItem } from "@/lib/motionPresets";
 import { Button } from "@/components/ui/button";
 
 const Insights = () => {
@@ -59,40 +62,17 @@ const Insights = () => {
       <SEOHead title="Insights & Publications" description="Stay informed with the latest legal developments, thought leadership, and expert analysis from A&A Legal Advisors." />
       <Header />
       <main>
-        {/* Hero Section */}
-        <section className="relative py-24 lg:py-32 bg-gradient-to-br from-primary via-burgundy-dark to-charcoal overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/placeholder.svg')] opacity-5" />
-          <div className="container mx-auto px-6 lg:px-12 relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-3xl"
-            >
-              <p className="text-gold uppercase tracking-widest text-sm font-medium mb-4">
-                Knowledge & Expertise
-              </p>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary-foreground mb-6">
-                Insights & Publications
-              </h1>
-              <p className="text-primary-foreground/80 text-lg leading-relaxed max-w-2xl">
-                Stay informed with the latest legal developments, thought leadership, 
-                and expert analysis from A&A Legal Advisors.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        <PageHero
+          variant="burgundy"
+          badge="Knowledge & Expertise"
+          title="Insights & Publications"
+          subtitle="Stay informed with the latest legal developments, thought leadership, and expert analysis from A&A Legal Advisors."
+        />
 
         {/* Featured Articles */}
         <section className="py-24 lg:py-32 bg-card">
           <div className="container mx-auto px-6 lg:px-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="flex items-center justify-between mb-12"
-            >
+            <ScrollReveal variant="fadeUp" className="flex items-center justify-between mb-12">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <BookOpen className="w-5 h-5 text-gold" />
@@ -110,7 +90,7 @@ const Insights = () => {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
-            </motion.div>
+            </ScrollReveal>
 
             {isLoading ? (
               <div className="flex justify-center py-12">
@@ -119,15 +99,19 @@ const Insights = () => {
             ) : articles.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">No articles published yet.</div>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {articles.map((article: any, index: number) => (
+              <motion.div
+                className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {articles.map((article: any) => (
                   <Link to={`/insights/${article.slug}`} key={article.id}>
                     <motion.article
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      className="group bg-background rounded-lg overflow-hidden shadow-elegant hover:shadow-hover transition-all duration-500 hover:-translate-y-2 h-full"
+                      variants={staggerItem}
+                      whileHover={cardHover}
+                      className="group bg-background rounded-lg overflow-hidden shadow-elegant hover:shadow-hover transition-all duration-500 h-full"
                     >
                       <div className="relative h-52 overflow-hidden">
                         {article.image_url ? (
@@ -167,7 +151,7 @@ const Insights = () => {
                     </motion.article>
                   </Link>
                 ))}
-              </div>
+              </motion.div>
             )}
 
             <div className="md:hidden mt-8 text-center">
