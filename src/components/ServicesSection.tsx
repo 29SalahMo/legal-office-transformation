@@ -26,6 +26,18 @@ const services = [
   },
 ];
 
+const pathVariants = {
+  initial: { pathLength: 0, opacity: 0.25 },
+  hover: { 
+    pathLength: 1, 
+    opacity: 0.95,
+    transition: { 
+      duration: 1.1,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
+
 const ServicesSection = () => {
   const { setHoveredBranch, hoveredBranch } = useJusticeBeam();
 
@@ -88,7 +100,7 @@ const ServicesSection = () => {
                     onBranchLeave={() => setHoveredBranch(null)}
                   >
                     <TiltCard>
-                      <GlassCard hover className="overflow-hidden group gold-border-trace shadow-card">
+                      <GlassCard hover whileHover="hover" className="overflow-hidden group gold-border-trace shadow-card">
                         <div className="flex flex-col sm:flex-row">
                           
                           {/* Card Thumbnail */}
@@ -108,13 +120,36 @@ const ServicesSection = () => {
                           </div>
 
                           {/* Card Content */}
-                          <div className="flex-1 p-8 flex flex-col justify-center bg-background/50 backdrop-blur-md">
-                            <h3 className="font-serif text-xl text-foreground mb-2 group-hover:text-luxury-gold transition-colors duration-300">
-                              {service.title}
-                            </h3>
-                            <p className="text-muted-foreground text-sm leading-relaxed">
-                              {service.description}
-                            </p>
+                          <div className="flex-1 p-8 flex flex-row items-center justify-between bg-background/50 backdrop-blur-md relative overflow-hidden">
+                            <div className="flex-1 pr-4">
+                              <h3 className="font-serif text-xl text-foreground mb-2 group-hover:text-luxury-gold transition-colors duration-300">
+                                {service.title}
+                              </h3>
+                              <p className="text-muted-foreground text-sm leading-relaxed">
+                                {service.description}
+                              </p>
+                            </div>
+                            
+                            {/* Fine Line SVG Drawing that animates on hover */}
+                            <div className="w-16 h-16 shrink-0 text-luxury-gold/60 group-hover:text-luxury-gold transition-colors duration-500 relative z-10 flex items-center justify-center">
+                              {service.tag === "Litigation" ? (
+                                <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                  <motion.path variants={pathVariants} initial="initial" d="M12 3v17" />
+                                  <motion.path variants={pathVariants} initial="initial" d="M12 6l-7 2M12 6l7 2" />
+                                  <motion.path variants={pathVariants} initial="initial" d="M5 8l-2 5c0 1.5 1 2.5 2 2.5s2-1 2-2.5z" />
+                                  <motion.path variants={pathVariants} initial="initial" d="M19 8l-2 5c0 1.5 1 2.5 2 2.5s2-1 2-2.5z" />
+                                  <motion.path variants={pathVariants} initial="initial" d="M10 20h4" />
+                                </svg>
+                              ) : (
+                                <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                  <motion.path variants={pathVariants} initial="initial" d="M16 3h5v5" />
+                                  <motion.path variants={pathVariants} initial="initial" d="M8 21H3v-5" />
+                                  <motion.path variants={pathVariants} initial="initial" d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                  <motion.path variants={pathVariants} initial="initial" d="M21 3L14 10" />
+                                  <motion.path variants={pathVariants} initial="initial" d="M3 21l7-7" />
+                                </svg>
+                              )}
+                            </div>
                           </div>
 
                         </div>

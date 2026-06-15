@@ -105,11 +105,17 @@ export function getGlobalLenis() {
 }
 
 export function scrollToTop(smooth = true) {
-  if (lenis) {
-    lenis.scrollTo(0, { immediate: !smooth });
-    return;
-  }
-  window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+  setTimeout(() => {
+    try {
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: !smooth });
+        return;
+      }
+      window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+    } catch (err) {
+      console.warn("Failed to scroll to top safely:", err);
+    }
+  }, 50);
 }
 
 export function isReducedMotion() {
