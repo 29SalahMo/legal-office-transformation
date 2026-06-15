@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.svg";
+import { scrollToTop } from "@/lib/globalSmoothScroll";
 
 const navLinks = [
   { label: "About Us", href: "/about" },
@@ -14,8 +15,16 @@ const navLinks = [
 ];
 
 const Header = () => {
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      scrollToTop(true);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +49,7 @@ const Header = () => {
         }`}
       >
         <nav className="flex items-center justify-between">
-          <Link to="/" className="flex items-center group">
+          <Link to="/" onClick={handleLogoClick} className="flex items-center group">
             <span className="rounded-xl bg-[#FAF7F5]/95 px-3 py-1.5 shadow-elegant border border-burgundy/10 group-hover:border-burgundy/25 transition-all duration-300">
               <img
                 src={logo}

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import SectionBadge from "@/components/ui/SectionBadge";
 import GlassCard from "@/components/ui/GlassCard";
 import BeamCard from "@/components/justice-beam/BeamCard";
+import TiltCard from "@/components/motion/TiltCard";
 import { useJusticeBeam } from "@/contexts/JusticeBeamContext";
 import article1 from "@/assets/article-1.jpg";
 import article2 from "@/assets/article-2.jpg";
@@ -15,24 +16,27 @@ const services = [
     image: article1,
     tag: "Litigation",
     title: "Strategic Dispute Resolution",
-    description: "Programs designed for all case types and complexities.",
+    description: "Tailored defense and representation protocols designed for all commercial tribunals and high-stakes complexities.",
   },
   {
     image: article2,
     tag: "Corporate M&A",
     title: "Mergers & Acquisitions",
-    description: "Step into deals built for success — to grow, compete, and thrive.",
+    description: "Architecting transactions built for long-term integration success—to grow, compete, and scale securely.",
   },
 ];
 
 const ServicesSection = () => {
-  const { setHoveredBranch } = useJusticeBeam();
+  const { setHoveredBranch, hoveredBranch } = useJusticeBeam();
 
   return (
-    <section data-beam-section="services" className="relative py-24 lg:py-32 premium-section-navy">
+    <section data-beam-section="services" className="relative py-24 lg:py-32 premium-section-navy overflow-hidden">
+      <div className="architectural-grid opacity-10" />
       <div className="absolute inset-0 bg-background/20 pointer-events-none" />
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          
+          {/* Left Intro Panel */}
           <motion.div
             variants={slideFromLeft}
             initial="hidden"
@@ -42,17 +46,17 @@ const ServicesSection = () => {
             <SectionBadge className="mb-6">Practice Areas</SectionBadge>
 
             <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
-              Explore our full range of{" "}
-              <span className="text-gradient-gold">legal services</span> and expertise.
+              Expertise Engineered for{" "}
+              <span className="text-gradient-gold">Precision</span> and Authority
             </h2>
 
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              From first consultation to case resolution — we've got the right approach for you.
+              Offering first-class legal advocacy across corporate portfolios, disputes, and structured mediations with unmatched preparation.
             </p>
 
             <Button
               variant="outline"
-              className="beam-button rounded-full px-6 py-6 group border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30"
+              className="beam-button rounded-full px-6 py-6 group border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30 transition-all duration-300"
               asChild
             >
               <Link to="/services" className="beam-link">
@@ -62,48 +66,66 @@ const ServicesSection = () => {
             </Button>
           </motion.div>
 
+          {/* Practice Cards List */}
           <div className="space-y-6">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.title}
-                variants={scaleIn}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportReveal}
-                transition={{ delay: index * 0.15 }}
-              >
-                <BeamCard
-                  branchIndex={index}
-                  onBranchEnter={() => setHoveredBranch(index)}
-                  onBranchLeave={() => setHoveredBranch(null)}
+            {services.map((service, index) => {
+              const isDimmed = hoveredBranch !== null && hoveredBranch !== index;
+              return (
+                <motion.div
+                  key={service.title}
+                  variants={scaleIn}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewportReveal}
+                  transition={{ delay: index * 0.15 }}
+                  className={`transition-all duration-500 ${
+                    isDimmed ? "opacity-35 blur-[0.4px] scale-[0.98]" : "opacity-100 scale-100"
+                  }`}
                 >
-                  <GlassCard hover className="overflow-hidden group">
-                    <div className="flex flex-col sm:flex-row">
-                      <div className="relative w-full sm:w-48 h-48 sm:h-auto overflow-hidden">
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-navy/80 sm:bg-gradient-to-t sm:from-transparent sm:to-navy/60" />
-                        <div className="absolute top-4 left-4">
-                          <span className="inline-block px-3 py-1 rounded-full bg-navy/50 text-xs font-medium text-burgundy-light border border-burgundy/25">
-                            {service.tag}
-                          </span>
-                        </div>
-                      </div>
+                  <BeamCard
+                    branchIndex={index}
+                    onBranchEnter={() => setHoveredBranch(index)}
+                    onBranchLeave={() => setHoveredBranch(null)}
+                  >
+                    <TiltCard>
+                      <GlassCard hover className="overflow-hidden group gold-border-trace shadow-card">
+                        <div className="flex flex-col sm:flex-row">
+                          
+                          {/* Card Thumbnail */}
+                          <div className="relative w-full sm:w-48 h-48 sm:h-auto overflow-hidden">
+                            <img
+                              src={service.image}
+                              alt={service.title}
+                              loading="lazy"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-navy/80 sm:bg-gradient-to-t sm:from-transparent sm:to-navy/60" />
+                            <div className="absolute top-4 left-4">
+                              <span className="inline-block px-3 py-1 rounded-full bg-navy/60 text-xs font-semibold text-luxury-gold border border-burgundy/25 backdrop-blur-md">
+                                {service.tag}
+                              </span>
+                            </div>
+                          </div>
 
-                      <div className="flex-1 p-6 flex flex-col justify-center">
-                        <h3 className="font-serif text-xl text-foreground mb-2">{service.title}</h3>
-                        <p className="text-muted-foreground text-sm">{service.description}</p>
-                      </div>
-                    </div>
-                  </GlassCard>
-                </BeamCard>
-              </motion.div>
-            ))}
+                          {/* Card Content */}
+                          <div className="flex-1 p-8 flex flex-col justify-center bg-background/50 backdrop-blur-md">
+                            <h3 className="font-serif text-xl text-foreground mb-2 group-hover:text-luxury-gold transition-colors duration-300">
+                              {service.title}
+                            </h3>
+                            <p className="text-muted-foreground text-sm leading-relaxed">
+                              {service.description}
+                            </p>
+                          </div>
+
+                        </div>
+                      </GlassCard>
+                    </TiltCard>
+                  </BeamCard>
+                </motion.div>
+              );
+            })}
           </div>
+
         </div>
       </div>
     </section>

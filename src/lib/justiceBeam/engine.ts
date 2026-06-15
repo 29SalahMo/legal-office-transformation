@@ -47,8 +47,10 @@ export function initJusticeBeam(
   const spine = svg.querySelector("#beam-spine") as SVGPathElement | null;
   const hero = svg.querySelector("#beam-hero") as SVGPathElement | null;
   const about = svg.querySelector("#beam-about") as SVGPathElement | null;
+  const trust = svg.querySelector("#beam-trust") as SVGPathElement | null;
   const services = svg.querySelectorAll<SVGPathElement>("[data-beam-branch-path]");
   const process = svg.querySelector("#beam-process") as SVGPathElement | null;
+  const caseStudies = svg.querySelector("#beam-case-studies") as SVGPathElement | null;
   const expertise = svg.querySelector("#beam-expertise") as SVGPathElement | null;
   const testimonials = svg.querySelector("#beam-testimonials") as SVGPathElement | null;
   const contact = svg.querySelector("#beam-contact") as SVGPathElement | null;
@@ -59,7 +61,9 @@ export function initJusticeBeam(
     spine: prepPath(spine),
     hero: prepPath(hero),
     about: prepPath(about),
+    trust: prepPath(trust),
     process: prepPath(process),
+    caseStudies: prepPath(caseStudies),
     expertise: prepPath(expertise),
     testimonials: prepPath(testimonials),
     contact: prepPath(contact),
@@ -74,8 +78,10 @@ export function initJusticeBeam(
   const sectionMap: Record<string, BeamSection> = {
     hero: "hero",
     about: "about",
+    trust: "trust",
     services: "services",
     process: "process",
+    "case-studies": "case-studies",
     expertise: "expertise",
     testimonials: "testimonials",
     contact: "contact",
@@ -123,7 +129,9 @@ export function initJusticeBeam(
     bindDraw('[data-beam-section="hero"]', hero, lengths.hero);
     if (!isMobile) {
       bindDraw('[data-beam-section="about"]', about, lengths.about);
+      bindDraw('[data-beam-section="trust"]', trust, lengths.trust);
       bindDraw('[data-beam-section="process"]', process, lengths.process);
+      bindDraw('[data-beam-section="case-studies"]', caseStudies, lengths.caseStudies);
       bindDraw('[data-beam-section="expertise"]', expertise, lengths.expertise);
       bindDraw('[data-beam-section="testimonials"]', testimonials, lengths.testimonials);
       bindDraw('[data-beam-section="contact"]', contact, lengths.contact);

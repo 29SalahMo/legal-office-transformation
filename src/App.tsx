@@ -20,22 +20,31 @@ import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 
 import NotFound from "./pages/NotFound";
-import AdminLayout from "./components/admin/AdminLayout";
-import AdminLogin from "./pages/admin/AdminLogin";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
-import AdminOverview from "./pages/admin/AdminOverview";
-import AdminPosts from "./pages/admin/AdminPosts";
-import AdminPages from "./pages/admin/AdminPages";
-import AdminMedia from "./pages/admin/AdminMedia";
-import AdminInsights from "./pages/admin/AdminInsights";
-import AdminCareers from "./pages/admin/AdminCareers";
-import AdminTeam from "./pages/admin/AdminTeam";
-import AdminTestimonials from "./pages/admin/AdminTestimonials";
-import AdminNews from "./pages/admin/AdminNews";
-import AdminLegalUpdates from "./pages/admin/AdminLegalUpdates";
-import AdminContacts from "./pages/admin/AdminContacts";
+import { lazy, Suspense } from "react";
+
+// Lazy-loaded Admin Components
+const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminOverview = lazy(() => import("./pages/admin/AdminOverview"));
+const AdminPosts = lazy(() => import("./pages/admin/AdminPosts"));
+const AdminPages = lazy(() => import("./pages/admin/AdminPages"));
+const AdminMedia = lazy(() => import("./pages/admin/AdminMedia"));
+const AdminInsights = lazy(() => import("./pages/admin/AdminInsights"));
+const AdminCareers = lazy(() => import("./pages/admin/AdminCareers"));
+const AdminTeam = lazy(() => import("./pages/admin/AdminTeam"));
+const AdminTestimonials = lazy(() => import("./pages/admin/AdminTestimonials"));
+const AdminNews = lazy(() => import("./pages/admin/AdminNews"));
+const AdminLegalUpdates = lazy(() => import("./pages/admin/AdminLegalUpdates"));
+const AdminContacts = lazy(() => import("./pages/admin/AdminContacts"));
 
 const queryClient = new QueryClient();
+
+const AdminLoading = () => (
+  <div className="flex items-center justify-center min-h-screen bg-[#FAF7F5]">
+    <div className="w-8 h-8 border-4 border-burgundy border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -53,8 +62,24 @@ const AnimatedRoutes = () => {
       <Route path="/insights/:slug" element={<InsightArticle />} />
       <Route path="/careers" element={<Careers />} />
       <Route path="/contact" element={<Contact />} />
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/admin" element={<AdminProtectedRoute><AdminLayout /></AdminProtectedRoute>}>
+      <Route 
+        path="/admin/login" 
+        element={
+          <Suspense fallback={<AdminLoading />}>
+            <AdminLogin />
+          </Suspense>
+        } 
+      />
+      <Route 
+        path="/admin" 
+        element={
+          <AdminProtectedRoute>
+            <Suspense fallback={<AdminLoading />}>
+              <AdminLayout />
+            </Suspense>
+          </AdminProtectedRoute>
+        }
+      >
         <Route index element={<AdminOverview />} />
         <Route path="posts" element={<AdminPosts />} />
         <Route path="pages" element={<AdminPages />} />

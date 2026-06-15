@@ -53,6 +53,7 @@ const Careers = () => {
      <LuxuryPageShell>
        <SEOHead title="Careers" description="Join A&A Legal Advisors — explore career opportunities at one of Egypt's most respected boutique law firms." />
        <Header />
+       <main id="main-content">
  
        <PageHero
          variant="burgundy"
@@ -196,6 +197,7 @@ const Careers = () => {
            </Card>
          </div>
        </section>
+        </main>
  
        <Footer />
      </LuxuryPageShell>

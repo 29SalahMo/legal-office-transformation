@@ -29,7 +29,7 @@ const InsightArticle = () => {
     return (
       <LuxuryPageShell>
         <Header />
-        <main className="pt-32 pb-20 flex justify-center">
+        <main id="main-content" className="pt-32 pb-20 flex justify-center">
           <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
         </main>
         <Footer />
@@ -41,7 +41,7 @@ const InsightArticle = () => {
     return (
       <LuxuryPageShell>
         <Header />
-        <main className="pt-32 pb-20 container mx-auto px-6 lg:px-12 text-center">
+        <main id="main-content" className="pt-32 pb-20 container mx-auto px-6 lg:px-12 text-center">
           <h1 className="font-serif text-3xl text-foreground mb-4">Article Not Found</h1>
           <p className="text-muted-foreground mb-8">The article you're looking for doesn't exist.</p>
           <Button asChild><Link to="/insights">Back to Insights</Link></Button>
@@ -54,7 +54,7 @@ const InsightArticle = () => {
   return (
     <LuxuryPageShell>
       <Header />
-      <main>
+      <main id="main-content">
         <section className="relative h-[50vh] min-h-[400px]">
           {article.image_url ? (
             <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />

@@ -2,8 +2,10 @@ import Header from "@/components/Header";
 import SEOHead from "@/components/SEOHead";
 import HeroSection from "@/components/HeroSection";
 import AboutBentoSection from "@/components/AboutBentoSection";
+import TrustCredibilitySection from "@/components/TrustCredibilitySection";
 import ServicesSection from "@/components/ServicesSection";
 import CaseProcessTimeline from "@/components/CaseProcessTimeline";
+import CaseStudiesSection from "@/components/CaseStudiesSection";
 import LeadershipSection from "@/components/LeadershipSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import NewsletterSection from "@/components/NewsletterSection";
@@ -17,11 +19,13 @@ const Index = () => {
       <SEOHead title="Home" description="A&A Legal Advisors — a boutique law firm in Egypt offering first-class, creative, and business-aware legal solutions with over 25 years of experience." />
       <JusticeBeamNav />
       <Header />
-      <main className="relative z-10 overflow-x-hidden w-full max-w-[100vw]">
+      <main id="main-content" className="relative z-10 overflow-x-hidden w-full max-w-[100vw]">
         <HeroSection />
         <AboutBentoSection />
+        <TrustCredibilitySection />
         <ServicesSection />
         <CaseProcessTimeline />
+        <CaseStudiesSection />
         <LeadershipSection />
         <TestimonialsSection />
         <NewsletterSection />

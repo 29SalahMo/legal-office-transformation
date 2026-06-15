@@ -27,7 +27,7 @@ const AllArticles = () => {
   return (
     <LuxuryPageShell>
       <Header />
-      <main>
+      <main id="main-content">
         <PageHero
           badge="Thought Leadership"
           title="All Articles"

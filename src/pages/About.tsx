@@ -20,7 +20,7 @@ const About = () => {
     <LuxuryPageShell>
       <SEOHead title="About Us" description="Learn about A&A Legal Advisors, a boutique law firm in Egypt founded by Dr. Ahmed Abdallah and Mr. Mohamed Abu El Naga with over 25 years of experience." />
       <Header />
-      <main>
+      <main id="main-content">
         {/* Hero Section */}
         <section className="pt-32 pb-20 lg:pb-28 bg-background overflow-hidden">
           <div className="container mx-auto px-6 lg:px-12">

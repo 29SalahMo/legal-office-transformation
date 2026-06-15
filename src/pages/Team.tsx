@@ -41,6 +41,7 @@ const Team = () => {
     <LuxuryPageShell>
       <SEOHead title="Our Team" description="Meet the founding partners and legal professionals at A&A Legal Advisors — experienced attorneys dedicated to exceptional client service." />
       <Header />
+      <main id="main-content">
 
       <PageHero
         badge="Leadership"
@@ -211,8 +212,8 @@ const Team = () => {
           </ScrollReveal>
         </div>
       </section>
-
-      <Footer />
+    </main>
+    <Footer />
     </LuxuryPageShell>
   );
 };

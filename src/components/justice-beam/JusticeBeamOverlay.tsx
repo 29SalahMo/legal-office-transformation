@@ -30,13 +30,14 @@ const JusticeBeamOverlay = () => {
     >
       <defs>
         <linearGradient id="beamGold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#A62430" stopOpacity="0.9" />
-          <stop offset="45%" stopColor="#7A1520" stopOpacity="1" />
-          <stop offset="100%" stopColor="#520B10" stopOpacity="0.85" />
+          <stop offset="0%" stopColor="#AA7C11" stopOpacity="0.9" />
+          <stop offset="35%" stopColor="#E5C483" stopOpacity="1" />
+          <stop offset="70%" stopColor="#F4D068" stopOpacity="1" />
+          <stop offset="100%" stopColor="#906F33" stopOpacity="0.85" />
         </linearGradient>
         <linearGradient id="beamGoldSoft" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#7A1520" stopOpacity="0.15" />
-          <stop offset="100%" stopColor="#520B10" stopOpacity="0.05" />
+          <stop offset="0%" stopColor="#AA7C11" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#906F33" stopOpacity="0.08" />
         </linearGradient>
         <filter id="beamSoftGlow" x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur stdDeviation="2" result="blur" />
@@ -83,6 +84,17 @@ const JusticeBeamOverlay = () => {
               strokeLinecap="square"
             />
 
+            {/* Trust — geometric anchor */}
+            <path
+              id="beam-trust"
+              className="beam-path"
+              d="M 420 380 Q 560 380 700 420 Q 840 460 980 440"
+              fill="none"
+              stroke="url(#beamGold)"
+              strokeWidth="1.3"
+              strokeLinecap="round"
+            />
+
             {/* Services — branches */}
             <path
               data-beam-branch-path="0"
@@ -105,11 +117,22 @@ const JusticeBeamOverlay = () => {
               opacity="0.5"
             />
 
-            {/* Process journey */}
+            {/* Process journey (connects 6 milestones horizontally) */}
             <path
               id="beam-process"
               className="beam-path"
-              d="M 80 620 L 280 620 L 480 620 L 680 620 L 900 620"
+              d="M 80 620 L 240 620 L 400 620 L 560 620 L 720 620 L 880 620"
+              fill="none"
+              stroke="url(#beamGold)"
+              strokeWidth="1.3"
+              strokeLinecap="round"
+            />
+
+            {/* Case Studies — wave progression */}
+            <path
+              id="beam-case-studies"
+              className="beam-path"
+              d="M 100 700 Q 300 750 600 700 Q 900 650 1100 710"
               fill="none"
               stroke="url(#beamGold)"
               strokeWidth="1.3"
@@ -152,7 +175,7 @@ const JusticeBeamOverlay = () => {
         )}
       </g>
 
-      <circle id="beam-head" r="3" fill="#7A1520" opacity="0" />
+      <circle id="beam-head" r="3" fill="#E5C483" opacity="0" />
     </svg>
   );
 };

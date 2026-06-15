@@ -61,7 +61,7 @@ const Insights = () => {
     <LuxuryPageShell>
       <SEOHead title="Insights & Publications" description="Stay informed with the latest legal developments, thought leadership, and expert analysis from A&A Legal Advisors." />
       <Header />
-      <main>
+      <main id="main-content">
         <PageHero
           variant="burgundy"
           badge="Knowledge & Expertise"

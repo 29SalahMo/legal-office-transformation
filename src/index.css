@@ -61,12 +61,13 @@
     --shadow-elegant: 0 4px 24px -2px rgba(28, 25, 23, 0.08);
     --shadow-card: 0 8px 40px -8px rgba(28, 25, 23, 0.12);
     --shadow-hover: 0 20px 60px -12px rgba(82, 11, 16, 0.18);
-    --shadow-glow: 0 0 40px rgba(82, 11, 16, 0.12);
+    --shadow-glow: 0 0 40px rgba(170, 124, 17, 0.15);
 
     --gradient-luxury: linear-gradient(135deg, #FAF7F5 0%, #F5F0EB 50%, #FAF7F5 100%);
-    --gradient-gold: linear-gradient(135deg, #520B10, #7A1520);
-    --gradient-glow: linear-gradient(135deg, rgba(82, 11, 16, 0.08), rgba(122, 21, 32, 0.05));
-    --gradient-overlay: linear-gradient(to top, rgba(250, 247, 245, 0.95), rgba(250, 247, 245, 0.2));
+    --gradient-gold: linear-gradient(135deg, #AA7C11 0%, #E5C483 50%, #906F33 100%);
+    --gradient-burgundy: linear-gradient(135deg, #520B10, #7A1520);
+    --gradient-glow: linear-gradient(135deg, rgba(170, 124, 17, 0.08), rgba(82, 11, 16, 0.04));
+    --gradient-overlay: linear-gradient(to top, rgba(250, 247, 245, 0.96), rgba(250, 247, 245, 0.35));
 
     --sidebar-background: 35 25% 96%;
     --sidebar-foreground: 24 10% 12%;
@@ -402,5 +403,75 @@
   .safe-px {
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .architectural-grid {
+    background-size: 80px 80px;
+    background-image: 
+      linear-gradient(to right, rgba(170, 124, 17, 0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(170, 124, 17, 0.025) 1px, transparent 1px);
+    background-position: center center;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 30%, transparent 100%);
+  }
+
+  .gold-shimmer-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gold-shimmer-sweep::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(252, 246, 186, 0.25) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    transition: left 0.8s ease-in-out;
+  }
+
+  .gold-shimmer-sweep:hover::after {
+    left: 150%;
+  }
+
+  .gold-border-trace {
+    position: relative;
+  }
+
+  .gold-border-trace::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(90deg, #AA7C11, #E5C483, #906F33, #AA7C11);
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: goldBorderFlow 4s linear infinite;
+  }
+
+  .gold-border-trace:hover::before {
+    opacity: 1;
+  }
+
+  @keyframes goldBorderFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 }
