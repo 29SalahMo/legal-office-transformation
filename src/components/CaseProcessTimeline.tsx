@@ -2,17 +2,10 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MessageSquare, ShieldAlert, Search, Scale, Gavel, CheckCircle2 } from "lucide-react";
 import SectionBadge from "@/components/ui/SectionBadge";
-
-const milestones = [
-  { icon: MessageSquare, label: "Consultation", desc: "Confidential initial assessment" },
-  { icon: ShieldAlert, label: "Investigation", desc: "Evidence and facts gathering" },
-  { icon: Search, label: "Legal Analysis", desc: "Deep review of law & precedent" },
-  { icon: Scale, label: "Strategy", desc: "Tailored legal roadmap" },
-  { icon: Gavel, label: "Representation", desc: "Expert advocacy in tribunals" },
-  { icon: CheckCircle2, label: "Resolution", desc: "Balanced, lasting outcomes" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CaseProcessTimeline = () => {
+  const { t, language } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -21,25 +14,55 @@ const CaseProcessTimeline = () => {
 
   const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
+  const milestones = [
+    {
+      icon: MessageSquare,
+      label: language === "ar" ? "الاستشارة والأحكام" : "Consultation",
+      desc: language === "ar" ? "تقييم أولي سري ومباشر" : "Confidential initial assessment",
+    },
+    {
+      icon: ShieldAlert,
+      label: language === "ar" ? "فحص الوقائع" : "Investigation",
+      desc: language === "ar" ? "جمع الأدلة والوثائق" : "Evidence and facts gathering",
+    },
+    {
+      icon: Search,
+      label: language === "ar" ? "الدراسة القانونية" : "Legal Analysis",
+      desc: language === "ar" ? "مراجعة القوانين والسوابق" : "Deep review of law & precedent",
+    },
+    {
+      icon: Scale,
+      label: language === "ar" ? "الخطة الاستراتيجية" : "Strategy",
+      desc: language === "ar" ? "صياغة أسانيد الترافع" : "Tailored legal roadmap",
+    },
+    {
+      icon: Gavel,
+      label: language === "ar" ? "الترافع القضائي" : "Representation",
+      desc: language === "ar" ? "دفاع محكم أمام المحاكم" : "Expert advocacy in tribunals",
+    },
+    {
+      icon: CheckCircle2,
+      label: language === "ar" ? "حسم القضية" : "Resolution",
+      desc: language === "ar" ? "تنفيذ الأحكام وصونها" : "Balanced, lasting outcomes",
+    },
+  ];
+
   return (
     <section ref={ref} data-beam-section="process" className="relative py-24 lg:py-32 bg-navy/5 border-y border-navy/10 overflow-hidden">
-      {/* Background grids */}
       <div className="architectural-grid opacity-20" />
       
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="text-center mb-20">
-          <SectionBadge className="mb-6">The Journey</SectionBadge>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-4 leading-tight">
-            From Consultation to
-            <span className="text-gradient-gold block mt-1">Justice Realized</span>
+          <SectionBadge className="mb-6">{t("process_badge")}</SectionBadge>
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-4 leading-tight font-bold">
+            {t("process_title")}
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
-            A precise, structured framework engineered to deliver transparency and authority at every tier of your case.
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed font-light">
+            {language === "ar" ? "منهجية عمل دقيقة ومنظمة لضمان أعلى درجات الشفافية والانتصار القضائي." : "A precise, structured framework engineered to deliver transparency and authority at every tier of your case."}
           </p>
         </div>
 
         <div className="relative max-w-6xl mx-auto">
-          {/* Timeline Connector Line */}
           <div className="hidden md:block absolute top-8 left-8 right-8 h-0.5 bg-navy/10 rounded-full" />
           <motion.div
             className="hidden md:block absolute top-8 left-8 h-0.5 origin-left bg-gradient-to-r from-luxury-gold via-E5C483 to-luxury-gold shadow-[0_0_12px_rgba(170,124,17,0.5)]"
@@ -79,10 +102,10 @@ const CaseProcessTimeline = () => {
                     </motion.span>
                   </motion.div>
                   
-                  <h3 className="font-serif text-lg text-foreground mb-2 group-hover:text-luxury-gold transition-colors duration-300">
+                  <h3 className="font-serif text-lg text-foreground mb-2 group-hover:text-luxury-gold transition-colors duration-300 font-semibold">
                     {step.label}
                   </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed max-w-[12rem] px-1 group-hover:text-foreground/80 transition-colors">
+                  <p className="text-muted-foreground text-sm leading-relaxed max-w-[12rem] px-1 group-hover:text-foreground/80 transition-colors font-light">
                     {step.desc}
                   </p>
                 </motion.div>

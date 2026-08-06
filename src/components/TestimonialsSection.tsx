@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import GlassCard from "@/components/ui/GlassCard";
 import BeamCard from "@/components/justice-beam/BeamCard";
-import partnerMale from "@/assets/partner-male.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type TestimonialItem = {
   id: string;
@@ -16,6 +16,7 @@ type TestimonialItem = {
 };
 
 const TestimonialsSection = () => {
+  const { t, language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { data: testimonials = [] } = useQuery({
@@ -36,44 +37,38 @@ const TestimonialsSection = () => {
       : [
           {
             id: "1",
-            name: "John Anderson",
-            title: "CEO, Tech Corp",
-            quote:
-              "An excellent team focused on the art of legal representation with uncompromising integrity.",
+            name: language === "ar" ? "د. حازم عبد العزيز" : "John Anderson",
+            title: language === "ar" ? "رئيس مجلس إدارة، مجموعة استثمارية" : "CEO, Tech Corp",
+            quote: language === "ar" ? "فريق قانوني استثنائي يمتلك رؤية تجارية حاسمة ونزاهة لا تقبل المساومة." : "An excellent team focused on the art of legal representation with uncompromising integrity.",
             rating: 5,
             photo_url: null,
           },
           {
             id: "2",
-            name: "Sarah Williams",
-            title: "CFO, Investment Group",
-            quote:
-              "Very different from conventional agencies. Stable, easier to collaborate, and easy to leverage.",
+            name: language === "ar" ? "مهندسة / سارة الشافعي" : "Sarah Williams",
+            title: language === "ar" ? "الرئيس التنفيذي المالي" : "CFO, Investment Group",
+            quote: language === "ar" ? "تجربة مختلفة تماماً عن المكاتب التقليدية. سرعة في الأداء ودقة متناهية في الترافع." : "Very different from conventional agencies. Stable, easier to collaborate, and easy to leverage.",
             rating: 5,
             photo_url: null,
           },
           {
             id: "3",
-            name: "Michael Chen",
-            title: "Founder, StartupXYZ",
-            quote:
-              "For a law firm like this, it's really comfortable and genuinely via point of action.",
+            name: language === "ar" ? "أحمد المحمدي" : "Michael Chen",
+            title: language === "ar" ? "مؤسس شركة تكنولوجيا" : "Founder, StartupXYZ",
+            quote: language === "ar" ? "تقديم حلول قانونية مبتكرة وفرت على شركتنا الكثير من الوقت والمخاطر." : "For a law firm like this, it's really comfortable and genuinely via point of action.",
             rating: 5,
             photo_url: null,
           },
         ];
 
-  // Set up vertical-to-horizontal scrolling trigger
   const { scrollYProgress } = useScroll({
     target: containerRef,
   });
 
-  // Slide translation for horizontal movement
   const x = useTransform(scrollYProgress, [0.05, 0.9], ["0%", "-42%"]);
 
   return (
     <div ref={containerRef} className="relative h-[160vh] bg-navy/5">
-      {/* Sticky Frame */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden">
         <div className="architectural-grid opacity-15" />
         
@@ -81,10 +76,10 @@ const TestimonialsSection = () => {
         <div className="container mx-auto px-6 lg:px-12 relative z-10 mb-12 text-center">
           <div className="max-w-2xl mx-auto">
             <span className="inline-block px-4 py-2 rounded-full border border-burgundy/15 text-xs font-semibold uppercase tracking-wider text-burgundy-light mb-4">
-              Client Testimonials
+              {t("testimonials_badge")}
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight">
-              An Uncompromised Legacy of <span className="text-gradient-gold">Client Trust</span>
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight font-bold">
+              {t("testimonials_title")}
             </h2>
           </div>
         </div>
@@ -95,7 +90,7 @@ const TestimonialsSection = () => {
             style={{ x }}
             className="flex gap-8 px-6 lg:px-12 w-[160%] md:w-[130%] lg:w-[120%] cursor-grab active:cursor-grabbing will-change-transform"
           >
-            {items.map((testimonial, index) => (
+            {items.map((testimonial) => (
               <div
                 key={testimonial.id}
                 className="w-[380px] sm:w-[440px] md:w-[480px] shrink-0"
@@ -103,28 +98,12 @@ const TestimonialsSection = () => {
                 <BeamCard>
                   <GlassCard className="p-8 h-full border border-navy/10 bg-background/90 backdrop-blur-md shadow-card hover:shadow-hover transition-all duration-500 gold-border-trace">
                     <div className="flex items-center gap-4 mb-6">
-                      {testimonial.photo_url ? (
-                        <img
-                          src={testimonial.photo_url}
-                          alt=""
-                          aria-hidden="true"
-                          className="w-14 h-14 rounded-full object-cover border-2 border-burgundy/20"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div 
-                          className="w-14 h-14 rounded-full border-2 border-luxury-gold/30 bg-burgundy/10 flex items-center justify-center text-luxury-gold font-serif font-bold text-base shadow-sm shrink-0"
-                          aria-hidden="true"
-                        >
-                          {testimonial.name
-                            .split(" ")
-                            .filter(Boolean)
-                            .map((n) => n[0])
-                            .join("")
-                            .slice(0, 2)
-                            .toUpperCase()}
-                        </div>
-                      )}
+                      <div 
+                        className="w-14 h-14 rounded-full border-2 border-luxury-gold/30 bg-burgundy/10 flex items-center justify-center text-luxury-gold font-serif font-bold text-base shadow-sm shrink-0"
+                        aria-hidden="true"
+                      >
+                        {testimonial.name.charAt(0)}
+                      </div>
                       <div>
                         <h4 className="font-serif font-semibold text-lg text-foreground group-hover:text-luxury-gold transition-colors">
                           {testimonial.name}
@@ -135,7 +114,7 @@ const TestimonialsSection = () => {
                       </div>
                     </div>
 
-                    <p className="text-foreground/75 leading-relaxed text-sm md:text-base mb-6 italic">
+                    <p className="text-foreground/75 leading-relaxed text-sm md:text-base mb-6 italic font-light">
                       &ldquo;{testimonial.quote}&rdquo;
                     </p>
 
@@ -151,19 +130,6 @@ const TestimonialsSection = () => {
               </div>
             ))}
           </motion.div>
-        </div>
-
-        {/* Scroll Progress indicator bar */}
-        <div className="container mx-auto px-6 lg:px-12 mt-12 relative z-10 flex items-center justify-between">
-          <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
-            Scroll to discover
-          </span>
-          <div className="w-48 h-[2px] bg-navy/10 rounded-full overflow-hidden">
-            <motion.div
-              style={{ scaleX: scrollYProgress }}
-              className="h-full origin-left bg-gradient-to-r from-luxury-gold to-luxury-gold-light"
-            />
-          </div>
         </div>
 
       </div>

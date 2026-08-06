@@ -7,6 +7,7 @@ import { fetchHomepageLeaders, STATIC_TEAM_ROSTER } from "@/lib/teamData";
 import TeamMemberPhoto from "@/components/TeamMemberPhoto";
 import TiltCard from "@/components/motion/TiltCard";
 import { slideFromLeft, slideFromRight, viewportReveal } from "@/lib/motionPresets";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const HOMEPAGE_LEADER_PLACEHOLDER = [
   ...STATIC_TEAM_ROSTER.filter((m) => m.role_category === "Partner"),
@@ -14,6 +15,8 @@ const HOMEPAGE_LEADER_PLACEHOLDER = [
 ].slice(0, 4);
 
 const LeadershipSection = () => {
+  const { t, language } = useLanguage();
+
   const { data: teamMembers = STATIC_TEAM_ROSTER } = useQuery({
     queryKey: ["team-members-home"],
     queryFn: () => fetchHomepageLeaders(4),
@@ -25,9 +28,9 @@ const LeadershipSection = () => {
     id: m.id,
     name: m.name,
     title: m.title,
-    roleCategory: m.role_category,
+    roleCategory: m.role_category === "Partner" ? (language === "ar" ? "شريك مؤسس" : "Partner") : m.role_category,
     photoUrl: m.photo_url,
-    bio: m.bio?.join(" ") || m.name + " is a highly qualified legal professional specializing in litigation and corporate advisory.",
+    bio: m.bio?.join(" ") || m.name + " is a highly qualified legal professional.",
     linkedin: m.linkedin_url || "",
     featured: i === 0,
   }));
@@ -40,17 +43,15 @@ const LeadershipSection = () => {
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
-            <SectionBadge className="mb-6">Leadership</SectionBadge>
+            <SectionBadge className="mb-6">{t("leadership_badge")}</SectionBadge>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight"
+              className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight font-bold"
             >
-              Advocates of Distinction
-              <br />
-              <span className="text-muted-foreground">& Legislative Authority</span>
+              {t("leadership_title")}
             </motion.h2>
           </div>
         </div>
@@ -74,7 +75,6 @@ const LeadershipSection = () => {
                 <TiltCard>
                   <div className="relative rounded-3xl overflow-hidden h-[420px] cursor-pointer border border-border group-hover:border-luxury-gold/50 transition-all duration-500 shadow-card gold-border-trace">
                     
-                    {/* Portrait Photo */}
                     <TeamMemberPhoto
                       name={leader.name}
                       photoUrl={leader.photoUrl}
@@ -82,32 +82,20 @@ const LeadershipSection = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter group-hover:brightness-[0.95]"
                     />
 
-                    {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/30 to-transparent" />
                     
-                    {/* Golden Sweep Glow Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    
-                    {/* Bio Snippet and Title Details */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col justify-end min-h-[140px] translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-                      
                       <span className="text-[10px] uppercase tracking-widest text-luxury-gold font-bold mb-1 opacity-80">
                         {leader.roleCategory}
                       </span>
                       
-                      <h3 className="font-serif text-xl text-white mb-1 group-hover:text-luxury-gold transition-colors duration-300">
+                      <h3 className="font-serif text-xl text-white mb-1 group-hover:text-luxury-gold transition-colors duration-300 font-semibold">
                         {leader.name}
                       </h3>
                       
                       <p className="text-white/70 text-xs mb-3 font-light">
                         {leader.title}
                       </p>
-
-                      {/* Revealed Biography summary */}
-                      <p className="text-white/60 text-[11px] leading-relaxed line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                        {leader.bio}
-                      </p>
-
                     </div>
                   </div>
                 </TiltCard>
@@ -125,8 +113,8 @@ const LeadershipSection = () => {
           className="text-center mt-16"
         >
           <Link to="/team">
-            <Button variant="outline" size="lg" className="rounded-full px-8 border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30 transition-all duration-300">
-              View All Team Members
+            <Button variant="outline" size="lg" className="rounded-full px-8 border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30 transition-all duration-300 text-sm">
+              {t("leadership_view_all")}
             </Button>
           </Link>
         </motion.div>

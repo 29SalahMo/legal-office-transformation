@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -77,6 +77,49 @@
     --sidebar-accent-foreground: 24 10% 15%;
     --sidebar-border: 30 12% 85%;
     --sidebar-ring: 355 78% 18%;
+  }
+
+  [data-theme="navy"] {
+    --background: 220 30% 97%;
+    --foreground: 222 47% 11%;
+    --card: 220 25% 95%;
+    --primary: 220 50% 12%;
+    --luxury-gold: 43 74% 49%;
+    --luxury-gold-light: 43 85% 65%;
+    --burgundy: 220 50% 12%;
+    --burgundy-light: 220 40% 22%;
+  }
+
+  [data-theme="obsidian"] {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 40% 10%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 40% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 43 74% 49%;
+    --primary-foreground: 222 47% 7%;
+    --secondary: 222 30% 16%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 222 30% 16%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 43 74% 49%;
+    --accent-foreground: 222 47% 7%;
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 43 74% 49%;
+    --luxury-gold: 43 74% 49%;
+    --luxury-gold-light: 43 85% 65%;
+    --burgundy: 43 74% 49%;
+    --burgundy-light: 43 85% 65%;
+  }
+
+  html[lang="ar"] body, .lang-ar body {
+    font-family: 'Cairo', 'Inter', system-ui, sans-serif;
+  }
+  html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6,
+  .lang-ar h1, .lang-ar h2, .lang-ar h3, .lang-ar h4, .lang-ar h5, .lang-ar h6 {
+    font-family: 'Amiri', 'Cairo', 'Playfair Display', serif;
   }
 }
 

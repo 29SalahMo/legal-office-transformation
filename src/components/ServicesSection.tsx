@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import SectionBadge from "@/components/ui/SectionBadge";
@@ -10,21 +10,7 @@ import { useJusticeBeam } from "@/contexts/JusticeBeamContext";
 import article1 from "@/assets/article-1.jpg";
 import article2 from "@/assets/article-2.jpg";
 import { slideFromLeft, scaleIn, viewportReveal } from "@/lib/motionPresets";
-
-const services = [
-  {
-    image: article1,
-    tag: "Litigation",
-    title: "Strategic Dispute Resolution",
-    description: "Tailored defense and representation protocols designed for all commercial tribunals and high-stakes complexities.",
-  },
-  {
-    image: article2,
-    tag: "Corporate M&A",
-    title: "Mergers & Acquisitions",
-    description: "Architecting transactions built for long-term integration success—to grow, compete, and scale securely.",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const pathVariants = {
   initial: { pathLength: 0, opacity: 0.25 },
@@ -39,7 +25,25 @@ const pathVariants = {
 };
 
 const ServicesSection = () => {
+  const { t, language } = useLanguage();
   const { setHoveredBranch, hoveredBranch } = useJusticeBeam();
+
+  const services = [
+    {
+      image: article1,
+      tag: t("lead_litigation"),
+      title: language === "ar" ? "التقاضي وفض النزاعات التجارية" : "Strategic Dispute Resolution",
+      description: language === "ar" ? "بروتوكولات دفاع مخصصة للترافع أمام المحاكم الاقتصادية ومحاكم الاستثمار." : "Tailored defense and representation protocols designed for all commercial tribunals and high-stakes complexities.",
+    },
+    {
+      image: article2,
+      tag: t("lead_corporate"),
+      title: language === "ar" ? "اندماج واستحواذ الشركات" : "Mergers & Acquisitions",
+      description: language === "ar" ? "هيكلة الصفقات والمشروعات المشتركة لضمان النمو الآمن والامتثال التشريعي." : "Architecting transactions built for long-term integration success—to grow, compete, and scale securely.",
+    },
+  ];
+
+  const ArrowIcon = language === "ar" ? ArrowLeft : ArrowUpRight;
 
   return (
     <section data-beam-section="services" className="relative py-24 lg:py-32 premium-section-navy overflow-hidden">
@@ -55,15 +59,14 @@ const ServicesSection = () => {
             whileInView="visible"
             viewport={viewportReveal}
           >
-            <SectionBadge className="mb-6">Practice Areas</SectionBadge>
+            <SectionBadge className="mb-6">{t("services_badge")}</SectionBadge>
 
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
-              Expertise Engineered for{" "}
-              <span className="text-gradient-gold">Precision</span> and Authority
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6 font-bold">
+              {t("services_title")}
             </h2>
 
-            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Offering first-class legal advocacy across corporate portfolios, disputes, and structured mediations with unmatched preparation.
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8 font-light">
+              {t("services_subtitle")}
             </p>
 
             <Button
@@ -71,9 +74,9 @@ const ServicesSection = () => {
               className="beam-button rounded-full px-6 py-6 group border-border bg-background/60 text-foreground hover:bg-background hover:border-burgundy/30 transition-all duration-300"
               asChild
             >
-              <Link to="/services" className="beam-link">
-                Explore More
-                <ArrowUpRight className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              <Link to="/services" className="beam-link flex items-center gap-2">
+                <span>{t("services_view_all")}</span>
+                <ArrowIcon className="w-4 h-4 text-luxury-gold" />
               </Link>
             </Button>
           </motion.div>
@@ -121,18 +124,18 @@ const ServicesSection = () => {
 
                           {/* Card Content */}
                           <div className="flex-1 p-8 flex flex-row items-center justify-between bg-background/50 backdrop-blur-md relative overflow-hidden">
-                            <div className="flex-1 pr-4">
-                              <h3 className="font-serif text-xl text-foreground mb-2 group-hover:text-luxury-gold transition-colors duration-300">
+                            <div className="flex-1 pr-4 rtl:pl-4 rtl:pr-0">
+                              <h3 className="font-serif text-xl text-foreground mb-2 group-hover:text-luxury-gold transition-colors duration-300 font-semibold">
                                 {service.title}
                               </h3>
-                              <p className="text-muted-foreground text-sm leading-relaxed">
+                              <p className="text-muted-foreground text-sm leading-relaxed font-light">
                                 {service.description}
                               </p>
                             </div>
                             
-                            {/* Fine Line SVG Drawing that animates on hover */}
+                            {/* Fine Line SVG Drawing */}
                             <div className="w-16 h-16 shrink-0 text-luxury-gold/60 group-hover:text-luxury-gold transition-colors duration-500 relative z-10 flex items-center justify-center">
-                              {service.tag === "Litigation" ? (
+                              {index === 0 ? (
                                 <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                                   <motion.path variants={pathVariants} initial="initial" d="M12 3v17" />
                                   <motion.path variants={pathVariants} initial="initial" d="M12 6l-7 2M12 6l7 2" />

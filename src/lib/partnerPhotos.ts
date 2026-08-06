@@ -1,9 +1,10 @@
-/** Canonical public partner portraits — always use these, never stock placeholders */
+import ahmedStudioPhoto from "@/assets/team-ahmed.png";
+import mohamedStudioPhoto from "@/assets/team-mohamed.png";
+
+/** Canonical executive studio partner portraits */
 export const PARTNER_PHOTO_URLS = {
-  ahmedAbdallah:
-    "https://ietujybcqapwytzyipuv.supabase.co/storage/v1/object/public/team-photos/315d98eb-ad92-4699-99bc-cce80577853a.jpeg",
-  mohamedAbuElNaga:
-    "https://ietujybcqapwytzyipuv.supabase.co/storage/v1/object/public/team-photos/38d631f0-6b4b-4584-95d9-92faade270de.jpg",
+  ahmedAbdallah: ahmedStudioPhoto,
+  mohamedAbuElNaga: mohamedStudioPhoto,
 } as const;
 
 export const PARTNER_PHOTOS_BY_NAME: Record<string, string> = {

@@ -6,163 +6,75 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import PageHero from "@/components/motion/PageHero";
 import ScrollReveal from "@/components/motion/ScrollReveal";
-import { Scale, Users, Building2, Briefcase, Shield, ArrowRight } from "lucide-react";
+import { Scale, Users, Building2, Briefcase, Shield, ArrowRight, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const services = [
-  {
-    icon: Scale,
-    title: "Dispute Resolution & Litigation",
-    description: "A&A's Litigation team is highly qualified and experienced in handling a wide range of cases, including Civil, Labor and Social Insurance, Commercial, Intellectual Property, Taxation, Insurance, Corporate, and Capital Market matters. Our services also extend to criminal proceedings arising in corporate contexts.",
-    details: [
-      "Civil & Commercial Litigation",
-      "Labor & Social Insurance",
-      "Intellectual Property",
-      "Taxation & Insurance",
-      "Corporate & Capital Market",
-      "Criminal Proceedings in Corporate Contexts"
-    ],
-    highlight: "We maintain open communication with our clients, ensuring they receive continuous updates on the progress of their cases. A&A is developing a digital platform designed to provide clients with real-time access to their case history and status."
-  },
-  {
-    icon: Users,
-    title: "Arbitration & Mediation",
-    description: "Our Arbitration team possesses extensive experience in both institutional and ad-hoc arbitration proceedings in Egypt. We handle complex arbitration matters across various sectors, including industrial, construction, commercial, media, and telecommunications.",
-    details: [
-      "Institutional Arbitration",
-      "Ad-hoc Arbitration",
-      "Industrial & Construction",
-      "Commercial & Media",
-      "Telecommunications",
-      "Strategic Dispute Resolution"
-    ],
-    highlight: "We offer strategic representation and tailored dispute resolution solutions focused on efficiency, confidentiality, and achieving optimal outcomes for our clients."
-  },
-  {
-    icon: Building2,
-    title: "General Corporate",
-    description: "A&A Legal Advisors provides comprehensive corporate legal services supporting businesses from formation through daily operations. We advise on optimal legal structures, including the establishment of local, offshore, and onshore companies, licensing, registration, and governmental approvals.",
-    details: [
-      "Company Formation & Structuring",
-      "Licensing & Registration",
-      "Commercial Contracts",
-      "Investment Matters",
-      "Corporate Governance",
-      "Regulatory Compliance"
-    ],
-    highlight: "Our Firm also has particular expertise in investment-related matters and work residence permits, as well as corporate governance including board and general assembly minutes."
-  },
-  {
-    icon: Briefcase,
-    title: "Employment",
-    description: "Our Employment department advises multinational and local clients across all aspects of Egyptian labor law and represents clients before Egyptian courts. We provide comprehensive labor support, including guidance on employee dismissals, contract termination, and compliance with labor laws.",
-    details: [
-      "Employment Contracts",
-      "Internal Company Policies",
-      "Employee Dismissals",
-      "Labor Compliance",
-      "Internal Investigations",
-      "M&A Labor Issues"
-    ],
-    highlight: "Our services include drafting employment contracts, internal company policies, conducting internal investigations, and managing labor issues arising from mergers and acquisitions."
-  },
-  {
-    icon: Shield,
-    title: "Competition & Consumer Protection",
-    description: "A&A advises businesses on compliance with competition and consumer protection regulations in Egypt. We assist clients in structuring operations to meet regulatory requirements, handling investigations, and managing disputes related to unfair competition and consumer rights.",
-    details: [
-      "Regulatory Compliance",
-      "Competition Law",
-      "Consumer Protection",
-      "Investigations",
-      "Dispute Management",
-      "Risk Minimization"
-    ],
-    highlight: "Our approach focuses on minimizing legal risk while ensuring business continuity and regulatory alignment."
-  }
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Services = () => {
+  const { t, language } = useLanguage();
+
+  const servicesData = [
+    {
+      icon: Scale,
+      title: language === "ar" ? "التقاضي وفض النزاعات" : "Dispute Resolution & Litigation",
+      description: language === "ar" ? "يتولى فريق التقاضي لدينا إدارة القضايا التجارية، الاستثمارية، الضرائب، وحقوق الملكية الفكرية بأعلى درجات الدقة والكفاءة." : "A&A's Litigation team is highly qualified and experienced in handling Civil, Commercial, Intellectual Property, Taxation, and Corporate litigation matters.",
+      highlight: language === "ar" ? "نحرص على اطلاع عملائنا بشكل دوري على تطورات قضاياهم ومراحل الجلسات." : "We maintain open communication with our clients, ensuring continuous updates on progress.",
+    },
+    {
+      icon: Users,
+      title: language === "ar" ? "التحكيم والوساطة" : "Arbitration & Mediation",
+      description: language === "ar" ? "خبرة واسعة في إجراءات التحكيم المحلي والدولي وفقاً لقواعد مراكز التحكيم العالمية." : "Extensive experience in institutional and ad-hoc arbitration proceedings in Egypt and international arbitration forums.",
+      highlight: language === "ar" ? "تقديم حلول نزاع استراتيجية تحقق السرعة والسرية التامة." : "Strategic representation focused on efficiency, confidentiality, and achieving optimal outcomes.",
+    },
+    {
+      icon: Building2,
+      title: language === "ar" ? "استشارات الشركات والاندماج" : "General Corporate & M&A",
+      description: language === "ar" ? "تقديم استشارات قانونية شاملة للشركات بدءاً من التأسيس والتراخيص وحتى الاستحواذ والتوسع." : "Comprehensive corporate services supporting businesses from formation through daily operations and complex M&A deals.",
+      highlight: language === "ar" ? "خبرة متميزة في شؤون الاستثمار وتراخيص الإقامة ومحاضر الجمعيات العمومية." : "Particular expertise in investment matters, corporate governance, and statutory approvals.",
+    },
+  ];
+
+  const ArrowIcon = language === "ar" ? ArrowLeft : ArrowRight;
+
   return (
     <LuxuryPageShell>
-      <SEOHead title="Services" description="Explore our legal services including dispute resolution, arbitration, corporate law, employment law, and competition law at A&A Legal Advisors." />
+      <SEOHead title={t("nav_services")} description="Explore legal services at A&A Legal Advisors." />
       <Header />
       <main id="main-content">
         <PageHero
-          badge="Our Services"
+          badge={t("nav_services")}
           title={
             <>
-              Comprehensive Legal
-              <span className="text-primary block">Solutions</span>
+              {t("page_services_hero_title")}
             </>
           }
-          subtitle="We provide expert legal services across multiple disciplines, delivering innovative and pragmatic solutions to even the most complex legal challenges."
+          subtitle={t("page_services_hero_sub")}
         />
 
         {/* Services Grid */}
         <section className="py-20 lg:py-28">
           <div className="container mx-auto px-6 lg:px-12">
-            <div className="space-y-16 lg:space-y-24">
-              {services.map((service, index) => (
+            <div className="space-y-12">
+              {servicesData.map((service, index) => (
                 <ScrollReveal
                   key={service.title}
                   variant={index % 2 === 0 ? "slideLeft" : "slideRight"}
                   delay={0.05}
-                  className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-start ${
-                    index % 2 === 1 ? "lg:grid-flow-dense" : ""
-                  }`}
+                  className="grid lg:grid-cols-2 gap-8 items-center bg-card rounded-3xl p-8 lg:p-10 border border-border/60 shadow-card"
                 >
-                  {/* Content */}
-                  <div className={index % 2 === 1 ? "lg:col-start-2" : ""}>
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
-                        <service.icon className="w-7 h-7 text-primary" />
-                      </div>
-                      <span className="text-muted-foreground text-sm font-medium">
-                        0{index + 1}
-                      </span>
+                  <div>
+                    <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                      <service.icon className="w-7 h-7 text-primary" />
                     </div>
-                    
-                    <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-foreground mb-6">
+                    <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-4 font-bold">
                       {service.title}
                     </h2>
-                    
-                    <p className="text-muted-foreground leading-relaxed mb-6">
+                    <p className="text-muted-foreground leading-relaxed mb-6 font-light">
                       {service.description}
                     </p>
-                    
-                    <div className="bg-secondary/50 rounded-2xl p-6 mb-8">
-                      <p className="text-foreground/80 text-sm leading-relaxed italic">
-                        "{service.highlight}"
-                      </p>
-                    </div>
-                    
-                  </div>
-
-                  {/* Details Card */}
-                  <div className={`${index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}`}>
-                    <motion.div
-                      whileHover={{ y: -4 }}
-                      transition={{ duration: 0.35 }}
-                      className="bg-card rounded-3xl p-8 lg:p-10 shadow-card h-full"
-                    >
-                      <h3 className="font-serif text-xl text-foreground mb-6">
-                        Key Practice Areas
-                      </h3>
-                      <div className="space-y-4">
-                        {service.details.map((detail, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-center gap-4 group"
-                          >
-                            <div className="w-2 h-2 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
-                            <span className="text-muted-foreground group-hover:text-foreground transition-colors">
-                              {detail}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
+                    <p className="text-sm font-semibold text-primary italic bg-primary/5 p-4 rounded-xl">
+                      "{service.highlight}"
+                    </p>
                   </div>
                 </ScrollReveal>
               ))}
@@ -172,26 +84,24 @@ const Services = () => {
 
         {/* CTA Section */}
         <section className="py-20 lg:py-28 bg-primary">
-          <div className="container mx-auto px-6 lg:px-12">
-            <ScrollReveal variant="scaleIn" className="text-center max-w-3xl mx-auto">
-              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-primary-foreground mb-6">
-                Ready to Discuss Your Legal Needs?
-              </h2>
-              <p className="text-primary-foreground/80 text-lg mb-10">
-                Contact us today for a confidential consultation with our expert legal team.
-              </p>
-              <Button
-                variant="outline"
-                size="lg"
-                className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-8"
-                asChild
-              >
-                <Link to="/contact">
-                  Schedule a Consultation
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
-            </ScrollReveal>
+          <div className="container mx-auto px-6 lg:px-12 text-center max-w-3xl mx-auto">
+            <h2 className="font-serif text-3xl md:text-4xl text-primary-foreground mb-6 font-bold">
+              {t("hero_cta_primary")}
+            </h2>
+            <p className="text-primary-foreground/80 text-lg mb-8 font-light">
+              {t("lead_subtitle")}
+            </p>
+            <Button
+              variant="outline"
+              size="lg"
+              className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary rounded-full px-8"
+              asChild
+            >
+              <Link to="/contact" className="flex items-center gap-2">
+                <span>{t("nav_contact")}</span>
+                <ArrowIcon className="w-4 h-4" />
+              </Link>
+            </Button>
           </div>
         </section>
       </main>

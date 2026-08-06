@@ -1,8 +1,10 @@
 import Header from "@/components/Header";
 import SEOHead from "@/components/SEOHead";
 import HeroSection from "@/components/HeroSection";
+import IntakeSection from "@/components/IntakeSection";
 import AboutBentoSection from "@/components/AboutBentoSection";
 import TrustCredibilitySection from "@/components/TrustCredibilitySection";
+import ClientsSection from "@/components/ClientsSection";
 import ServicesSection from "@/components/ServicesSection";
 import CaseProcessTimeline from "@/components/CaseProcessTimeline";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
@@ -21,8 +23,10 @@ const Index = () => {
       <Header />
       <main id="main-content" className="relative z-10 overflow-x-hidden w-full max-w-[100vw]">
         <HeroSection />
+        <IntakeSection />
         <AboutBentoSection />
         <TrustCredibilitySection />
+        <ClientsSection />
         <ServicesSection />
         <CaseProcessTimeline />
         <CaseStudiesSection />

@@ -7,12 +7,14 @@ import PremiumStats from "@/components/PremiumStats";
 import TiltCard from "@/components/motion/TiltCard";
 import heroImageFallback from "@/assets/hero-lawyer-meeting.jpg";
 import { fadeUp, viewportReveal } from "@/lib/motionPresets";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AboutBentoSection = () => {
+  const { t, language } = useLanguage();
   const { getValue, getImageUrl } = usePageContent("home");
 
-  const aboutHeading = getValue("about_heading", "At Abdallah, we don't just practice law — we redefine it.");
-  const aboutDescription = getValue("about_description", "Since 1999, our firm has been a home for clients seeking exceptional legal representation, from emerging startups to Fortune 500 corporations.");
+  const aboutHeading = language === "ar" ? t("about_title") : getValue("about_heading", t("about_title"));
+  const aboutDescription = language === "ar" ? t("about_subtitle") : getValue("about_description", t("about_subtitle"));
   const aboutImage = getImageUrl("about_image", heroImageFallback);
 
   return (
@@ -28,7 +30,7 @@ const AboutBentoSection = () => {
           viewport={viewportReveal}
           className="mb-8"
         >
-          <SectionBadge>About Us</SectionBadge>
+          <SectionBadge>{t("about_badge")}</SectionBadge>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
@@ -37,7 +39,7 @@ const AboutBentoSection = () => {
             initial="hidden"
             whileInView="visible"
             viewport={viewportReveal}
-            className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight"
+            className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight font-bold"
           >
             {aboutHeading}
           </motion.h2>
@@ -46,7 +48,7 @@ const AboutBentoSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-foreground/60 text-lg leading-relaxed self-end font-light"
+            className="text-foreground/70 text-lg leading-relaxed self-end font-light"
           >
             {aboutDescription}
           </motion.p>
@@ -70,9 +72,11 @@ const AboutBentoSection = () => {
                   <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br from-luxury-gold/20 to-glow-blue/10 border border-border group-hover:border-luxury-gold/30 transition-colors">
                     <Sparkles className="w-7 h-7 text-luxury-gold-light" />
                   </div>
-                  <h3 className="font-serif text-xl text-foreground mb-3 group-hover:text-luxury-gold transition-colors duration-300">Expert Litigation</h3>
-                  <p className="text-foreground/55 leading-relaxed text-sm">
-                    Strategic advocacy in complex commercial disputes with tournament-grade preparation — win in any jurisdiction.
+                  <h3 className="font-serif text-xl text-foreground mb-3 group-hover:text-luxury-gold transition-colors duration-300">
+                    {t("about_card1_title")}
+                  </h3>
+                  <p className="text-foreground/70 leading-relaxed text-sm font-light">
+                    {t("about_card1_desc")}
                   </p>
                 </div>
               </GlassCard>
@@ -96,10 +100,10 @@ const AboutBentoSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/30 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
                   <span className="inline-block px-4 py-2 rounded-full bg-black/40 backdrop-blur-md text-white text-xs mb-3 border border-white/20 uppercase tracking-widest font-semibold">
-                    Corporate Advisory
+                    {t("about_card2_title")}
                   </span>
                   <h3 className="font-serif text-xl text-white group-hover:text-luxury-gold transition-colors duration-300">
-                    Strategic partnerships designed for all stages of growth.
+                    {t("about_card2_desc")}
                   </h3>
                 </div>
               </div>
@@ -123,27 +127,12 @@ const AboutBentoSection = () => {
                     <span className="font-serif text-5xl text-gradient-gold font-bold">100+</span>
                     <Users className="w-8 h-8 text-foreground/30" />
                   </div>
-                  <h3 className="text-lg font-medium text-foreground mb-2">Pro Attorneys</h3>
-                  <p className="text-foreground/55 text-xs mb-6">
-                    Certified professionals ready to handle your case from first consultation to final resolution.
+                  <h3 className="text-lg font-medium text-foreground mb-2">
+                    {t("about_card3_title")}
+                  </h3>
+                  <p className="text-foreground/70 text-xs mb-6 font-light leading-relaxed">
+                    {t("about_card3_desc")}
                   </p>
-                </div>
-                <div className="space-y-3">
-                  {[
-                    { label: "Litigation", count: 45, filled: 8 },
-                    { label: "Corporate", count: 35, filled: 7 },
-                    { label: "Advisory", count: 25, filled: 5 },
-                  ].map((item) => (
-                    <div key={item.label} className="flex items-center justify-between text-xs">
-                      <span className="text-foreground/50 font-light">{item.label}</span>
-                      <div className="flex gap-1">
-                        {[...Array(10)].map((_, i) => (
-                          <div key={i} className={`w-2 h-2 rounded-full ${i < item.filled ? 'bg-luxury-gold' : 'bg-background/50'}`} />
-                        ))}
-                      </div>
-                      <span className="text-foreground font-medium">{item.count}</span>
-                    </div>
-                  ))}
                 </div>
               </GlassCard>
             </TiltCard>

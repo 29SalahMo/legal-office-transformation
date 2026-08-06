@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { GlobalMotionProvider } from "@/contexts/GlobalMotionContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import PageTransition from "@/components/motion/PageTransition";
 import PremiumCursor from "@/components/motion/PremiumCursor";
 import ScrollToTop from "./components/ScrollToTop";
@@ -109,16 +110,18 @@ const AnimatedRoutes = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <GlobalMotionProvider>
-          <MonogramLoader />
-          <PremiumCursor />
-          <ScrollToTop />
-          <AnimatedRoutes />
-        </GlobalMotionProvider>
-      </BrowserRouter>
+      <LanguageProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <GlobalMotionProvider>
+            <MonogramLoader />
+            <PremiumCursor />
+            <ScrollToTop />
+            <AnimatedRoutes />
+          </GlobalMotionProvider>
+        </BrowserRouter>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

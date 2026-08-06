@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import GlassCard from "@/components/ui/GlassCard";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const NewsletterSection = () => {
+  const { t, language } = useLanguage();
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Newsletter signup:", email);
     setEmail("");
   };
+
+  const ArrowIcon = language === "ar" ? ArrowLeft : ArrowRight;
 
   return (
     <section data-beam-section="contact" className="relative py-24 lg:py-32">
@@ -25,40 +27,33 @@ const NewsletterSection = () => {
           transition={{ duration: 0.6 }}
           hover={false}
           glow
-          className="max-w-4xl mx-auto p-10 lg:p-16 text-center"
+          className="max-w-4xl mx-auto p-10 lg:p-16 text-center gold-border-trace"
         >
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-6">
-            Stay ahead with{" "}
-            <span className="text-gradient-gold">legal insights</span>
-            <br />
-            delivered to your inbox.
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-6 leading-tight font-bold">
+            {t("newsletter_title")}
           </h2>
 
-          <p className="text-muted-foreground text-lg mb-10 max-w-2xl mx-auto">
-            Subscribe to receive our latest updates, industry news, and expert analysis.
+          <p className="text-muted-foreground text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+            {t("newsletter_subtitle")}
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
             <Input
               type="email"
-              placeholder="Enter your email address"
+              placeholder={t("newsletter_placeholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 h-14 rounded-full bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-burgundy/50 px-6 backdrop-blur-sm"
+              className="flex-1 h-14 rounded-full bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-burgundy/50 px-6 backdrop-blur-sm text-sm"
               required
             />
             <Button
               type="submit"
-              className="beam-button h-14 rounded-full px-8 bg-gradient-to-r from-burgundy to-burgundy-light text-white hover:opacity-90 border-0 shadow-[0_0_24px_rgba(82,11,16,0.2)]"
+              className="beam-button h-14 rounded-full px-8 bg-gradient-to-r from-burgundy to-burgundy-light text-white hover:opacity-90 border-0 shadow-[0_0_24px_rgba(82,11,16,0.2)] text-sm flex items-center justify-center gap-2"
             >
-              Subscribe
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <span>{t("newsletter_button")}</span>
+              <ArrowIcon className="w-4 h-4 text-white" />
             </Button>
           </form>
-
-          <p className="text-muted-foreground/70 text-sm mt-6">
-            We respect your privacy. Unsubscribe at any time.
-          </p>
         </GlassCard>
       </div>
     </section>
